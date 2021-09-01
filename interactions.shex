@@ -23,16 +23,16 @@ mmdbint:interaction{
   repr:hasExperimentalCondition @mmdbint:interaction_temperature?;
   repr:hasExperimentalCondition @mmdbint:interaction_mol_charge?;
   rdfs:comment xsd:string?;
-  sio:000216 @mmdbint:interaction_position?; # has measurement value odsud acc - obavam se ze budem potrebovat vlastni ontologie zavest
-  sio:000216 @mmdbint:interaction_penetration?;
-  sio:000216 @mmdbint:interaction_water?;
-  sio:000216 @mmdbint:interaction_logk?;
-  sio:000216 @mmdbint:interaction_logperm?;
-  sio:000216 @mmdbint:interaction_theta?;
-  sio:000216 @mmdbint:interaction_abs_wl?;
-  sio:000216 @mmdbint:interaction_fluo_wl?;
-  sio:000216 @mmdbint:interaction_qy?;
-  sio:000216 @mmdbint:interaction_lt?;
+  sio:SIO_000216 @mmdbint:interaction_position?; # has measurement value odsud acc - obavam se ze budem potrebovat vlastni ontologie zavest
+  sio:SIO_000216 @mmdbint:interaction_penetration?;
+  sio:SIO_000216 @mmdbint:interaction_water?;
+  sio:SIO_000216 @mmdbint:interaction_logk?;
+  sio:SIO_000216 @mmdbint:interaction_logperm?;
+  sio:SIO_000216 @mmdbint:interaction_theta?;
+  sio:SIO_000216 @mmdbint:interaction_abs_wl?;
+  sio:SIO_000216 @mmdbint:interaction_fluo_wl?;
+  sio:SIO_000216 @mmdbint:interaction_qy?;
+  sio:SIO_000216 @mmdbint:interaction_lt?;
   
 }
 
