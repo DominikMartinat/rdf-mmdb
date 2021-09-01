@@ -1,0 +1,59 @@
+PREFIX mmdbtra: <http://rdf.molmedb.upol.cz/transporter/>
+PREFIX mmdbsub: <http://rdf.molmedb.upol.cz/substance/>
+PREFIX mmdbref: <http://rdf.molmedb.upol.cz/reference/>
+PREFIX obo: <http://purl.obolibrary.org/obo/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX sio: <http://semanticscience.org/resource/>
+PREFIX cito: <http://purl.org/spar/cito/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX dwc: <http://rs.tdwg.org/dwc/terms/>
+PREFIX bao: <http://www.bioassayontology.org/bao#>
+
+mmdbtra:assay{
+  obo:IAO_0000136 @mmdbsub:substance; #is about
+  obo:RO_0000057 @mmdbtra:target; #has participant
+  #type non/() inhibitor/substrate #tohle jeste nevim jak vyjadrit
+  rdfs:comment xsd:string?;
+  sio:SIO_000216 @mmdbtra:assay_pkm?; #has measurement value
+  sio:SIO_000216 @mmdbtra:assay_pec50?;
+  sio:SIO_000216 @mmdbtra:assay_pki?;
+  sio:SIO_000216 @mmdbtra:assay_pic50?;
+  cito:citesAsDataSource  @mmdbref:publication?
+}
+
+mmdbsub:substance{#susbtances.shx
+}
+
+mmdbtra:target{
+  rdfs:label xsd:string;
+  obo:ERO_0000547 xsd:string #has uniprot id
+}
+
+mmdbtra:assay_pkm{
+  sio:has-value xsd:float;
+  rdf:type  bao:BAO_0000477; #tohle je Km ne pKm, pKm nemuzu najit
+  bao:BAO_0002858 bao:BAO_0002175; #has endpoint modifier -log(endpoint) - prijde mi to kostrbate
+  dwc:measurementAccuracy xsd:float?
+}
+
+mmdbtra:assay_pec50{
+  sio:has-value xsd:float;
+  rdf:type  bao:BAO_0002583;
+  dwc:measurementAccuracy xsd:float?
+}
+
+mmdbtra:assay_pki{
+  sio:has-value xsd:float;
+  rdf:type  bao:BAO_0190004;
+  dwc:measurementAccuracy xsd:float?
+}
+
+mmdbtra:assay_pic50{
+  sio:has-value xsd:float;
+  rdf:type  bao:BAO_0000199 ;
+  dwc:measurementAccuracy xsd:float?
+}
+
+mmdbref:publication{#publications.shex
+}
