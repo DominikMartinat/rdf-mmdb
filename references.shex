@@ -1,0 +1,29 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX bibo: <http://purl.org/ontology/bibo/>
+PREFIX mmdbref: <http://rdf.molmedb.upol.cz/reference/>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+mmdbref:publication{
+dcterms:bibliographicCitation xsd:string?;  
+bibo:doi xsd:string?;
+bibo:pmid xsd:string?;
+dcterms:title xsd:string?;
+bibo:authorList @mmdbref:publication_authors?;
+dcterms:isPartOf xsd:string?;# journal - nekde by mohlo byt neco specializovanejsiho
+bibo:volume xsd:string?;
+bibo:issue xsd:string?;
+bibo:pages xsd:string?;
+dcterms:date xsd:integer; #year - tyhle dve muzou byt blbe... issued je suproperty of date... co s tim?
+dcterms:issued xsd:date?; #publicated_date
+#| total_passive_interactions tohle moc nevim jak poresit
+#| total_active_interactions
+#| total_substances
+
+}
+
+mmdbref:publication_authors{ #kazda polozka listu autor
+  rdf:type rdf:list;
+  rdf:first xsd:string;
+  rdf:rest [mmdbref:publication_authors rdf:nil]
+}

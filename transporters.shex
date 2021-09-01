@@ -55,5 +55,5 @@ mmdbtra:assay_pic50{
   dwc:measurementAccuracy xsd:float?
 }
 
-mmdbref:publication{#publications.shex
+mmdbref:publication{#reference.shex
 }
