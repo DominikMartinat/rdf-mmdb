@@ -1,0 +1,144 @@
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX sio: <http://semanticscience.org/resource/>
+PREFIX mmdbint: <http://rdf.molmedb.upol.cz/interaction/> #muj
+PREFIX mmdbsub: <http://rdf.molmedb.upol.cz/substance/> #jinde
+PREFIX mmdbref: <http://rdf.molmedb.upol.cz/reference/> #jinde
+PREFIX obo: <http://purl.obolibrary.org/obo/>
+PREFIX cito: <http://purl.org/spar/cito/>
+PREFIX bao: <http://www.bioassayontology.org/bao#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX repr: <https://w3id.org/reproduceme>
+PREFIX edam: <http://edamontology.org/>
+PREFIX dwc: <http://rs.tdwg.org/dwc/terms/>
+PREFIX om2: <http://www.ontology-of-units-of-measure.org/resource/om-2/>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+
+mmdbint:interaction{
+  <predikat> @mmdbint:membrane; #but zas is about nebo terget?, pubchem rdf neresi
+  obo:IAO_0000136 @mmdbsub:substance?; #is about susbtance
+  cito:citesAsDataSource  @mmdbref:publication?;
+  bao:BAO_0000212 @mmdbint:method?;#method pubchem rdf tohle a dal asi neresi
+  repr:hasExperimentalCondition @mmdbint:interaction_temperature?;
+  repr:hasExperimentalCondition @mmdbint:interaction_mol_charge?;
+  rdfs:comment xsd:string?;
+  sio:000216 @mmdbint:interaction_position?; # has measurement value odsud acc - obavam se ze budem potrebovat vlastni ontologie zavest
+  sio:000216 @mmdbint:interaction_penetration?;
+  sio:000216 @mmdbint:interaction_water?;
+  sio:000216 @mmdbint:interaction_logk?;
+  sio:000216 @mmdbint:interaction_logperm?;
+  sio:000216 @mmdbint:interaction_theta?;
+  sio:000216 @mmdbint:interaction_abs_wl?;
+  sio:000216 @mmdbint:interaction_fluo_wl?;
+  sio:000216 @mmdbint:interaction_qy?;
+  sio:000216 @mmdbint:interaction_lt?;
+  
+}
+
+mmdbint:membrane{
+  rdf:type IRI;
+  rdfs:label xsd:string?;
+  dc:description xsd:html?;
+  dcterms:bibliographicCitation xsd:string?;
+  #jak vyresit keywords? po jednom?
+  #k nekterym by se snad daly dohledat IRI
+}
+
+mmdbint:method{
+  rdf:type IRI;
+  rdfs:label xsd:string?;
+  dc:description xsd:html?;
+  dcterms:bibliographicCitation xsd:string?;
+  #jak vyresit keywords? po jednom?
+  #k nekterym by se snad daly dohledat IRI
+}
+
+mmdbint:interaction_temperature{
+  sio:has-value xsd:integer;
+  sio:has-unit obo:UO_0000027; #degree celsius
+  rdf:type  obo:PATO_0000146; #type temperature
+}
+
+mmdbint:interaction_mol_charge{
+  sio:has-value xsd:string; #v mysql je varchar - nebyl by lepsi xsd:integer?
+  rdf:type  edam:data0845; #tpe molecular charge
+  
+}
+
+mmdbsub:substance{ #popsane v substance.shx
+}
+
+mmdbref:publication {
+  #popsane v reference.shx
+}
+
+mmdbint:interaction_position{
+  sio:has-value xsd:float;
+  sio:has-unit obo:UO_0000018;
+  rdf:type  IRI;
+  dwc:measurementAccuracy xsd:float? #mozna ty presnosti kde je NULL dat 0?? nebude to zavadejici?
+  
+}
+
+mmdbint:interaction_penetration{
+  sio:has-value xsd:float;
+  sio:has-unit IRI;#kcal/mol?? mozna zamenit za neco ekvivalentniho
+  rdf:type  IRI;
+  dwc:measurementAccuracy xsd:float?
+}
+  
+mmdbint:interaction_water{
+  sio:has-value xsd:float;
+  sio:has-unit IRI;#kcal/mol?? joule per mole ma obo:NCIT_C70445 
+  rdf:type  IRI;
+  dwc:measurementAccuracy xsd:float?
+}
+
+mmdbint:interaction_logk{
+  sio:has-value xsd:float;
+  sio:has-unit obo:NCIT_C70455; #molm/molw??? tohle je mole per mole
+  rdf:type  sio:CHEMINF_000496;
+  dwc:measurementAccuracy xsd:float?
+}
+
+mmdbint:interaction_logperm{
+  sio:has-value xsd:float;
+  sio:has-unit obo:NCIT_C102406;
+  rdf:type  obo:PATO_0000970; #nebo bao:BAO_0001260???
+  dwc:measurementAccuracy xsd:float?
+}
+  
+mmdbint:interaction_theta{
+  sio:has-value xsd:float;
+  sio:has-unit obo:UO_0000185;
+  rdf:type  om2:ContactAngle; #??? je to vubec to same?
+  dwc:measurementAccuracy xsd:float?
+}
+  
+mmdbint:interaction_abs_wl{
+  sio:has-value xsd:float;
+  sio:has-unit obo:UO_0000018;
+  rdf:type  IRI;
+  dwc:measurementAccuracy xsd:float?
+}
+  
+mmdbint:interaction_fluo_wl{
+  sio:has-value xsd:float;
+  sio:has-unit obo:UO_0000018;
+  rdf:type  IRI;
+  dwc:measurementAccuracy xsd:float?
+}
+  
+mmdbint:interaction_qy{
+  sio:has-value xsd:float;
+  rdf:type  obo:TO_0012004;
+  dwc:measurementAccuracy xsd:float?
+}
+  
+mmdbint:interaction_lt{
+  sio:has-value xsd:float;
+  sio:has-unit obo:UO_0000150;
+  rdf:type  <http://purl.jp/bio/4/id/200906011290851740>; #je repr:FluorescenceLifetime ale je to method, tak to asi neni ono
+  dwc:measurementAccuracy xsd:float?
+}
