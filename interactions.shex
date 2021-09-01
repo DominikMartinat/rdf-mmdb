@@ -76,7 +76,7 @@ mmdbref:publication {
 mmdbint:interaction_position{
   sio:has-value xsd:float;
   sio:has-unit obo:UO_0000018;
-  rdf:type  IRI;
+  rdf:type  IRI; #typy a jednotky by mohla resit qudt ontologie ale vypada to mrtve
   dwc:measurementAccuracy xsd:float? #mozna ty presnosti kde je NULL dat 0?? nebude to zavadejici?
   
 }
