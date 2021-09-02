@@ -10,7 +10,8 @@ PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX dwc: <http://rs.tdwg.org/dwc/terms/>
 PREFIX bao: <http://www.bioassayontology.org/bao#>
 
-mmdbtra:assay{
+mmdbtra:transporter_assay{
+  rdf:type bao:BAO_0003008; #transporter assay - nebo rdfs:sublcassOf?
   obo:IAO_0000136 @mmdbsub:substance; #is about
   obo:RO_0000057 @mmdbtra:target; #has participant
   #type non/() inhibitor/substrate #tohle jeste nevim jak vyjadrit
@@ -26,6 +27,7 @@ mmdbsub:substance{#susbtances.shx
 }
 
 mmdbtra:target{
+  rdf:type bao:BAO_0000283; #transporter - nebo rdfs:subclassOf???
   rdfs:label xsd:string;
   obo:ERO_0000547 xsd:string #has uniprot id
 }

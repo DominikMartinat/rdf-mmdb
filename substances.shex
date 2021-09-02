@@ -8,6 +8,7 @@ PREFIX edam: <http://edamontology.org/>
 
 
 mmdbsub:substance{
+  rdf:type sio:SIO_011125; #molekula - nebo rdf:subclassOf??
   rdfs:label xsd:string; #name
   sio:has-attribute @mmdbsub:smiles_substance?; #has attribute jsou odkazy na deskriptory
   sio:has-attribute @mmdbsub:inchikey_substance?; #ma to tak chembl, pubchem inchikey sio:is-attribute-of compound

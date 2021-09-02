@@ -1,7 +1,7 @@
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX sio: <http://semanticscience.org/resource/>
-PREFIX mmdbint: <http://rdf.molmedb.upol.cz/interaction/> #muj
+PREFIX mmdbint: <http://rdf.molmedb.upol.cz/interaction/> #
 PREFIX mmdbsub: <http://rdf.molmedb.upol.cz/substance/> #jinde
 PREFIX mmdbref: <http://rdf.molmedb.upol.cz/reference/> #jinde
 PREFIX obo: <http://purl.obolibrary.org/obo/>
@@ -16,6 +16,7 @@ PREFIX dc: <http://purl.org/dc/elements/1.1/>
 PREFIX dcterms: <http://purl.org/dc/terms/>
 
 mmdbint:interaction{
+  rdf:type bao:BAO_0000015;#bioassay - mozna neco rpesnejsiho? mozna rdfs:sublclassOf???
   obo:RO_0000057 @mmdbint:membrane;
   obo:IAO_0000136 @mmdbsub:substance?; #is about susbtance
   cito:citesAsDataSource  @mmdbref:publication?;
@@ -37,20 +38,20 @@ mmdbint:interaction{
 }
 
 mmdbint:membrane{
-  rdf:type IRI;
+  rdf:type IRI; #tezko rict... vsude to jsou bunecne membrany s integralnimi proteiny atd, nevim ejstli je to pouzitelne pro modelove
   rdfs:label xsd:string?;
   dc:description xsd:html?;
   dcterms:bibliographicCitation xsd:string?;
-  #jak vyresit keywords? po jednom?
+  #jak vyresit keywords? po jednom? - tu asi alternativni nazvy
   #k nekterym by se snad daly dohledat IRI
 }
 
 mmdbint:method{
-  rdf:type IRI;
+  rdf:type bao:BAO_0002753; #assay method component - BAO assay nezahrnuje vypocetni; mozna by slo presneji; rdfs:subclassOf??
   rdfs:label xsd:string?;
   dc:description xsd:html?;
   dcterms:bibliographicCitation xsd:string?;
-  #jak vyresit keywords? po jednom?
+  #jak vyresit keywords? po jednom? - tu ejste nevim co- komentar nebo tak enco?
   #k nekterym by se snad daly dohledat IRI
 }
 
@@ -139,6 +140,6 @@ mmdbint:interaction_qy{
 mmdbint:interaction_lt{
   sio:has-value xsd:float;
   sio:has-unit obo:UO_0000150;
-  rdf:type  <http://purl.jp/bio/4/id/200906011290851740>; #je repr:FluorescenceLifetime ale je to method, tak to asi neni ono
+  rdf:type  <http://purl.jp/bio/4/id/200906011290851740>; #taky repr:FluorescenceLifetime ale je to method, tak to asi neni ono
   dwc:measurementAccuracy xsd:float?
 }
