@@ -38,7 +38,7 @@ mmdbsub:inchikey_substance{
 mmdbsub:molecularweight_substance{
  sio:SIO_000300 xsd:float;
  rdf:type sio:CHEMINF_000216; #average molecular weight descriptor
- sio:has-unit obo:UO_0000055 # molar mass unit
+ sio:SIO_000221 obo:UO_0000055 #has unit molar mass unit
 }
 
 #LogP
@@ -73,7 +73,7 @@ mmdbsub:pdb_substance{
 
 #chembl
 mmdbsub:chembl_substance{
-  sio:has-value xsd:string;
+  sio:SIO_000300 xsd:string;
   rdf:type sio:CHEMINF_000412
 }
 
