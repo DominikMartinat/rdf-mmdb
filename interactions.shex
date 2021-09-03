@@ -42,7 +42,6 @@ mmdbint:membrane{
   rdfs:label xsd:string?;
   dc:description xsd:html?;
   dcterms:bibliographicCitation xsd:string?;
-  #jak vyresit keywords? po jednom? - tu asi alternativni nazvy
   #k nekterym by se snad daly dohledat IRI
 }
 
@@ -51,7 +50,6 @@ mmdbint:method{
   rdfs:label xsd:string?;
   dc:description xsd:html?;
   dcterms:bibliographicCitation xsd:string?;
-  #jak vyresit keywords? po jednom? - tu ejste nevim co- komentar nebo tak enco?
   #k nekterym by se snad daly dohledat IRI
 }
 
