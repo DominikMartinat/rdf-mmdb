@@ -10,66 +10,65 @@ PREFIX edam: <http://edamontology.org/>
 mmdbsub:substance{
   rdf:type sio:SIO_011125; #molekula - nebo rdf:subclassOf??
   rdfs:label xsd:string; #name
-  sio:has-attribute @mmdbsub:smiles_substance?; #has attribute jsou odkazy na deskriptory
-  sio:has-attribute @mmdbsub:inchikey_substance?; #ma to tak chembl, pubchem inchikey sio:is-attribute-of compound
-  sio:has-attribute @mmdbsub:molecularweight_substance?;
-  sio:has-attribute @mmdbsub:logp_substance?;
-  sio:has-attribute @mmdbsub:pubchem_substance?; #pubchem ma substance sio:has-attribute synonym:... a tam ty idcka #BAO_0000383 has id by taky slo
-  sio:has-attribute @mmdbsub:drugbank_substance?;
-  sio:has-attribute @mmdbsub:chebi_substance?;
-  sio:has-attribute @mmdbsub:pdb_substance?;
-  sio:has-attribute @mmdbsub:chembl_substance?
+  sio:SIO_000008 @mmdbsub:smiles_substance?; #has attribute ...
+  sio:SIO_000008 @mmdbsub:inchikey_substance?;
+  sio:SIO_000008 @mmdbsub:molecularweight_substance?;
+  sio:SIO_000008 @mmdbsub:logp_substance?;
+  sio:SIO_000008 @mmdbsub:pubchem_substance?;
+  sio:SIO_000008 @mmdbsub:drugbank_substance?;
+  sio:SIO_000008 @mmdbsub:chebi_substance?;
+  sio:SIO_000008 @mmdbsub:pdb_substance?;
+  sio:SIO_000008 @mmdbsub:chembl_substance?
   
 }
 
 #smiles
 mmdbsub:smiles_substance{
-  sio:has-value xsd:string;
-  rdf:type sio:CHEMINF_000018; #obyc SMILES - mozna nejak upresnit, pubchem ma CHEMINF_0000376
-  #pubchem se tvari ze ma is attribute of na compound ale SPARQL to nevidi
+  sio:SIO_000300 xsd:string; #has value ...
+  rdf:type sio:CHEMINF_000018;
 }
 
 #inchikey
 mmdbsub:inchikey_substance{
-  sio:has-value xsd:string;
-  rdf:type sio:CHEMINF_000059 #klasicky inckikey, generovany softwarem v pubchemu je sio:CHEMINF_000399  
+  sio:SIO_000300 xsd:string;
+  rdf:type sio:CHEMINF_000059
 }
 
 #MW
 mmdbsub:molecularweight_substance{
- sio:has-value xsd:float;
- rdf:type sio:CHEMINF_000216; #average molecular weight descriptor, presneji jak je to vypocitane, pubchem CHEMINF_000334
+ sio:SIO_000300 xsd:float;
+ rdf:type sio:CHEMINF_000216; #average molecular weight descriptor
  sio:has-unit obo:UO_0000055 # molar mass unit
 }
 
 #LogP
 mmdbsub:logp_substance{
-  sio:has-value xsd:float;
+  sio:SIO_000300 xsd:float;
   rdf:type sio:CHEMINF_000251 #subclassy jsou nejake pres nejaky konkretni RDKIT a tak
 }
 
 #pubchem
 mmdbsub:pubchem_substance{
-  sio:has-value xsd:string;
+  sio:SIO_000300 xsd:string;
   rdf:type sio:CHEMINF_000140
 }
 
 #drugbank
 mmdbsub:drugbank_substance{
-  sio:has-value xsd:string;
+  sio:SIO_000300 xsd:string;
   rdf:type sio:CHEMINF_000406
 }
 
 #chEBI
 mmdbsub:chebi_substance{
-  sio:has-value xsd:string;
+  sio:SIO_000300 xsd:string;
   rdf:type sio:CHEMINF_000407
 }
 
 #pdb
 mmdbsub:pdb_substance{
-  sio:has-value xsd:string;
-  rdf:type edam:data_1127 #nejsem si uplne jisty spravnosti
+  sio:SIO_000300 xsd:string;
+#rdf:type edam:data_1127 zkusit zkontaktovat cheminf an zavedenu class pdb identifier
 }
 
 #chembl
