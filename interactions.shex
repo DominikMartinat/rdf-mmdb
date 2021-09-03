@@ -57,7 +57,7 @@ mmdbint:method{
 
 mmdbint:interaction_temperature{
   sio:SIO_000300 xsd:integer; #has value
-  sio:SIO_000221 obo:UO_0000027; #degree celsius
+  sio:SIO_000221 obo:UO_0000027; #has unit degree celsius
   rdf:type  obo:PATO_0000146; #type temperature
 }
 
