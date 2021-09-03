@@ -16,7 +16,7 @@ PREFIX dc: <http://purl.org/dc/elements/1.1/>
 PREFIX dcterms: <http://purl.org/dc/terms/>
 
 mmdbint:interaction{
-  rdf:type bao:BAO_0000015;#bioassay - mozna neco rpesnejsiho? mozna rdfs:sublclassOf???
+  rdf:type bao:BAO_0000015;#bioassay - mozna neco presnejsiho? mozna rdfs:sublclassOf???
   obo:RO_0000057 @mmdbint:membrane;
   obo:IAO_0000136 @mmdbsub:substance?; #is about susbtance
   cito:citesAsDataSource  @mmdbref:publication?;
@@ -38,7 +38,7 @@ mmdbint:interaction{
 }
 
 mmdbint:membrane{
-  rdf:type IRI; #tezko rict... vsude to jsou bunecne membrany s integralnimi proteiny atd, nevim ejstli je to pouzitelne pro modelove
+  rdf:type IRI; #asi zavest vlastni typ membrana - vsude to jsou bud biologicke, nebo anatomicke nebo nejake umele
   rdfs:label xsd:string?;
   dc:description xsd:html?;
   dcterms:bibliographicCitation xsd:string?;
@@ -56,13 +56,13 @@ mmdbint:method{
 }
 
 mmdbint:interaction_temperature{
-  sio:has-value xsd:integer;
-  sio:has-unit obo:UO_0000027; #degree celsius
+  sio:SIO_000300 xsd:integer; #has value
+  sio:SIO_000221 obo:UO_0000027; #degree celsius
   rdf:type  obo:PATO_0000146; #type temperature
 }
 
 mmdbint:interaction_mol_charge{
-  sio:has-value xsd:string; #v mysql je varchar - nebyl by lepsi xsd:integer?
+  sio:SIO_000300 xsd:string; #v mysql je varchar - nebyl by lepsi xsd:integer?
   rdf:type  edam:data0845; #tpe molecular charge
   
 }
@@ -75,71 +75,71 @@ mmdbref:publication {
 }
 
 mmdbint:interaction_position{
-  sio:has-value xsd:float;
-  sio:has-unit obo:UO_0000018;
+  sio:SIO_000300 xsd:float;
+  sio:SIO_000221 obo:UO_0000018;
   rdf:type  IRI;
-  dwc:measurementAccuracy xsd:float? #mozna ty presnosti kde je NULL dat 0?? nebude to zavadejici?
+  dwc:measurementAccuracy xsd:float? #tohle je urcite blbe... ma to byt smerodatna odchylka
   
 }
 
 mmdbint:interaction_penetration{
-  sio:has-value xsd:float;
-  sio:has-unit IRI;#kcal/mol?? mozna zamenit za neco ekvivalentniho
+  sio:SIO_000300 xsd:float;
+  sio:SIO_000221 IRI;#kcal/mol?? joule per mole ma obo:NCIT_C70445; spis si vyptat kcal/mol
   rdf:type  IRI;
   dwc:measurementAccuracy xsd:float?
 }
   
 mmdbint:interaction_water{
-  sio:has-value xsd:float;
-  sio:has-unit IRI;#kcal/mol?? joule per mole ma obo:NCIT_C70445 
+  sio:SIO_000300 xsd:float;
+  sio:SIO_000221 IRI;#kcal/mol?? -||-
   rdf:type  IRI;
   dwc:measurementAccuracy xsd:float?
 }
 
 mmdbint:interaction_logk{
-  sio:has-value xsd:float;
-  sio:has-unit obo:NCIT_C70455; #molm/molw??? tohle je mole per mole
+  sio:SIO_000300 xsd:float;
+  sio:SIO_000221 obo:NCIT_C70455; #molm/molw??? tohle je mole per mole - mozna blbe
   rdf:type  sio:CHEMINF_000496;
   dwc:measurementAccuracy xsd:float?
 }
 
 mmdbint:interaction_logperm{
-  sio:has-value xsd:float;
-  sio:has-unit obo:NCIT_C102406;
+  sio:SIO_000300 xsd:float;
+  sio:SIO_000221 obo:NCIT_C102406;
   rdf:type  obo:PATO_0000970; #nebo bao:BAO_0001260???
   dwc:measurementAccuracy xsd:float?
 }
   
 mmdbint:interaction_theta{
-  sio:has-value xsd:float;
-  sio:has-unit obo:UO_0000185;
+  sio:SIO_000300 xsd:float;
+  sio:SIO_000221 obo:UO_0000185;
   rdf:type  om2:ContactAngle; #??? je to vubec to same?
   dwc:measurementAccuracy xsd:float?
 }
   
 mmdbint:interaction_abs_wl{
-  sio:has-value xsd:float;
-  sio:has-unit obo:UO_0000018;
+  sio:SIO_000300 xsd:float;
+  sio:SIO_000221 obo:UO_0000018;
   rdf:type  IRI;
   dwc:measurementAccuracy xsd:float?
 }
   
 mmdbint:interaction_fluo_wl{
-  sio:has-value xsd:float;
-  sio:has-unit obo:UO_0000018;
+  sio:SIO_000300 xsd:float;
+  sio:SIO_000221 obo:UO_0000018;
   rdf:type  IRI;
   dwc:measurementAccuracy xsd:float?
 }
   
 mmdbint:interaction_qy{
-  sio:has-value xsd:float;
+  sio:SIO_000300 xsd:float;
   rdf:type  obo:TO_0012004;
   dwc:measurementAccuracy xsd:float?
 }
   
 mmdbint:interaction_lt{
-  sio:has-value xsd:float;
-  sio:has-unit obo:UO_0000150;
+  sio:SIO_000300 xsd:float;
+  sio:SIO_000221 obo:UO_0000150;
   rdf:type  <http://purl.jp/bio/4/id/200906011290851740>; #taky repr:FluorescenceLifetime ale je to method, tak to asi neni ono
   dwc:measurementAccuracy xsd:float?
 }
