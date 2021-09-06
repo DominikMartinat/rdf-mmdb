@@ -21,7 +21,7 @@ mmdbref:publication{
   bibo:volume xsd:string?;
   bibo:issue xsd:string?;
   bibo:pages xsd:string?;
-  fabio:hasPublicationYear xsd:integer;
+  fabio:hasPublicationYear xsd:integer?;
   dcterms:issued xsd:date?; #publicated_date
   #| total_passive_interactions tohle moc nevim jak poresit - slo by ale dat odkazy zpetne z literatury do interakci a substanci
   #| total_active_interactions
