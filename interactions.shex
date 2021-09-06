@@ -61,7 +61,7 @@ mmdbint:interaction_temperature{
 
 mmdbint:interaction_mol_charge{
   sio:SIO_000300 xsd:string; #v mysql je varchar - nebyl by lepsi xsd:integer?
-  rdf:type  edam:data0845; #tpe molecular charge
+  rdf:type  edam:data_0845; #tpe molecular charge
   
 }
 
