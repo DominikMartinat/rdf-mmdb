@@ -17,7 +17,7 @@ PREFIX dcterms: <http://purl.org/dc/terms/>
 
 mmdbint:interaction{
   rdf:type bao:BAO_0000015;#bioassay - mozna neco presnejsiho? mozna rdfs:sublclassOf???
-  obo:RO_0000057 @mmdbint:membrane;
+  obo:RO_0000057 @mmdbint:membrane?;
   obo:IAO_0000136 @mmdbsub:substance?; #is about susbtance
   cito:citesAsDataSource  @mmdbref:publication?;
   bao:BAO_0000212 @mmdbint:method?;#method pubchem rdf tohle a dal asi neresi
