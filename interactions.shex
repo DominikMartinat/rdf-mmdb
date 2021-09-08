@@ -8,7 +8,7 @@ PREFIX obo: <http://purl.obolibrary.org/obo/>
 PREFIX cito: <http://purl.org/spar/cito/>
 PREFIX bao: <http://www.bioassayontology.org/bao#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-PREFIX repr: <https://w3id.org/reproduceme>
+PREFIX repr: <https://w3id.org/reproduceme#>
 PREFIX edam: <http://edamontology.org/>
 PREFIX dwc: <http://rs.tdwg.org/dwc/terms/>
 PREFIX om2: <http://www.ontology-of-units-of-measure.org/resource/om-2/>
