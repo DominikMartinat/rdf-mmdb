@@ -16,7 +16,7 @@ mmdbtra:transporter_assay{
   obo:RO_0000057 @mmdbtra:target; #has participant
   #type non/() inhibitor/substrate #tohle jeste nevim jak vyjadrit - navic kombinace predchoziho, interacts, activator, agonist, antagonist, N/A
   rdfs:comment xsd:string?;
-  obo:OBI_0000299 @mmdbtra:assay_pkm?; #has measurement value - mozna neni spravny predikat, mozna spis endpoit i s tema typama
+  obo:OBI_0000299 @mmdbtra:assay_pkm?; #has specified output - mozna neni spravny predikat, mozna spis endpoit i s tema typama
   obo:OBI_0000299 @mmdbtra:assay_pec50?;
   obo:OBI_0000299 @mmdbtra:assay_pki?;
   obo:OBI_0000299 @mmdbtra:assay_pic50?;
