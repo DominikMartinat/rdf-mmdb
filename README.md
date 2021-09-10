@@ -5,8 +5,20 @@ Shex files contain schema for data model. For syntax highlinghting https://www.w
 
 ### schemas of RDF graphs
 
-#### substances
+09-09-2021
 
-![alt text](https://github.com/DominikMartinat/rdf-mmdb/blob/main/diagrams/diagram-interactions.png "substances namespace")
+#### substance
 
+![alt text](https://github.com/DominikMartinat/rdf-mmdb/blob/main/diagrams/diagram-substances.png "substance namespace")
 
+#### interaction
+
+![alt text](https://github.com/DominikMartinat/rdf-mmdb/blob/main/diagrams/diagram-interactions.png "interaction namespace")
+
+#### transporter assay
+
+![alt text](https://github.com/DominikMartinat/rdf-mmdb/blob/main/diagrams/diagram-transporters.drawio.png "transporter assay namespace")
+
+#### reference
+
+![alt text](https://github.com/DominikMartinat/rdf-mmdb/blob/main/diagrams/diagram-publications.drawio.png "reference namespace")
