@@ -72,31 +72,10 @@ mmdbref:publication {
   #popsane v reference.shx
 }
 
-mmdbint:interaction_position{
-  sio:SIO_000300 xsd:float;
-  sio:SIO_000221 obo:UO_0000018;
-  rdf:type  IRI;
-  dwc:measurementAccuracy xsd:float? #tohle je urcite blbe... ma to byt smerodatna odchylka
-  
-}
-
-mmdbint:interaction_penetration{
-  sio:SIO_000300 xsd:float;
-  sio:SIO_000221 IRI;#kcal/mol?? joule per mole ma obo:NCIT_C70445; spis si vyptat kcal/mol
-  rdf:type  IRI;
-  dwc:measurementAccuracy xsd:float?
-}
-  
-mmdbint:interaction_water{
-  sio:SIO_000300 xsd:float;
-  sio:SIO_000221 IRI;#kcal/mol?? -||-
-  rdf:type  IRI;
-  dwc:measurementAccuracy xsd:float?
-}
 
 mmdbint:interaction_logk{
   sio:SIO_000300 xsd:float;
-  sio:SIO_000221 obo:NCIT_C70455; #molm/molw??? tohle je mole per mole - mozna blbe
+  sio:SIO_000221 obo:NCIT_C70455;
   rdf:type  sio:CHEMINF_000496;
   dwc:measurementAccuracy xsd:float?
 }
@@ -108,36 +87,8 @@ mmdbint:interaction_logperm{
   dwc:measurementAccuracy xsd:float?
 }
   
-mmdbint:interaction_theta{
-  sio:SIO_000300 xsd:float;
-  sio:SIO_000221 obo:UO_0000185;
-  rdf:type  om2:ContactAngle; #??? je to vubec to same?
-  dwc:measurementAccuracy xsd:float?
-}
-  
-mmdbint:interaction_abs_wl{
-  sio:SIO_000300 xsd:float;
-  sio:SIO_000221 obo:UO_0000018;
-  rdf:type  IRI;
-  dwc:measurementAccuracy xsd:float?
-}
-  
-mmdbint:interaction_fluo_wl{
-  sio:SIO_000300 xsd:float;
-  sio:SIO_000221 obo:UO_0000018;
-  rdf:type  IRI;
-  dwc:measurementAccuracy xsd:float?
-}
-  
 mmdbint:interaction_qy{
   sio:SIO_000300 xsd:float;
   rdf:type  obo:TO_0012004;
-  dwc:measurementAccuracy xsd:float?
-}
-  
-mmdbint:interaction_lt{
-  sio:SIO_000300 xsd:float;
-  sio:SIO_000221 obo:UO_0000150;
-  rdf:type  <http://purl.jp/bio/4/id/200906011290851740>; #taky repr:FluorescenceLifetime ale je to method, tak to asi neni ono
   dwc:measurementAccuracy xsd:float?
 }
