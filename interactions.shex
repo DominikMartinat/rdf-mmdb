@@ -24,16 +24,9 @@ mmdbint:interaction{
   repr:hasExperimentalCondition @mmdbint:interaction_temperature?;
   repr:hasExperimentalCondition @mmdbint:interaction_mol_charge?;
   rdfs:comment xsd:string?;
-  obo:OBI_0000299 @mmdbint:interaction_position?; # has specified output odsud acc - obavam se ze budem potrebovat vlastni ontologie zavest
-  obo:OBI_0000299 @mmdbint:interaction_penetration?;
-  obo:OBI_0000299 @mmdbint:interaction_water?;
   obo:OBI_0000299 @mmdbint:interaction_logk?;
   obo:OBI_0000299 @mmdbint:interaction_logperm?;
-  obo:OBI_0000299 @mmdbint:interaction_theta?;
-  obo:OBI_0000299 @mmdbint:interaction_abs_wl?;
-  obo:OBI_0000299 @mmdbint:interaction_fluo_wl?;
   obo:OBI_0000299 @mmdbint:interaction_qy?;
-  obo:OBI_0000299 @mmdbint:interaction_lt?;
   
 }
 
