@@ -9,7 +9,7 @@ PREFIX edam: <http://edamontology.org/>
 
 mmdbsub:substance{
   rdf:type sio:SIO_011125; #molekula - nebo rdf:subclassOf??
-  rdfs:label xsd:string; #name
+  rdfs:label xsd:string?; #name
   sio:SIO_000008 @mmdbsub:smiles_substance?; #has attribute ...
   sio:SIO_000008 @mmdbsub:inchikey_substance?;
   sio:SIO_000008 @mmdbsub:molecularweight_substance?;
@@ -18,7 +18,11 @@ mmdbsub:substance{
   sio:SIO_000008 @mmdbsub:drugbank_substance?;
   sio:SIO_000008 @mmdbsub:chebi_substance?;
   sio:SIO_000008 @mmdbsub:pdb_substance?;
-  sio:SIO_000008 @mmdbsub:chembl_substance?
+  sio:SIO_000008 @mmdbsub:chembl_substance?;
+  sio:SIO_000008 @mmdbsub:mmdbid_substance;
+  obo:IAO_0100001 @mmdbsub:substance?; #term replaced by... pokud je v substance_links id substance, odkazuje se to na uvedenou
+  obo:IAO_0000231 obo:IAO_0000227?; #kdyz je replaced tak obsolescence reason je terms merged
+  
   
 }
 
@@ -77,6 +81,11 @@ mmdbsub:chembl_substance{
   rdf:type sio:CHEMINF_000412
 }
 
+#molmedb id
+mmdbsub:mmdbid_substance{
+  sio:SIO_000300 xsd:string;
+  rdf:type ?IRI
+}
 
 
 
