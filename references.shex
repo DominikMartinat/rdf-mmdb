@@ -11,7 +11,7 @@ PREFIX fabio: <http://purl.org/spar/fabio/>
 PREFIX cito: <http://purl.org/spar/cito/>
 
 mmdbref:publication{
-  rdf:type IRI; #dcterms:BibliographicResource? ale je tam pubchem a chembl napr.
+  rdf:type dcterms:BibliographicResource; # ale je tam pubchem a chembl napr.
   dcterms:bibliographicCitation xsd:string?;  
   bibo:doi xsd:string?;
   bibo:pmid xsd:string?;
