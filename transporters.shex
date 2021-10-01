@@ -12,8 +12,8 @@ PREFIX bao: <http://www.bioassayontology.org/bao#>
 
 mmdbtra:transporter_assay{
   rdf:type bao:BAO_0003008; #transporter assay - nebo rdfs:sublcassOf?
-  obo:IAO_0000136 @mmdbsub:substance; #is about
-  obo:RO_0000057 @mmdbtra:target; #has participant
+  obo:IAO_0000136 @mmdbsub:substance; #is about #transporters.id_substance -> substance.id
+  obo:RO_0000057 @mmdbtra:target; #has participant #transporters.id_target -> transporter_targets.id
   
   #type non/() inhibitor/substrate #tohle jeste nevim jak vyjadrit - navic kombinace predchoziho, interacts, activator, agonist, antagonist, N/A
   #asi dalsi specified output - zvlast trojice pro kazdy typ interakce, umozni to i kombinovane vysledky bez rejpani do zavedenych ontologii
@@ -25,12 +25,12 @@ mmdbtra:transporter_assay{
   obo:OBI_0000299 @mmdbtra:assay_agonist?;
   obo:OBI_0000299 @mmdbtra:assay_antagonist?;
   
-  rdfs:comment xsd:string?;
+  rdfs:comment xsd:string?; #transporters.note
   obo:OBI_0000299 @mmdbtra:assay_pkm?; #has specified output - mozna neni spravny predikat, mozna spis endpoit i s tema typama
   obo:OBI_0000299 @mmdbtra:assay_pec50?;
   obo:OBI_0000299 @mmdbtra:assay_pki?;
   obo:OBI_0000299 @mmdbtra:assay_pic50?;
-  cito:citesAsDataSource  @mmdbref:publication?
+  cito:citesAsDataSource  @mmdbref:publication? #transporters.id_reference -> publications.id
 }
 
 mmdbsub:substance{#susbtances.shx
@@ -38,31 +38,31 @@ mmdbsub:substance{#susbtances.shx
 
 mmdbtra:target{
   rdf:type bao:BAO_0000283; #transporter - nebo rdfs:subclassOf???
-  rdfs:label xsd:string;
-  obo:ERO_0000547 xsd:string #has uniprot id
+  rdfs:label xsd:string; #transpoter_targets.name
+  obo:ERO_0000547 xsd:string #has uniprot id #transporter_targets.uniprot_id
 }
 
 mmdbtra:assay_pkm{
-  sio:SIO_000300 xsd:float;
+  sio:SIO_000300 xsd:float; #transporters.Km
   rdf:type  bao:BAO_0000477; #tohle je Km ne pKm, pKm nemuzu najit
   bao:BAO_0002858 bao:BAO_0002175; #has endpoint modifier -log(endpoint) - prijde mi to kostrbate
-  dwc:measurementAccuracy xsd:float?
+  dwc:measurementAccuracy xsd:float? #doresit smerodatnou odchylku
 }
 
 mmdbtra:assay_pec50{
-  sio:SIO_000300 xsd:float;
+  sio:SIO_000300 xsd:float; #transporters.EC50
   rdf:type  bao:BAO_0002583;
   dwc:measurementAccuracy xsd:float?
 }
 
 mmdbtra:assay_pki{
-  sio:SIO_000300 xsd:float;
+  sio:SIO_000300 xsd:float; #transporters.Ki
   rdf:type  bao:BAO_0190004;
   dwc:measurementAccuracy xsd:float?
 }
 
 mmdbtra:assay_pic50{
-  sio:SIO_000300 xsd:float;
+  sio:SIO_000300 xsd:float; #transporters.IC50
   rdf:type  bao:BAO_0000199 ;
   dwc:measurementAccuracy xsd:float?
 }
