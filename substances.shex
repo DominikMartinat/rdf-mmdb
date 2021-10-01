@@ -9,7 +9,7 @@ PREFIX edam: <http://edamontology.org/>
 
 mmdbsub:substance{
   rdf:type sio:SIO_011125; #molekula - nebo rdf:subclassOf??
-  rdfs:label xsd:string?; #name
+  rdfs:label xsd:string?; #substances.name
   sio:SIO_000008 @mmdbsub:smiles_substance?; #has attribute ...
   sio:SIO_000008 @mmdbsub:inchikey_substance?;
   sio:SIO_000008 @mmdbsub:molecularweight_substance?;
@@ -28,62 +28,62 @@ mmdbsub:substance{
 
 #smiles
 mmdbsub:smiles_substance{
-  sio:SIO_000300 xsd:string; #has value ...
+  sio:SIO_000300 xsd:string; #substances.SMILES
   rdf:type sio:CHEMINF_000018;
 }
 
 #inchikey
 mmdbsub:inchikey_substance{
-  sio:SIO_000300 xsd:string;
+  sio:SIO_000300 xsd:string; #substances.inchikey
   rdf:type sio:CHEMINF_000059
 }
 
 #MW
 mmdbsub:molecularweight_substance{
- sio:SIO_000300 xsd:float;
+ sio:SIO_000300 xsd:float; #substances.MW
  rdf:type sio:CHEMINF_000216; #average molecular weight descriptor
  sio:SIO_000221 obo:UO_0000055 #has unit molar mass unit
 }
 
 #LogP
 mmdbsub:logp_substance{
-  sio:SIO_000300 xsd:float;
+  sio:SIO_000300 xsd:float; #substances.LogP
   rdf:type sio:CHEMINF_000251 #subclassy jsou nejake pres nejaky konkretni RDKIT a tak
 }
 
 #pubchem
 mmdbsub:pubchem_substance{
-  sio:SIO_000300 xsd:string;
+  sio:SIO_000300 xsd:string; #substances.pubchem
   rdf:type sio:CHEMINF_000140
 }
 
 #drugbank
 mmdbsub:drugbank_substance{
-  sio:SIO_000300 xsd:string;
+  sio:SIO_000300 xsd:string; #substances.drugbanl
   rdf:type sio:CHEMINF_000406
 }
 
 #chEBI
 mmdbsub:chebi_substance{
-  sio:SIO_000300 xsd:string;
+  sio:SIO_000300 xsd:string; #substances.chEBI
   rdf:type sio:CHEMINF_000407
 }
 
 #pdb
 mmdbsub:pdb_substance{
-  sio:SIO_000300 xsd:string;
+  sio:SIO_000300 xsd:string; #substances.pdb
 #rdf:type edam:data_1127 zkusit zkontaktovat cheminf an zavedenu class pdb identifier
 }
 
 #chembl
 mmdbsub:chembl_substance{
-  sio:SIO_000300 xsd:string;
+  sio:SIO_000300 xsd:string; #substances.chEMBL
   rdf:type sio:CHEMINF_000412
 }
 
 #molmedb id
 mmdbsub:mmdbid_substance{
-  sio:SIO_000300 xsd:string;
+  sio:SIO_000300 xsd:string; #substances.identifier
   rdf:type ?IRI
 }
 
