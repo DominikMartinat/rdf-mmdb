@@ -14,7 +14,17 @@ mmdbtra:transporter_assay{
   rdf:type bao:BAO_0003008; #transporter assay - nebo rdfs:sublcassOf?
   obo:IAO_0000136 @mmdbsub:substance; #is about
   obo:RO_0000057 @mmdbtra:target; #has participant
+  
   #type non/() inhibitor/substrate #tohle jeste nevim jak vyjadrit - navic kombinace predchoziho, interacts, activator, agonist, antagonist, N/A
+  #asi dalsi specified output - zvlast trojice pro kazdy typ interakce, umozni to i kombinovane vysledky bez rejpani do zavedenych ontologii
+  #NA je neprirazeny typ - vyjadreni absence jakekoli trojice pro typ
+  #co s interact
+  obo:OBI_0000299 @mmdbtra:assay_substrate?;
+  obo:OBI_0000299 @mmdbtra:assay_inhibitor?;#tady positive/negative result ale co u ostatnich?
+  obo:OBI_0000299 @mmdbtra:assay_activator?;
+  obo:OBI_0000299 @mmdbtra:assay_agonist?;
+  obo:OBI_0000299 @mmdbtra:assay_antagonist?;
+  
   rdfs:comment xsd:string?;
   obo:OBI_0000299 @mmdbtra:assay_pkm?; #has specified output - mozna neni spravny predikat, mozna spis endpoit i s tema typama
   obo:OBI_0000299 @mmdbtra:assay_pec50?;
