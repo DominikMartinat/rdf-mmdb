@@ -12,30 +12,33 @@ PREFIX cito: <http://purl.org/spar/cito/>
 
 mmdbref:publication{
   rdf:type dcterms:BibliographicResource; # ale je tam pubchem a chembl napr.
-  dcterms:bibliographicCitation xsd:string?;  
-  bibo:doi xsd:string?;
-  bibo:pmid xsd:string?;
-  dcterms:title xsd:string?;
+  dcterms:bibliographicCitation xsd:string?; #publications.citation
+  bibo:doi xsd:string?; #publications.doi
+  bibo:pmid xsd:string?; #publications.pmid
+  dcterms:title xsd:string?; #publications.title
   bibo:authorList @mmdbref:publication_authors?;
-  dcterms:isPartOf xsd:string?;# journal - nekde by mohlo byt neco specializovanejsiho
-  bibo:volume xsd:string?;
-  bibo:issue xsd:string?;
-  bibo:pages xsd:string?;
-  fabio:hasPublicationYear xsd:integer?;
-  dcterms:issued xsd:date?; #publicated_date
+  dcterms:isPartOf xsd:string?;# journal - nekde by mohlo byt neco specializovanejsiho #publications.journal
+  bibo:volume xsd:string?; #publications.volume
+  bibo:issue xsd:string?; #publications.issue
+  bibo:pages xsd:string?; #publications.page
+  fabio:hasPublicationYear xsd:integer?; #publications.year
+  dcterms:issued xsd:date?; #publicated_date #publications.publicated_date
   #| total_passive_interactions tohle moc nevim jak poresit - slo by ale dat odkazy zpetne z literatury do interakci a substanci
   #| total_active_interactions
   #| total_substances 
   # monza by byly lepsi odkazy na ty substance a interakce primo
+  
+  #itneraction.id WHERE interaction.id_reference = publications.id
+  #transporters.id WHERE transporters.id_reference = publications.id
   cito:isCitedAsDataSourceBy [mmdbint:interaction mmdbtra:transporter_assay]*;#[@mmdbint:interaction @mmdbtran:transporter_assay]* nevim
   #proc to YASHE nebere
-  dcterms:subject @mmdbsub:substance*
+  dcterms:subject @mmdbsub:substance* #substances.id WHERE interaction.id_reference = publication.id AND interaction.id_substance = substance.id
 }
 
 mmdbsub:substance{#susbtances.shex
 }
 
-mmdbref:publication_authors{ #kazda polozka listu autor
+mmdbref:publication_authors{ #kazda polozka listu autor - publications.authors - jmena oddelene carkou, potreba rozsekat a jako polozky senamu do first
   rdf:type rdf:list;
   rdf:first xsd:string;
   rdf:rest [mmdbref:publication_authors rdf:nil]#tohle nevim jestli je dobre zaznacene v shexu
