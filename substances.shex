@@ -20,7 +20,10 @@ mmdbsub:substance{
   sio:SIO_000008 @mmdbsub:pdb_substance?;
   sio:SIO_000008 @mmdbsub:chembl_substance?;
   sio:SIO_000008 @mmdbsub:mmdbid_substance;
-  obo:IAO_0100001 @mmdbsub:substance?; #term replaced by... pokud je v substance_links id substance, odkazuje se to na uvedenou
+  
+  #uzel pro dany MolMeDB identifier ma tyhle trojice kdyz existuje prislusny substance_links.identifier
+  #v takovem pripade ma jen typ, mmdb_id a tyhle dve trojice ohledne obsolescence
+  obo:IAO_0100001 @mmdbsub:substance?; #substance_links.id_substance
   obo:IAO_0000231 obo:IAO_0000227?; #kdyz je replaced tak obsolescence reason je terms merged
   
   
@@ -83,7 +86,7 @@ mmdbsub:chembl_substance{
 
 #molmedb id
 mmdbsub:mmdbid_substance{
-  sio:SIO_000300 xsd:string; #substances.identifier
+  sio:SIO_000300 xsd:string; #substances.identifier a substance_link.identifier
   rdf:type ?IRI
 }
 
