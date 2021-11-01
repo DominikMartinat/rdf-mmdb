@@ -9,62 +9,69 @@ PREFIX cito: <http://purl.org/spar/cito/>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX dwc: <http://rs.tdwg.org/dwc/terms/>
 PREFIX bao: <http://www.bioassayontology.org/bao#>
+PREFIX repr: <https://w3id.org/reproduceme#>
+PREFIX temp: <docasne> #zatim bez IRI
 
 mmdbtra:transporter_assay{
-  rdf:type bao:BAO_0003008; #transporter assay - nebo rdfs:sublcassOf?
-  obo:IAO_0000136 @mmdbsub:substance; #is about #transporters.id_substance -> substance.id
-  obo:RO_0000057 @mmdbtra:target; #has participant #transporters.id_target -> transporter_targets.id
+  rdf:type bao:BAO_0003008; #same requirements as bioassay BAO_0000015 - TBD soon
+  obo:IAO_0000136 @mmdbsub:substance; #MySQL transporters.id_substance -> substance.id
+  obo:RO_0000057 @mmdbtra:target; #MySQLtransporters.id_target -> transporter_targets.id
   
-  #type non/() inhibitor/substrate #tohle jeste nevim jak vyjadrit - navic kombinace predchoziho, interacts, activator, agonist, antagonist, N/A
-  #asi dalsi specified output - zvlast trojice pro kazdy typ interakce, umozni to i kombinovane vysledky bez rejpani do zavedenych ontologii
-  #NA je neprirazeny typ - vyjadreni absence jakekoli trojice pro typ
-  #co s interact
-  obo:OBI_0000299 @mmdbtra:assay_substrate?;
-  obo:OBI_0000299 @mmdbtra:assay_inhibitor?;#tady positive/negative result ale co u ostatnich?
-  obo:OBI_0000299 @mmdbtra:assay_activator?;
-  obo:OBI_0000299 @mmdbtra:assay_agonist?;
-  obo:OBI_0000299 @mmdbtra:assay_antagonist?;
-  
-  rdfs:comment xsd:string?; #transporters.note
-  obo:OBI_0000299 @mmdbtra:assay_pkm?; #has specified output - mozna neni spravny predikat, mozna spis endpoit i s tema typama
+
+  #in database only (non)substrate/inhibitor now, so this temporary solution with positive/negative result
+  obo:OBI_0000299 @mmdbtra:assay_substrate?; #IF transpoters.type = 1 OR transporters.type = 2
+  obo:OBI_0000299 @mmdbtra:assay_inhibitor?; #IF transpoters.type = 3 OR transporters.type = 4
+
+  rdfs:comment xsd:string?; #MySQL transporters.note
+  obo:OBI_0000299 @mmdbtra:assay_pkm?;
   obo:OBI_0000299 @mmdbtra:assay_pec50?;
   obo:OBI_0000299 @mmdbtra:assay_pki?;
   obo:OBI_0000299 @mmdbtra:assay_pic50?;
-  cito:citesAsDataSource  @mmdbref:publication? #transporters.id_reference -> publications.id
+  cito:citesAsDataSource  @mmdbref:publication? #MySQL transporters.id_reference -> publications.id
 }
 
 mmdbsub:substance{#susbtances.shx
 }
 
 mmdbtra:target{
-  rdf:type bao:BAO_0000283; #transporter - nebo rdfs:subclassOf???
-  rdfs:label xsd:string; #transpoter_targets.name
-  obo:ERO_0000547 xsd:string #has uniprot id #transporter_targets.uniprot_id
+  rdf:type bao:BAO_0000283; #check requirements
+  rdfs:label xsd:string; #MySQL transpoter_targets.name
+  obo:ERO_0000547 xsd:string #MysQL transporter_targets.uniprot_id
+}
+
+mmdbtra:assay_substrate{
+  sio:SIO_000300 [repr:PositiveResult repr:NegativeResult]; #IF transporters.type = 1 repr:PositiveResult, IF transporters.type = 2 repr:NegativeResult
+  rdf:type temp:mereni_na_substrat #mozna docasne bao:BAO_0003063 
+}
+
+mmdbtra:assay_inhibitor{
+  sio:SIO_000300 [repr:PositiveResult repr:NegativeResult]; #IF transporters.type = 3 repr:PositiveResult, IF transporters.type = 4 repr:NegativeResult
+  rdf:type bao:BAO_0000091 #check requirements
 }
 
 mmdbtra:assay_pkm{
-  sio:SIO_000300 xsd:float; #transporters.Km
-  rdf:type  bao:BAO_0000477; #tohle je Km ne pKm, pKm nemuzu najit
-  bao:BAO_0002858 bao:BAO_0002175; #has endpoint modifier -log(endpoint) - prijde mi to kostrbate
-  dwc:measurementAccuracy xsd:float? #doresit smerodatnou odchylku
+  sio:SIO_000300 xsd:double; #MySQL transporters.Km
+  rdf:type  bao:BAO_0000477;
+  bao:BAO_0002858 bao:BAO_0002175;
+  #dwc:measurementAccuracy xsd:double? #standard deviation would be nice
 }
 
 mmdbtra:assay_pec50{
-  sio:SIO_000300 xsd:float; #transporters.EC50
+  sio:SIO_000300 xsd:double; #MySQL transporters.EC50
   rdf:type  bao:BAO_0002583;
-  dwc:measurementAccuracy xsd:float?
+  #dwc:measurementAccuracy xsd:double?
 }
 
 mmdbtra:assay_pki{
-  sio:SIO_000300 xsd:float; #transporters.Ki
+  sio:SIO_000300 xsd:double; #MySQL transporters.Ki
   rdf:type  bao:BAO_0190004;
-  dwc:measurementAccuracy xsd:float?
+  #dwc:measurementAccuracy xsd:double?
 }
 
 mmdbtra:assay_pic50{
-  sio:SIO_000300 xsd:float; #transporters.IC50
+  sio:SIO_000300 xsd:double; #MySQL transporters.IC50
   rdf:type  bao:BAO_0000199 ;
-  dwc:measurementAccuracy xsd:float?
+ # dwc:measurementAccuracy xsd:double?
 }
 
 mmdbref:publication{#reference.shex

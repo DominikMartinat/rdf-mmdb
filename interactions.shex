@@ -1,87 +1,98 @@
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX sio: <http://semanticscience.org/resource/>
-PREFIX mmdbint: <http://rdf.molmedb.upol.cz/interaction/> #
-PREFIX mmdbsub: <http://rdf.molmedb.upol.cz/substance/> #jinde
-PREFIX mmdbref: <http://rdf.molmedb.upol.cz/reference/> #jinde
+PREFIX mmdbint: <http://rdf.molmedb.upol.cz/interaction/>
+PREFIX mmdbsub: <http://rdf.molmedb.upol.cz/substance/>
+PREFIX mmdbref: <http://rdf.molmedb.upol.cz/reference/>
 PREFIX obo: <http://purl.obolibrary.org/obo/>
 PREFIX cito: <http://purl.org/spar/cito/>
 PREFIX bao: <http://www.bioassayontology.org/bao#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-PREFIX repr: <https://w3id.org/reproduceme#>
 PREFIX edam: <http://edamontology.org/>
+PREFIX repr: <https://w3id.org/reproduceme#>
 PREFIX dwc: <http://rs.tdwg.org/dwc/terms/>
-PREFIX om2: <http://www.ontology-of-units-of-measure.org/resource/om-2/>
 PREFIX dc: <http://purl.org/dc/elements/1.1/>
 PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX temp: <temporary> #IRIS yet missing
 
 mmdbint:interaction{
-  rdf:type bao:BAO_0000015;#bioassay - mozna neco presnejsiho? mozna rdfs:sublclassOf???
-  obo:RO_0000057 @mmdbint:membrane?; #interaction.id_membrane -> membranes.id
-  obo:IAO_0000136 @mmdbsub:substance?; #is about susbtance #interaction.id_substance -> substances.id
-  cito:citesAsDataSource  @mmdbref:publication?; #interaction.id_reference -> publications.id
-  bao:BAO_0000212 @mmdbint:method?;#method pubchem rdf tohle a dal asi neresi #interaction.id_method -> methods.id
-  repr:hasExperimentalCondition @mmdbint:interaction_temperature?;
-  repr:hasExperimentalCondition @mmdbint:interaction_mol_charge?;
-  rdfs:comment xsd:string?; #interaction.comment
-  obo:OBI_0000299 @mmdbint:interaction_logk?;
-  obo:OBI_0000299 @mmdbint:interaction_logperm?;
-  obo:OBI_0000299 @mmdbint:interaction_qy?;
+  rdf:type bao:BAO_0000015; 
+  bao:BAO_0090012 @mmdbint:membrane; #MySQL interaction.id_membrane -> membranes.id
+  bao:BAO_0090012 @mmdbsub:substance; #MySQL interaction.id_substance -> substances.id
+  bao:BAO_0000209 @mmdbint:interaction_measure_group;
+  bao:BAO_0000205 bao:BAO_0000100; #has assay format small-molecule physicochemical format
+  cito:citesAsDataSource  @mmdbref:publication?; #MySQL interaction.id_reference -> publications.id
+  
+
   
 }
 
+mmdbint:interaction_measure_group{
+  rdf:type bao:BAO_0000040;
+  bao:BAO_0000212 @mmdbint:method?;
+  bao:BAO_0000208 @mmdbint:interaction_logk?;
+  bao:BAO_0000208 @mmdbint:interaction_logperm?;
+  bao:BAO_0000208 @mmdbint:interaction_qy?;
+  bao:BAO_0090012 @mmdbint:substance; #MySQL interaction.id_substance -> substances.id
+  bao:BAO_0090012 @mmdbint:membrane; #MySQL interaction.id_membrane -> membranes.id
+  bao:BAO_0000426 @mmdbint:interaction;
+
+  repr:hasExperimentalCondition @mmdbint:interaction_temperature?;
+  repr:hasExperimentalCondition @mmdbint:interaction_mol_charge?;
+  rdfs:comment xsd:string?; #MySQL interaction.comment
+
+  #measure group should have detection method - missing in MolMeDB mysql dataset
+
+}
+
 mmdbint:membrane{
-  rdf:type IRI; #asi zavest vlastni typ membrana - vsude to jsou bud biologicke, nebo anatomicke nebo nejake umele
-  rdfs:label xsd:string?; #membranes.name
-  dc:description xsd:html?; #membranes.description
-  dcterms:bibliographicCitation xsd:string?; #membranes.references
-  #k nekterym by se snad daly dohledat IRI
+  rdf:type temp:modelova_membrana; #needs membrane model class - BAO wants biologgical macromol for bioassay, but mebrane is not
+  rdfs:label xsd:string?; #MySQL membranes.name
+  dc:description xsd:html?; #MySQL membranes.description
+  dcterms:bibliographicCitation xsd:string?; #MySQL membranes.references
+  bao:BAO_0003102 bao:BAO_0003064 #has role target
 }
 
 mmdbint:method{
-  rdf:type bao:BAO_0002753; #assay method component - BAO assay nezahrnuje vypocetni; mozna by slo presneji; rdfs:subclassOf??
-  rdfs:label xsd:string?; #methods.name
-  dc:description xsd:html?; #methods.description
-  dcterms:bibliographicCitation xsd:string?; #methods.references
-  #k nekterym by se snad daly dohledat IRI
+  rdf:type bao:BAO_0002753; #assay method component, should be BAO_0002202 (assay design method) but we need consider computational data
+  rdfs:label xsd:string?; #MySQL methods.name
+  dc:description xsd:html?; #MySQL methods.description
+  dcterms:bibliographicCitation xsd:string?; #MySQL methods.references
 }
 
 mmdbint:interaction_temperature{
-  sio:SIO_000300 xsd:integer; #interaction.temperature
+  sio:SIO_000300 xsd:integer; #MySQL interaction.temperature
   sio:SIO_000221 obo:UO_0000027; #has unit degree celsius
   rdf:type  obo:PATO_0000146; #type temperature
 }
 
 mmdbint:interaction_mol_charge{
-  sio:SIO_000300 xsd:string; #v mysql je varchar - nebyl by lepsi xsd:integer? #interaction.charge
-  rdf:type  edam:data_0845; #tpe molecular charge
+  sio:SIO_000300 xsd:string; #MySQL interaction.charge
+  rdf:type  edam:data_0845; #type molecular charge
   
 }
 
-mmdbsub:substance{ #popsane v substance.shx
+mmdbsub:substance{ #described in substance.shx
 }
 
 mmdbref:publication {
-  #popsane v reference.shx
+  #described in reference.shx
 }
 
 
 mmdbint:interaction_logk{
-  sio:SIO_000300 xsd:float; #interaction.LogK
+  sio:SIO_000300 xsd:double; #MySQL interaction.LogK
   sio:SIO_000221 obo:NCIT_C70455;
-  rdf:type  sio:CHEMINF_000496;
-  #dwc:measurementAccuracy xsd:float? nejak poresit smerodatne odchyky
+  rdf:type  sio:CHEMINF_000496;#needs to be BAO endpoint subclass BAO_0000179, missing in BAO
+  bao:BAO_0000559 @mmdbint:interaction_measure_group;
+  #dwc:measurementAccuracy xsd:float? standard deviation would be nice
+
 }
 
 mmdbint:interaction_logperm{
-  sio:SIO_000300 xsd:float; #interaction.LogPerm
+  sio:SIO_000300 xsd:double; #MySQL interaction.LogPerm
   sio:SIO_000221 obo:NCIT_C102406;
-  rdf:type  obo:PATO_0000970; #nebo bao:BAO_0001260???
-  #dwc:measurementAccuracy xsd:float?
-}
-  
-mmdbint:interaction_qy{
-  sio:SIO_000300 xsd:float; #interaction.QY
-  rdf:type  obo:TO_0012004;
+  rdf:type  bao:BAO_0002808;
+  bao:BAO_0000559 @mmdbint:interaction_measure_group;
   #dwc:measurementAccuracy xsd:float?
 }
