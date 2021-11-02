@@ -5,6 +5,7 @@ Shex files contain schema for data model. For syntax highlinghting https://www.w
 
 
 1-November-2021
+
 float values switched to double
 substance.shex, interactions.shex and transporters.shex made more compliant with BAO ontology requirements
 comments translated into english
