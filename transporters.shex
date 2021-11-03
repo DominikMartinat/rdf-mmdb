@@ -55,8 +55,8 @@ mmdbtra:target{
 
 mmdbtra:assay_substrate{
   sio:SIO_000300 [repr:PositiveResult repr:NegativeResult]; #IF transporters.type = 1 repr:PositiveResult, IF transporters.type = 2 repr:NegativeResult
-  rdf:type temp:BAO_0080024; #binary edpoint
-  bao:BAO_0000196 temp:substrate; #has mode of action binding as substrate
+  rdf:type bao:BAO_0080024; #binary edpoint
+  bao:BAO_0000196 temp:substrate_binding; #has mode of action binding as substrate
   bao:BAO_0000559 @mmdbtra:transporter_assay_measure_group;
 }
 
