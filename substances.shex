@@ -80,7 +80,7 @@ mmdbsub:chebi_substance{
 #pdb
 mmdbsub:pdb_substance{
   sio:SIO_000300 xsd:string; #MySQL substances.pdb
-  rdf:type temp:pdb_id #edam:data_1127 #needs IRI for pubchem ligand ID, not protein ID
+  rdf:type temp:pdb_ligand_id #edam:data_1127 #needs IRI for pubchem ligand ID, not protein ID
 }
 
 #chembl
@@ -92,5 +92,5 @@ mmdbsub:chembl_substance{
 #molmedb id
 mmdbsub:mmdbid_substance{
   sio:SIO_000300 xsd:string; #MySQL substances.identifier OR substance_link.identifier
-  rdf:type temp:nase_id #need type for our ID
+  rdf:type temp:molmedb_id #need type for our ID
 }
