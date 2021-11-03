@@ -35,5 +35,5 @@ mmdbref:publication_authors{
   #everz item in list is author - MySQL publications.authors - names are delimited by "," needs to be parsed first
   rdf:type rdf:list;
   rdf:first xsd:string;
-  rdf:rest [mmdbref:publication_authors rdf:nil] #don't realle know how to describe a list in shex
+  rdf:rest [mmdbref:publication_authors rdf:nil] #don't really know how to describe a list in shex
 }
