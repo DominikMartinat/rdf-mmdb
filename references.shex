@@ -12,7 +12,7 @@ PREFIX cito: <http://purl.org/spar/cito/>
 PREFIX temp: <temporary> #right IRI not found yet
 
 mmdbref:publication{
-  rdf:type temp:source; #dcterms:BibliographicResource; # but sources like pubchem calculatoins and our in house calculations need to be included
+  rdf:type temp:source; #dcterms:BibliographicResource; # but sources like pubchem calculations and our in house calculations need to be included
   dcterms:bibliographicCitation xsd:string?; #MySQL publications.citation
   bibo:doi xsd:string?; #MySQL publications.doi
   bibo:pmid xsd:string?; #MySQL publications.pmid
