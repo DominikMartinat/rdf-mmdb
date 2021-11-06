@@ -1,0 +1,243 @@
+@prefix mmdbtra: <http://rdf.molmedb.upol.cz/transporter/>.
+@prefix mmdbsub: <http://rdf.molmedb.upol.cz/substance/>.
+@prefix mmdbref: <http://rdf.molmedb.upol.cz/reference/>.
+@prefix obo: <http://purl.obolibrary.org/obo/>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix sio: <http://semanticscience.org/resource/>.
+@prefix cito: <http://purl.org/spar/cito/>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix dwc: <http://rs.tdwg.org/dwc/terms/>.
+@prefix bao: <http://www.bioassayontology.org/bao#>.
+@prefix repr: <https://w3id.org/reproduceme#>.
+@prefix rr: <http://www.w3.org/ns/r2rml#>.
+@prefix temp: <docasne>. #zatim bez IRI
+
+<#TriplesMap1>
+  rr:logicalTable [ rr:tableName "transporters" ];
+  rr:subjectMap [
+    rr:template "http://rdf.molmedb.upol.cz/transporter/{id}";
+    rr:class bao:BAO_0003008;
+  ];
+    rr:predicateObjectMap [
+    rr:predicate bao:BAO_0090012;
+    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/substance/MM{id_substance}" ]
+  ];
+    rr:predicateObjectMap [
+    rr:predicate bao:BAO_0090012;
+    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/target_{id_target}" ]
+  ];
+    rr:predicateObjectMap [
+    rr:predicate bao:BAO_0000209;
+    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/transporter_measure_group_{id}" ]
+  ];
+    rr:predicateObjectMap [
+    rr:predicate bao:BAO_0000205;
+    rr:objectMap [ rr:constant bao:BAO_0000224 ]
+  ];
+    rr:predicateObjectMap [
+    rr:predicate cito:citesAsDataSource;
+    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/reference/{id_reference}" ]
+  ].
+
+<#TriplesMap2>
+  rr:logicalTable [ rr:tableName "transporters" ];
+  rr:subjectMap [
+    rr:template "http://rdf.molmedb.upol.cz/transporter/transporter_measure_group_{id}";
+    rr:class bao:BAO_0000040;
+  ];
+    rr:predicateObjectMap [
+    rr:predicate  bao:BAO_0000208;
+    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/transporter_measure_group_substrate_{id}" ]
+  ];
+    rr:predicateObjectMap [
+    rr:predicate  bao:BAO_0000208;
+    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/transporter_measure_group_inhibitor_{id}" ]
+  ];
+    rr:predicateObjectMap [
+    rr:predicate bao:BAO_0000208;
+    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/transporter_measure_group_pkm_{id}" ]
+  ];
+    rr:predicateObjectMap [
+    rr:predicate bao:BAO_0000208;
+    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/transporter_measure_group_pec50_{id}" ]
+  ];
+    rr:predicateObjectMap [
+    rr:predicate bao:BAO_0000208;
+    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/transporter_measure_group_pki_{id}" ]
+  ];
+    rr:predicateObjectMap [
+    rr:predicate bao:BAO_0000208;
+    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/transporter_measure_group_pic50_{id}" ]
+  ];
+    rr:predicateObjectMap [
+    rr:predicate bao:BAO_0090012;
+    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/substance/MM{id_substance}" ]
+  ];
+    rr:predicateObjectMap [
+    rr:predicate bao:BAO_0090012;
+    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/target_{id_target}" ]
+  ];
+    rr:predicateObjectMap [
+    rr:predicate bao:BAO_0000426;
+    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/{id}" ]
+  ];
+    rr:predicateObjectMap [
+    rr:predicate rdfs:comment;
+    rr:objectMap [ rr:column "note" ]
+  ].
+
+<#TriplesMap3>
+  rr:logicalTable [ rr:tableName "transporter_targets" ];
+  rr:subjectMap [
+    rr:template "http://rdf.molmedb.upol.cz/transporter/target_{id}";
+    rr:class bao:BAO_0000283;
+  ];
+    rr:predicateObjectMap [
+    rr:predicate  rdfs:label;
+    rr:objectMap [ rr:column "name" ]
+  ];
+    rr:predicateObjectMap [
+    rr:predicate  obo:ERO_0000547;
+    rr:objectMap [ rr:column "uniprot_id" ]
+  ];
+    rr:predicateObjectMap [
+    rr:predicate  bao:BAO_0003102;
+    rr:objectMap [ rr:constant bao:BAO_0003064]
+  ].
+
+<#TriplesMap4>
+  rr:logicalTable [ rr:sqlQuerry """ 
+    SELECT transporters.*, (CASE type
+      WHEN 1 THEN 'PositiveResult'
+      WHEN 2 THEN 'NegativeResult'
+      END) res FROM transporters
+  """];
+  rr:subjectMap [
+    rr:template "http://rdf.molmedb.upol.cz/transporter/transporter_measure_group_substrate_{id}";
+    rr:class bao:BAO_0080024;
+  ];
+    rr:predicateObjectMap [
+    rr:predicate sio:SIO_000300;
+    rr:objectMap [ rr:template "https://w3id.org/reproduceme#{res}" ]
+  ];
+    rr:predicateObjectMap [
+    rr:predicate bao:BAO_0000196;
+    rr:objectMap [ rr:constant temp:substrate_binding ]
+  ]; 
+    rr:predicateObjectMap [
+    rr:predicate bao:BAO_0000559;
+    rr:objectMap [ rr:constant "http://rdf.molmedb.upol.cz/transporter/transporter_measure_group_{id}" ]
+  ].
+
+<#TriplesMap5>
+  rr:logicalTable [ rr:sqlQuerry """ 
+    SELECT transporters.*, (CASE type
+      WHEN 3 THEN 'PositiveResult'
+      WHEN 4 THEN 'NegativeResult'
+      END) res FROM transporters
+  """];
+  rr:subjectMap [
+    rr:template "http://rdf.molmedb.upol.cz/transporter/transporter_measure_group_inhibitor_{id}";
+    rr:class bao:BAO_0080024;
+  ];
+    rr:predicateObjectMap [
+    rr:predicate sio:SIO_000300;
+    rr:objectMap [ rr:template "https://w3id.org/reproduceme#{res}" ]
+  ];
+    rr:predicateObjectMap [
+    rr:predicate bao:BAO_0000196;
+    rr:objectMap [ rr:constant bao:BAO_0000091 ]
+  ]; 
+    rr:predicateObjectMap [
+    rr:predicate bao:BAO_0000559;
+    rr:objectMap [ rr:constant "http://rdf.molmedb.upol.cz/transporter/transporter_measure_group_{id}" ]
+  ].
+
+<#TriplesMap6>
+  rr:logicalTable [ rr:tableName "transporters" ];
+  rr:subjectMap [
+    rr:template "http://rdf.molmedb.upol.cz/transporter/transporter_measure_group_pkm_{id}";
+    rr:class bao:BAO_0000040;
+  ];
+    rr:predicateObjectMap [
+    rr:predicate sio:SIO_000300;
+    rr:objectMap [ rr:column "Km"]
+  ];
+    rr:predicateObjectMap [
+    rr:predicate bao:BAO_0002858;
+    rr:objectMap [ rr:constant bao:BAO_0002175 ]
+  ];
+    rr:predicateObjectMap [
+    rr:predicate bao:BAO_0000559;
+    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/transporter_measure_group_{id}" ]
+  ].
+
+<#TriplesMap7>
+  rr:logicalTable [ rr:tableName "transporters" ];
+  rr:subjectMap [
+    rr:template "http://rdf.molmedb.upol.cz/transporter/transporter_measure_group_pec50_{id}";
+    rr:class bao:BAO_0002583;
+  ];
+    rr:predicateObjectMap [
+    rr:predicate bao:BAO_0002666;
+    rr:objectMap [ rr:column "EC50"]
+  ];
+    rr:predicateObjectMap [
+    rr:predicate bao:BAO_0000559;
+    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/transporter_measure_group_{id}" ]
+  ];
+    rr:predicateObjectMap [
+    rr:predicate bao:BAO_0000196;
+    rr:objectMap [ rr:constant bao:BAO_0000087 ]
+  ];
+    rr:predicateObjectMap [
+    rr:predicate bao:BAO_0000337;
+    rr:objectMap [ rr:constant bao:BAO_0000346 ]
+  ];
+    rr:predicateObjectMap [
+    rr:predicate bao:BAO_0000183;
+    rr:objectMap [ rr:column obo:UO_0000062 ]
+  ].
+
+<#TriplesMap8>
+  rr:logicalTable [ rr:tableName "transporters" ];
+  rr:subjectMap [
+    rr:template "http://rdf.molmedb.upol.cz/transporter/transporter_measure_group_pki_{id}";
+    rr:class bao:BAO_0190004;
+  ];
+    rr:predicateObjectMap [
+    rr:predicate sio:SIO_000300;
+    rr:objectMap [ rr:column "Ki" ]
+  ];
+    rr:predicateObjectMap [
+    rr:predicate bao:BAO_0000559;
+    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/transporter_measure_group_{id}" ]
+  ].
+
+<#TriplesMap9>
+  rr:logicalTable [ rr:tableName "transporters" ];
+  rr:subjectMap [
+    rr:template "http://rdf.molmedb.upol.cz/transporter/transporter_measure_group_pic50_{id}";
+    rr:class bao:BAO_0000199;
+  ];
+    rr:predicateObjectMap [
+    rr:predicate bao:BAO_0000559;
+    rr:objectMap [ rr:column "IC50"]
+  ];
+    rr:predicateObjectMap [
+    rr:predicate bao:BAO_0000196;
+    rr:objectMap [ rr:constant bao:BAO_0000091 ]
+  ];
+    rr:predicateObjectMap [
+    rr:predicate bao:BAO_0000337;
+    rr:objectMap [ rr:constant bao:BAO_0000347 ]
+  ];
+    rr:predicateObjectMap [
+    rr:predicate bao:BAO_0001105;
+    rr:objectMap [ rr:constant bao:BAO_0000065 ]
+  ];
+    rr:predicateObjectMap [
+    rr:predicate bao:BAO_0000183;
+    rr:objectMap [ rr:constant obo:UO_0000062 ]
+  ].
