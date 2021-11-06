@@ -36,7 +36,7 @@
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">substrate binding</rdfs:label>
     <!--This one can be completely wrong. Will be replaced soon probably-->
   </rdf:Description>
-    <rdf:Description rdf:about="temp.rdfs/log_k">
+    <rdf:Description rdf:about="temp.rdfs/logk">
     <rdfs:subClassOf rdf:resource="http://www.bioassayontology.org/bao#BAO_0002128"/>
     <obo:IAO_0000155>Logarithm of partition coefficient membrane/water.</obo:IAO_0000155>
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">LogK</rdfs:label>
