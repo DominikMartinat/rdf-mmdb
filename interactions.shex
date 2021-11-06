@@ -82,7 +82,7 @@ mmdbref:publication {
 mmdbint:interaction_logk{
   sio:SIO_000300 xsd:double; #MySQL interaction.LogK
   sio:SIO_000221 obo:NCIT_C70455;
-  rdf:type  sio:CHEMINF_000496;#needs to be BAO endpoint subclass BAO_0000179, missing in BAO
+  rdf:type  temp:logk;#needs to be BAO endpoint subclass BAO_0000179, missing in BAO
   bao:BAO_0000559 @mmdbint:interaction_measure_group;
   #dwc:measurementAccuracy xsd:float? standard deviation would be nice
 
