@@ -32,7 +32,6 @@ mmdbint:interaction_measure_group{
   bao:BAO_0000212 @mmdbint:method?;
   bao:BAO_0000208 @mmdbint:interaction_logk?;
   bao:BAO_0000208 @mmdbint:interaction_logperm?;
-  bao:BAO_0000208 @mmdbint:interaction_qy?;
   bao:BAO_0090012 @mmdbint:substance; #MySQL interaction.id_substance -> substances.id
   bao:BAO_0090012 @mmdbint:membrane; #MySQL interaction.id_membrane -> membranes.id
   bao:BAO_0000426 @mmdbint:interaction;
