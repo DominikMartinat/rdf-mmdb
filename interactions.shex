@@ -47,7 +47,7 @@ mmdbint:interaction_measure_group{
 mmdbint:membrane{
   rdf:type temp:membrane_model; #needs membrane model class - BAO wants biologgical macromol for bioassay, but mebrane is not
   rdfs:label xsd:string?; #MySQL membranes.name
-  dc:description xsd:html?; #MySQL membranes.description
+  dc:description rdf:html?; #MySQL membranes.description
   dcterms:bibliographicCitation xsd:string?; #MySQL membranes.references
   bao:BAO_0003102 bao:BAO_0003064 #has role target
 }
@@ -55,7 +55,7 @@ mmdbint:membrane{
 mmdbint:method{
   rdf:type bao:BAO_0002753; #assay method component, should be BAO_0002202 (assay design method) but we need consider computational data
   rdfs:label xsd:string?; #MySQL methods.name
-  dc:description xsd:html?; #MySQL methods.description
+  dc:description rdf:html?; #MySQL methods.description
   dcterms:bibliographicCitation xsd:string?; #MySQL methods.references
 }
 
