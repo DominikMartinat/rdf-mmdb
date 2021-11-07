@@ -24,7 +24,7 @@ mmdbref:publication{
   bibo:pages xsd:string?; #MySQL publications.page
   fabio:hasPublicationYear xsd:integer?; #MySQL publications.year
   dcterms:issued xsd:date?; #MySQL publicated_date #publications.publicated_date
-  cito:isCitedAsDataSourceBy [mmdbint:interaction mmdbtra:transporter_assay]*;#[@mmdbint:interaction @mmdbtran:transporter_assay]* i'm probablz doing something wrong
+  cito:isCitedAsDataSourceBy [mmdbint:interaction mmdbtra:transporter_assay]*;#[@mmdbint:interaction @mmdbtran:transporter_assay]* i'm probably doing something wrong
   dcterms:subject @mmdbsub:substance* #MySQL substances.id WHERE interaction.id_reference = publication.id AND interaction.id_substance = substance.id
 }
 
