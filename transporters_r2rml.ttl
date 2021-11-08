@@ -11,7 +11,7 @@
 @prefix bao: <http://www.bioassayontology.org/bao#>.
 @prefix repr: <https://w3id.org/reproduceme#>.
 @prefix rr: <http://www.w3.org/ns/r2rml#>.
-@prefix temp: <docasne>. #zatim bez IRI
+@prefix temp: <http://rdf.molmedb.upol.cz/vocabulary#>. #zatim bez IRI
 
 <#TriplesMap1>
   rr:logicalTable [ rr:tableName "transporters" ];

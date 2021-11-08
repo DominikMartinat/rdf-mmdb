@@ -10,7 +10,7 @@ PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX dwc: <http://rs.tdwg.org/dwc/terms/>
 PREFIX bao: <http://www.bioassayontology.org/bao#>
 PREFIX repr: <https://w3id.org/reproduceme#>
-PREFIX temp: <temporary> #without IRI yet
+PREFIX temp: <http://rdf.molmedb.upol.cz/vocabulary#> #without IRI yet
 
 mmdbtra:transporter_assay{
   rdf:type bao:BAO_0003008;

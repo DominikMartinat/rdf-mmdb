@@ -7,7 +7,7 @@
 @prefix edam: <http://edamontology.org/>.
 @prefix bao: <http://www.bioassayontology.org/bao#>.
 @prefix rr: <http://www.w3.org/ns/r2rml#>.
-@prefix temp: <temporary>. #IRIs yet missing
+@prefix temp: <http://rdf.molmedb.upol.cz/vocabulary#>. #IRIs yet missing
 
 <#TriplesMap1>
   rr:logicalTable [ rr:tableName "substances" ];

@@ -6,7 +6,7 @@ PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 PREFIX obo: <http://purl.obolibrary.org/obo/>
 PREFIX edam: <http://edamontology.org/>
 PREFIX bao: <http://www.bioassayontology.org/bao#>
-PREFIX temp: <temporary> #IRIs yet missing
+PREFIX temp: <http://rdf.molmedb.upol.cz/vocabulary#> #IRIs yet missing
 
 
 

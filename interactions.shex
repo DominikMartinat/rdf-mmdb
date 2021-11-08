@@ -13,7 +13,7 @@ PREFIX repr: <https://w3id.org/reproduceme#>
 PREFIX dwc: <http://rs.tdwg.org/dwc/terms/>
 PREFIX dc: <http://purl.org/dc/elements/1.1/>
 PREFIX dcterms: <http://purl.org/dc/terms/>
-PREFIX temp: <temporary> #IRIS yet missing
+PREFIX temp: <http://rdf.molmedb.upol.cz/vocabulary#> #IRIS yet missing
 
 mmdbint:interaction{
   rdf:type bao:BAO_0000015; 

@@ -10,7 +10,7 @@
 @prefix fabio: <http://purl.org/spar/fabio/>.
 @prefix cito: <http://purl.org/spar/cito/>.
 @prefix rr: <http://www.w3.org/ns/r2rml#>.
-@prefix temp: <temporary>. #right IRI not found yet
+@prefix temp: <http://rdf.molmedb.upol.cz/vocabulary#>. #right IRI not found yet
 
 <#TriplesMap1>
   rr:logicalTable [ rr:tableName "publications" ];
