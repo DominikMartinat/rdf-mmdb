@@ -18,4 +18,6 @@ added R2RML mappings
 
 ready for Biohackathon Europe 2021
 
+added skos:exactMatch to external links of substances
+
 ![alt text](https://i.redd.it/f06bdrfictf31.jpg "honest work")

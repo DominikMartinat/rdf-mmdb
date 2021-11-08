@@ -6,6 +6,7 @@
 @prefix obo: <http://purl.obolibrary.org/obo/>.
 @prefix edam: <http://edamontology.org/>.
 @prefix bao: <http://www.bioassayontology.org/bao#>.
+@prefix skos: <http://www.w3.org/2004/02/skos/core#>.
 @prefix rr: <http://www.w3.org/ns/r2rml#>.
 @prefix temp: <http://rdf.molmedb.upol.cz/vocabulary#>. #IRIs yet missing
 
@@ -66,6 +67,22 @@
   rr:predicateObjectMap [
     rr:predicate sio:SIO_000008;
     rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/substance/mmdb_MM{id}" ]
+  ];
+  rr:predicateObjectMap [
+    rr:predicate skos:exactMatch;
+    rr:objectMap [ rr:template "http://purl.obolibrary.org/obo/CHEBI_{chEBI}" ]
+  ];
+  rr:predicateObjectMap [
+    rr:predicate skos:exactMatch;
+    rr:objectMap [ rr:template "http://rdf.ncbi.nlm.nih.gov/pubchem/compound/CID{pubchem}" ]
+  ];
+  rr:predicateObjectMap [
+    rr:predicate skos:exactMatch;
+    rr:objectMap [ rr:template "https://rdf.wwpdb.org/cc/{pdb}/chem_comp/{pdb}" ]
+  ];
+  rr:predicateObjectMap [
+    rr:predicate skos:exactMatch;
+    rr:objectMap [ rr:template "http://rdf.ebi.ac.uk/resource/chembl/molecule/{chEMBL}" ]
   ].
 
 <#TriplesMap2>
