@@ -1,0 +1,47 @@
+﻿<?xml version="1.0"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+         xmlns:obo="http://purl.obolibrary.org/obo/"
+         xmlns:owl="http://www.w3.org/2002/07/owl#">
+  
+  <owl:Class rdf:about="http://rdf.molmedb.upol.cz/vocabulary#membrane_model">
+    <rdfs:subClassOf rdf:resource="http://www.bioassayontology.org/bao#BAO_0003114"/>
+    <!-- should subclass of BAO_0003111 to complz with BAO_0000015 restrictions but it is not macromolecule -->
+    <obo:IAO_0000115>Model of biological membrane used in experimental and computational assays of interactions of molecular entities
+      with membranes. Contains biological membranes, lipid membrane models, nonlipid membrane models (eg. octanol) etc.</obo:IAO_0000115>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">membrane model</rdfs:label>
+  </owl:Class>
+  
+  <owl:Class rdf:about="http://rdf.molmedb.upol.cz/vocabulary#source">
+    <!-- temporary class for data sources - literature, in house claculations, chembl,pubchem and so on...
+    superclass of dcterms:BibliographicResource -->
+    <obo:IAO_0000115>Source for data in interaction assay or transporter assay.</obo:IAO_0000115>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">data source</rdfs:label>
+  </owl:Class>
+  
+  <owl:Class rdf:about="http://rdf.molmedb.upol.cz/vocabulary#pdb_ligand_id">
+    <rdfs:subClassOf rdf:resource="http://semanticscience.org/resource/CHEMINF_000464"/>
+    <obo:IAO_0000115>Protein Data Bank ligand identifier</obo:IAO_0000115>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">PDB ligand id</rdfs:label>
+  </owl:Class>
+  
+  <owl:Class rdf:about="http://rdf.molmedb.upol.cz/vocabulary#molmedb_id">
+    <rdfs:subClassOf rdf:resource="http://semanticscience.org/resource/CHEMINF_000464"/>
+    <obo:IAO_0000115>MolMeDB molecule identifier</obo:IAO_0000115>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">MolMeDB molecule id</rdfs:label>
+  </owl:Class>
+  
+  <owl:Class rdf:about="http://rdf.molmedb.upol.cz/vocabulary#substrate_binding">
+    <rdfs:subClassOf rdf:resource="http://www.bioassayontology.org/bao#BAO_0000084"/>
+    <obo:IAO_0000115>Binding of ligand as a substrate.</obo:IAO_0000115>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">substrate binding</rdfs:label>
+    <!--This one can be completely wrong. Will be replaced soon probably-->           
+  </owl:Class>
+
+  <owl:Class rdf:about="http://rdf.molmedb.upol.cz/vocabulary#logk">
+    <rdfs:subClassOf rdf:resource="http://www.bioassayontology.org/bao#BAO_0002128"/>
+    <obo:IAO_0000115>Logarithm of partition coefficient membrane/water.</obo:IAO_0000115>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">LogK</rdfs:label>
+  </owl:Class>
+</rdf:RDF>
+

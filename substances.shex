@@ -5,12 +5,17 @@ PREFIX mmdbsub: <http://rdf.molmedb.upol.cz/substance/>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 PREFIX obo: <http://purl.obolibrary.org/obo/>
 PREFIX edam: <http://edamontology.org/>
+PREFIX bao: <http://www.bioassayontology.org/bao#>
+PREFIX temp: <http://rdf.molmedb.upol.cz/vocabulary#> #IRIs yet missing
+
 
 
 mmdbsub:substance{
-  rdf:type sio:SIO_011125; #molekula - nebo rdf:subclassOf??
-  rdfs:label xsd:string?; #substances.name
-  sio:SIO_000008 @mmdbsub:smiles_substance?; #has attribute ...
+  rdf:type bao:BAO_0000076; #screened entity, subclass of moleculare entity
+  bao:BAO_0003102 bao:BAO_0002001; #has role measured entity
+  bao:BAO_0003102 bao:BAO_0002932; #has role screened entity
+  rdfs:label xsd:string?; #MySQL substances.name
+  sio:SIO_000008 @mmdbsub:smiles_substance?;
   sio:SIO_000008 @mmdbsub:inchikey_substance?;
   sio:SIO_000008 @mmdbsub:molecularweight_substance?;
   sio:SIO_000008 @mmdbsub:logp_substance?;
@@ -21,77 +26,71 @@ mmdbsub:substance{
   sio:SIO_000008 @mmdbsub:chembl_substance?;
   sio:SIO_000008 @mmdbsub:mmdbid_substance;
   
-  #uzel pro dany MolMeDB identifier ma tyhle trojice kdyz existuje prislusny substance_links.identifier
-  #v takovem pripade ma jen typ, mmdb_id a tyhle dve trojice ohledne obsolescence
-  obo:IAO_0100001 @mmdbsub:substance?; #substance_links.id_substance
-  obo:IAO_0000231 obo:IAO_0000227?; #kdyz je replaced tak obsolescence reason je terms merged
+  #node for MolMeDB identifier is subject of these triples if corresponding substance_links.identifier exists
+  #in that case node is subject only for compulsory triplets and these two for obsolescence
+  obo:IAO_0100001 @mmdbsub:substance?; #MySQL substance_links.id_substance
+  obo:IAO_0000231 obo:IAO_0000227?; #if substance replaced then obsolescence reason is terms merged
   
   
 }
 
 #smiles
 mmdbsub:smiles_substance{
-  sio:SIO_000300 xsd:string; #substances.SMILES
+  sio:SIO_000300 xsd:string; #MySQL substances.SMILES
   rdf:type sio:CHEMINF_000018;
 }
 
 #inchikey
 mmdbsub:inchikey_substance{
-  sio:SIO_000300 xsd:string; #substances.inchikey
+  sio:SIO_000300 xsd:string; #MySQL substances.inchikey
   rdf:type sio:CHEMINF_000059
 }
 
 #MW
 mmdbsub:molecularweight_substance{
- sio:SIO_000300 xsd:float; #substances.MW
- rdf:type sio:CHEMINF_000216; #average molecular weight descriptor
- sio:SIO_000221 obo:UO_0000055 #has unit molar mass unit
+ sio:SIO_000300 xsd:double; #MySQL substances.MW
+ rdf:type sio:CHEMINF_000216;
+ sio:SIO_000221 obo:UO_0000055
 }
 
 #LogP
 mmdbsub:logp_substance{
-  sio:SIO_000300 xsd:float; #substances.LogP
-  rdf:type sio:CHEMINF_000251 #subclassy jsou nejake pres nejaky konkretni RDKIT a tak
+  sio:SIO_000300 xsd:double; #MySQL substances.LogP
+  rdf:type sio:CHEMINF_000251
 }
 
 #pubchem
 mmdbsub:pubchem_substance{
-  sio:SIO_000300 xsd:string; #substances.pubchem
+  sio:SIO_000300 xsd:string; #MySQL substances.pubchem
   rdf:type sio:CHEMINF_000140
 }
 
 #drugbank
 mmdbsub:drugbank_substance{
-  sio:SIO_000300 xsd:string; #substances.drugbanl
+  sio:SIO_000300 xsd:string; #MySQL substances.drugbank
   rdf:type sio:CHEMINF_000406
 }
 
 #chEBI
 mmdbsub:chebi_substance{
-  sio:SIO_000300 xsd:string; #substances.chEBI
+  sio:SIO_000300 xsd:string; #MySQL substances.chEBI
   rdf:type sio:CHEMINF_000407
 }
 
 #pdb
 mmdbsub:pdb_substance{
-  sio:SIO_000300 xsd:string; #substances.pdb
-#rdf:type edam:data_1127 zkusit zkontaktovat cheminf an zavedenu class pdb identifier
+  sio:SIO_000300 xsd:string; #MySQL substances.pdb
+  rdf:type temp:pdb_ligand_id #edam:data_1127 #needs IRI for pubchem ligand ID, not protein ID
 }
 
 #chembl
 mmdbsub:chembl_substance{
-  sio:SIO_000300 xsd:string; #substances.chEMBL
+  sio:SIO_000300 xsd:string; #MySQL substances.chEMBL
   rdf:type sio:CHEMINF_000412
 }
 
 #molmedb id
 mmdbsub:mmdbid_substance{
-  sio:SIO_000300 xsd:string; #substances.identifier a substance_link.identifier
-  rdf:type ?IRI
+  sio:SIO_000300 xsd:string; #MySQL substances.identifier OR substance_link.identifier
+  rdf:type temp:molmedb_id #need type for our ID
 }
-
-
-
-
-
-

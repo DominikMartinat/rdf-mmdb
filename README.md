@@ -3,22 +3,19 @@ RDF project for [MolMeDB](https://molmedb.upol.cz/). This repository was founded
 
 Shex files contain schema for data model. For syntax highlinghting https://www.weso.es/YASHE/ can be used.
 
-### schemas of RDF graphs
 
-09-09-2021
+7-November-2021
 
-#### substance
+float values switched to double
 
-![alt text](https://github.com/DominikMartinat/rdf-mmdb/blob/main/diagrams/diagram-substances.png "substance namespace")
+substance.shex, interactions.shex and transporters.shex made more compliant with BAO ontology requirements
 
-#### interaction
+comments translated into english
 
-![alt text](https://github.com/DominikMartinat/rdf-mmdb/blob/main/diagrams/diagram-interactions.png "interaction namespace")
+added file with temporary class definitions temp.rdfs
 
-#### transporter assay
+added R2RML mappings
 
-![alt text](https://github.com/DominikMartinat/rdf-mmdb/blob/main/diagrams/diagram-transporters.drawio.png "transporter assay namespace")
+ready for Biohackathon Europe 2021
 
-#### reference
-
-![alt text](https://github.com/DominikMartinat/rdf-mmdb/blob/main/diagrams/diagram-publications.drawio.png "reference namespace")
+![alt text](https://i.redd.it/f06bdrfictf31.jpg "honest work")

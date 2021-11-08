@@ -9,37 +9,31 @@ PREFIX dcterms: <http://purl.org/dc/terms/>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 PREFIX fabio: <http://purl.org/spar/fabio/>
 PREFIX cito: <http://purl.org/spar/cito/>
+PREFIX temp: <http://rdf.molmedb.upol.cz/vocabulary#> #right IRI not found yet
 
 mmdbref:publication{
-  rdf:type dcterms:BibliographicResource; # ale je tam pubchem a chembl napr.
-  dcterms:bibliographicCitation xsd:string?; #publications.citation
-  bibo:doi xsd:string?; #publications.doi
-  bibo:pmid xsd:string?; #publications.pmid
-  dcterms:title xsd:string?; #publications.title
+  rdf:type temp:source; #dcterms:BibliographicResource; # but sources like pubchem calculations and our in house calculations need to be included
+  dcterms:bibliographicCitation xsd:string?; #MySQL publications.citation
+  bibo:doi xsd:string?; #MySQL publications.doi
+  bibo:pmid xsd:string?; #MySQL publications.pmid
+  dcterms:title xsd:string?; #MySQL publications.title
   bibo:authorList @mmdbref:publication_authors?;
-  dcterms:isPartOf xsd:string?;# journal - nekde by mohlo byt neco specializovanejsiho #publications.journal
-  bibo:volume xsd:string?; #publications.volume
-  bibo:issue xsd:string?; #publications.issue
-  bibo:pages xsd:string?; #publications.page
-  fabio:hasPublicationYear xsd:integer?; #publications.year
-  dcterms:issued xsd:date?; #publicated_date #publications.publicated_date
-  #| total_passive_interactions tohle moc nevim jak poresit - slo by ale dat odkazy zpetne z literatury do interakci a substanci
-  #| total_active_interactions
-  #| total_substances 
-  # monza by byly lepsi odkazy na ty substance a interakce primo
-  
-  #itneraction.id WHERE interaction.id_reference = publications.id
-  #transporters.id WHERE transporters.id_reference = publications.id
-  cito:isCitedAsDataSourceBy [mmdbint:interaction mmdbtra:transporter_assay]*;#[@mmdbint:interaction @mmdbtran:transporter_assay]* nevim
-  #proc to YASHE nebere
-  dcterms:subject @mmdbsub:substance* #substances.id WHERE interaction.id_reference = publication.id AND interaction.id_substance = substance.id
+  dcterms:isPartOf xsd:string?;#MySQL publications.journal
+  bibo:volume xsd:string?; #MySQL publications.volume
+  bibo:issue xsd:string?; #MySQL publications.issue
+  bibo:pages xsd:string?; #MySQL publications.page
+  fabio:hasPublicationYear xsd:integer?; #MySQL publications.year
+  dcterms:issued xsd:date?; #MySQL publicated_date #publications.publicated_date
+  cito:isCitedAsDataSourceBy [mmdbint:interaction mmdbtra:transporter_assay]*;#[@mmdbint:interaction @mmdbtran:transporter_assay]* i'm probably doing something wrong
+  dcterms:subject @mmdbsub:substance* #MySQL substances.id WHERE interaction.id_reference = publication.id AND interaction.id_substance = substance.id
 }
 
 mmdbsub:substance{#susbtances.shex
 }
 
-mmdbref:publication_authors{ #kazda polozka listu autor - publications.authors - jmena oddelene carkou, potreba rozsekat a jako polozky senamu do first
+mmdbref:publication_authors{
+  #every item in list is author - MySQL publications.authors - names are delimited by "," needs to be parsed first
   rdf:type rdf:list;
   rdf:first xsd:string;
-  rdf:rest [mmdbref:publication_authors rdf:nil]#tohle nevim jestli je dobre zaznacene v shexu
+  rdf:rest [mmdbref:publication_authors rdf:nil] #don't really know how to describe a list in shex
 }

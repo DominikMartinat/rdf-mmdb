@@ -1,0 +1,110 @@
+@prefix cito: <http://purl.org/spar/cito/>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix bibo: <http://purl.org/ontology/bibo/>.
+@prefix mmdbref: <http://rdf.molmedb.upol.cz/reference/>.
+@prefix mmdbint: <http://rdf.molmedb.upol.cz/interaction/>.
+@prefix mmdbtra: <http://rdf.molmedb.upol.cz/transporter/>.
+@prefix mmdbsub: <http://rdf.molmedb.upol.cz/substance/>.
+@prefix dcterms: <http://purl.org/dc/terms/>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix fabio: <http://purl.org/spar/fabio/>.
+@prefix cito: <http://purl.org/spar/cito/>.
+@prefix rr: <http://www.w3.org/ns/r2rml#>.
+@prefix temp: <http://rdf.molmedb.upol.cz/vocabulary#>. #right IRI not found yet
+
+<#TriplesMap1>
+  rr:logicalTable [ rr:tableName "publications" ];
+  rr:subjectMap [
+    rr:template "http://rdf.molmedb.upol.cz/reference/{id}";
+    rr:class temp:source;
+  ];
+    rr:predicateObjectMap [
+    rr:predicate dcterms:bibliographicCitation;
+    rr:objectMap [ rr:column "citation" ]
+  ];
+    rr:predicateObjectMap [
+    rr:predicate bibo:doi;
+    rr:objectMap [ rr:column "doi"]
+  ];
+    rr:predicateObjectMap [
+    rr:predicate bibo:pmid;
+    rr:objectMap [ rr:column "pmid" ]
+  ];
+    rr:predicateObjectMap [
+    rr:predicate dcterms:title;
+    rr:objectMap [ rr:column "title" ]
+  ];
+    rr:predicateObjectMap [
+    rr:predicate bibo:authorList;
+    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/reference/publication_authors_{id}" ]
+  ];
+    rr:predicateObjectMap [
+    rr:predicate dcterms:isPartOf;
+    rr:objectMap [ rr:column "journal" ]
+  ];
+    rr:predicateObjectMap [
+    rr:predicate bibo:volume;
+    rr:objectMap [ rr:column "volume" ]
+  ];
+    rr:predicateObjectMap [
+    rr:predicate bibo:issue;
+    rr:objectMap [ rr:column "issue" ]
+  ];
+    rr:predicateObjectMap [
+    rr:predicate bibo:pages;
+    rr:objectMap [ rr:column "page" ]
+  ];
+    rr:predicateObjectMap [
+    rr:predicate fabio:hasPublicationYear;
+    rr:objectMap [ rr:column "year" ]
+  ];
+    rr:predicateObjectMap [
+    rr:predicate dcterms:issued;
+    rr:objectMap [ rr:column "publicated_date" ]
+  ].
+
+<#TriplesMap2>
+  rr:logicalTable [ rr:tableName "interaction" ];
+  rr:subjectMap [
+    rr:template "http://rdf.molmedb.upol.cz/reference/{id_reference}";
+    rr:class temp:source;
+  ];
+    rr:predicateObjectMap [
+    rr:predicate cito:isCitedAsDataSourceBy;
+    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/interaction/{id}" ]
+  ];
+    rr:predicateObjectMap [
+    rr:predicate dcterms:subject;
+    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/substance/MM{id_substance}" ]
+  ].
+                   
+<#TriplesMap3>
+  rr:logicalTable [ rr:tableName "transporters" ];
+  rr:subjectMap [
+    rr:template "http://rdf.molmedb.upol.cz/reference/{id_reference}";
+    rr:class temp:source;
+  ];
+    rr:predicateObjectMap [
+    rr:predicate cito:isCitedAsDataSourceBy;
+    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/{id}"]
+  ];
+    rr:predicateObjectMap [
+    rr:predicate dcterms:subject;
+    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/substance/MM{id_substance}" ]
+  ].
+
+#I have no idea how to do list of authors in R2RML. Names are in MySQL table single string delimited by column. Should be parsed somehow.
+#<#TriplesMap4>
+#  rr:logicalTable [ rr:tableName "publications" ];
+#  rr:subjectMap [
+#    rr:template "http://rdf.molmedb.upol.cz/reference/publication_authors_{id}";
+#    rr:class rdf:list;
+#  ];
+#    rr:predicateObjectMap [
+#    rr:predicate rdf:first;
+#    rr:objectMap [ rr:template ]
+#  ];
+#    rr:predicateObjectMap [
+#    rr:predicate rdf:rest;
+#    rr:objectMap [ rr:template  ]
+#  ].
