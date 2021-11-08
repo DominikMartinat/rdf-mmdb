@@ -6,6 +6,7 @@ PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 PREFIX obo: <http://purl.obolibrary.org/obo/>
 PREFIX edam: <http://edamontology.org/>
 PREFIX bao: <http://www.bioassayontology.org/bao#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 PREFIX temp: <http://rdf.molmedb.upol.cz/vocabulary#> #IRIs yet missing
 
 
@@ -25,6 +26,7 @@ mmdbsub:substance{
   sio:SIO_000008 @mmdbsub:pdb_substance?;
   sio:SIO_000008 @mmdbsub:chembl_substance?;
   sio:SIO_000008 @mmdbsub:mmdbid_substance;
+  skos:exactMatch IRI*;#external link
   
   #node for MolMeDB identifier is subject of these triples if corresponding substance_links.identifier exists
   #in that case node is subject only for compulsory triplets and these two for obsolescence
