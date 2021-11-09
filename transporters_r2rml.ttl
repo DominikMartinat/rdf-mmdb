@@ -235,7 +235,7 @@
   ].
 
 <#TriplesMap9>
-  rr:logicalTable [ rr:sqlQuerry "SELECT id, EC50, (LPAD(id,6,0)) padded_id FROM transporters WHERE EC50 IS NOT NULL;" ];
+  rr:logicalTable [ rr:sqlQuerry "SELECT id, IC50, (LPAD(id,6,0)) padded_id FROM transporters WHERE IC50 IS NOT NULL;" ];
   rr:subjectMap [
     rr:template "http://rdf.molmedb.upol.cz/transporter/transporter_measure_group_pic50_{padded_id}";
     rr:class bao:BAO_0000199;
