@@ -13,7 +13,7 @@
 <#TriplesMap1>
   rr:logicalTable [ rr:tableName "substances" ];
   rr:subjectMap [
-    rr:template "http://rdf.molmedb.upol.cz/substance/MM{id}";
+    rr:template "http://identifiers.org/molmedb/MM{id}";
     rr:class bao:BAO_0000076;
   ];
   rr:predicateObjectMap [
@@ -66,7 +66,7 @@
   ];
   rr:predicateObjectMap [
     rr:predicate sio:SIO_000008;
-    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/substance/mmdb_MM{id}" ]
+    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/substance/mmdbid_MM{id}" ]
   ];
   rr:predicateObjectMap [
     rr:predicate skos:exactMatch;
