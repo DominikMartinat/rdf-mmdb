@@ -14,22 +14,28 @@
 @prefix temp: <http://rdf.molmedb.upol.cz/vocabulary#>. #zatim bez IRI
 
 <#TriplesMap1>
-  rr:logicalTable [ rr:tableName "transporters" ];
+  rr:logicalTable [ rr:sqlQuerry """
+    SELECT id,
+      (LPAD(id,6,0)) padded_id,
+      (CASE WHEN LENGTH(id_substance)<5 THEN LPAD(id,5,0) ELSE id_substance END) padded_id_substance,
+      (LPAD(id_target,6,0)) padded_id_target,
+      (LPAD(id_reference,6,0)) padded_id_reference FROM transporters
+  """];
   rr:subjectMap [
-    rr:template "http://rdf.molmedb.upol.cz/transporter/{id}";
+    rr:template "http://rdf.molmedb.upol.cz/transporter/{padded_id}";
     rr:class bao:BAO_0003008;
   ];
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0090012;
-    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/substance/MM{id_substance}" ]
+    rr:objectMap [ rr:template "http://identifiers.org/molmedb/MM{padded_id_substance}" ]
   ];
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0090012;
-    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/target_{id_target}" ]
+    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/target_{padded_id_target}" ]
   ];
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000209;
-    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/transporter_measure_group_{id}" ]
+    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/transporter_measure_group_{padded_id}" ]
   ];
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000205;
@@ -37,50 +43,59 @@
   ];
     rr:predicateObjectMap [
     rr:predicate cito:citesAsDataSource;
-    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/reference/{id_reference}" ]
+    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/reference/{padded_id_reference}" ]
   ].
 
 <#TriplesMap2>
-  rr:logicalTable [ rr:tableName "transporters" ];
+  rr:logicalTable [ rr:sqlQuerry """
+    SELECT id, note,
+      (LPAD(id,6,0)) padded_id,
+      (CASE WHEN LENGTH(id_substance)<5 THEN LPAD(id,5,0) ELSE id_substance END) padded_id_substance,
+      (LPAD(id_target,6,0)) padded_id_target,
+      (CASE WHEN Km IS NULL THEN NULL ELSE LPAD(id,6,0) END) Km_id,
+      (CASE WHEN EC50 IS NULL THEN NULL ELSE LPAD(id,6,0) END) EC50_id,
+      (CASE WHEN Ki IS NULL THEN NULL ELSE LPAD(id,6,0) END) Ki_id,
+      (CASE WHEN IC50 IS NULL THEN NULL ELSE LPAD(id,6,0) END) IC50_id FROM transporters
+  """ ];
   rr:subjectMap [
-    rr:template "http://rdf.molmedb.upol.cz/transporter/transporter_measure_group_{id}";
+    rr:template "http://rdf.molmedb.upol.cz/transporter/transporter_measure_group_{padded_id}";
     rr:class bao:BAO_0000040;
   ];
     rr:predicateObjectMap [
     rr:predicate  bao:BAO_0000208;
-    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/transporter_measure_group_substrate_{id}" ]
+    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/transporter_measure_group_substrate_{padded_id}" ]
   ];
     rr:predicateObjectMap [
     rr:predicate  bao:BAO_0000208;
-    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/transporter_measure_group_inhibitor_{id}" ]
+    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/transporter_measure_group_inhibitor_{padded_id}" ]
   ];
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000208;
-    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/transporter_measure_group_pkm_{id}" ]
+    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/transporter_measure_group_pkm_{KM_id}" ]
   ];
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000208;
-    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/transporter_measure_group_pec50_{id}" ]
+    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/transporter_measure_group_pec50_{EC50_id}" ]
   ];
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000208;
-    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/transporter_measure_group_pki_{id}" ]
+    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/transporter_measure_group_pki_{Ki_id}" ]
   ];
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000208;
-    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/transporter_measure_group_pic50_{id}" ]
+    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/transporter_measure_group_pic50_{IC50_id}" ]
   ];
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0090012;
-    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/substance/MM{id_substance}" ]
+    rr:objectMap [ rr:template "http://identifiers.org/molmedb/MM{padded_id_substance}" ]
   ];
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0090012;
-    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/target_{id_target}" ]
+    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/target_{padded_id_target}" ]
   ];
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000426;
-    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/{id}" ]
+    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/{padded_id}" ]
   ];
     rr:predicateObjectMap [
     rr:predicate rdfs:comment;
@@ -88,9 +103,9 @@
   ].
 
 <#TriplesMap3>
-  rr:logicalTable [ rr:tableName "transporter_targets" ];
+  rr:logicalTable [ rr:querry "SELECT *, (LPAD(id,6,0)) padded_id FROM transporter_targets" ];
   rr:subjectMap [
-    rr:template "http://rdf.molmedb.upol.cz/transporter/target_{id}";
+    rr:template "http://rdf.molmedb.upol.cz/transporter/target_{padded_id}";
     rr:class bao:BAO_0000283;
   ];
     rr:predicateObjectMap [
@@ -108,13 +123,15 @@
 
 <#TriplesMap4>
   rr:logicalTable [ rr:sqlQuerry """ 
-    SELECT transporters.*, (CASE type
+    SELECT transporters.*,
+      (LPAD(id,6,0)) padded_id,
+      (CASE type
       WHEN 1 THEN 'PositiveResult'
       WHEN 2 THEN 'NegativeResult'
-      END) res FROM transporters
+      END) res FROM transporters WHERE type = 1 OR type = 2
   """];
   rr:subjectMap [
-    rr:template "http://rdf.molmedb.upol.cz/transporter/transporter_measure_group_substrate_{id}";
+    rr:template "http://rdf.molmedb.upol.cz/transporter/transporter_measure_group_substrate_{padded_id}";
     rr:class bao:BAO_0080024;
   ];
     rr:predicateObjectMap [
@@ -127,15 +144,17 @@
   ]; 
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000559;
-    rr:objectMap [ rr:constant "http://rdf.molmedb.upol.cz/transporter/transporter_measure_group_{id}" ]
+    rr:objectMap [ rr:constant "http://rdf.molmedb.upol.cz/transporter/transporter_measure_group_{padded_id}" ]
   ].
 
 <#TriplesMap5>
   rr:logicalTable [ rr:sqlQuerry """ 
-    SELECT transporters.*, (CASE type
+    SELECT transporters.*,
+      (LPAD(id,6,0)) padded_id,
+      (CASE type
       WHEN 3 THEN 'PositiveResult'
       WHEN 4 THEN 'NegativeResult'
-      END) res FROM transporters
+      END) res FROM transporters WHERE type = 3 or type = 4
   """];
   rr:subjectMap [
     rr:template "http://rdf.molmedb.upol.cz/transporter/transporter_measure_group_inhibitor_{id}";
@@ -155,9 +174,9 @@
   ].
 
 <#TriplesMap6>
-  rr:logicalTable [ rr:tableName "transporters" ];
+  rr:logicalTable [ rr:sqlQuerry "SELECT id, Km, (LPAD(id,6,0)) padded_id FROM transporters WHERE Km IS NOT NULL" ];
   rr:subjectMap [
-    rr:template "http://rdf.molmedb.upol.cz/transporter/transporter_measure_group_pkm_{id}";
+    rr:template "http://rdf.molmedb.upol.cz/transporter/transporter_measure_group_pkm_{padded_id}";
     rr:class bao:BAO_0000040;
   ];
     rr:predicateObjectMap [
@@ -170,13 +189,13 @@
   ];
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000559;
-    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/transporter_measure_group_{id}" ]
+    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/transporter_measure_group_{padded_id}" ]
   ].
 
 <#TriplesMap7>
-  rr:logicalTable [ rr:tableName "transporters" ];
+  rr:logicalTable [ rr:sqlQuerry "SELECT id, EC50, (LPAD(id,6,0)) padded_id FROM transporters WHERE EC50 IS NOT NULL;" ];
   rr:subjectMap [
-    rr:template "http://rdf.molmedb.upol.cz/transporter/transporter_measure_group_pec50_{id}";
+    rr:template "http://rdf.molmedb.upol.cz/transporter/transporter_measure_group_pec50_{padded_id}";
     rr:class bao:BAO_0002583;
   ];
     rr:predicateObjectMap [
@@ -185,7 +204,7 @@
   ];
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000559;
-    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/transporter_measure_group_{id}" ]
+    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/transporter_measure_group_{padded_id}" ]
   ];
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000196;
@@ -201,9 +220,9 @@
   ].
 
 <#TriplesMap8>
-  rr:logicalTable [ rr:tableName "transporters" ];
+  rr:logicalTable [ rr:sqlQuerry "SELECT id, Ki, (LPAD(id,6,0)) padded_id FROM transporters WHERE Ki IS NOT NULL;" ];
   rr:subjectMap [
-    rr:template "http://rdf.molmedb.upol.cz/transporter/transporter_measure_group_pki_{id}";
+    rr:template "http://rdf.molmedb.upol.cz/transporter/transporter_measure_group_pki_{padded_id}";
     rr:class bao:BAO_0190004;
   ];
     rr:predicateObjectMap [
@@ -212,18 +231,22 @@
   ];
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000559;
-    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/transporter_measure_group_{id}" ]
+    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/transporter_measure_group_{padded_id}" ]
   ].
 
 <#TriplesMap9>
-  rr:logicalTable [ rr:tableName "transporters" ];
+  rr:logicalTable [ rr:sqlQuerry "SELECT id, EC50, (LPAD(id,6,0)) padded_id FROM transporters WHERE EC50 IS NOT NULL;" ];
   rr:subjectMap [
-    rr:template "http://rdf.molmedb.upol.cz/transporter/transporter_measure_group_pic50_{id}";
+    rr:template "http://rdf.molmedb.upol.cz/transporter/transporter_measure_group_pic50_{padded_id}";
     rr:class bao:BAO_0000199;
   ];
     rr:predicateObjectMap [
-    rr:predicate bao:BAO_0000559;
+    rr:predicate bao:BAO_0002666;
     rr:objectMap [ rr:column "IC50"]
+  ];
+    rr:predicateObjectMap [
+    rr:predicate bao:BAO_0000559;
+    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/transporter_measure_group_{padded_id}" ]
   ];
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000196;

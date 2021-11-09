@@ -37,9 +37,6 @@ mmdbtra:transporter_assay_measure_group{
   bao:BAO_0090012 @mmdbsub:substance; #MySQL transporters.id_substance -> substance.id
   bao:BAO_0090012 @mmdbtra:target; #MySQLtransporters.id_target -> transporter_targets.id
   bao:BAO_0000426 @mmdbtra:transporter_assay;
-
-  rdfs:comment xsd:string?; #MySQL transporters.note
-
   #no detection method, no assay detection method, 
 }
 
