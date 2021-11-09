@@ -68,7 +68,7 @@
     SELECT id,
       (LPAD(id,6,0)) padded_id,
       (LPAD(id_reference,6,0)) padded_id_reference,
-      (CASE WHEN LENGTH(id_substance)<5 THEN LPAD(id,5,0) ELSE id_substance END) padded_id_substance
+      (CASE WHEN LENGTH(id_substance)<5 THEN LPAD(id,5,0) ELSE id_substance END) padded_id_substance FROM publications
   """];
   rr:subjectMap [
     rr:template "http://rdf.molmedb.upol.cz/reference/{padded_id_reference}";
@@ -87,7 +87,7 @@
     SELECT id,
       (LPAD(id,6,0)) padded_id,
       (LPAD(id_reference,6,0)) padded_id_reference,
-      (CASE WHEN LENGTH(id_substance)<5 THEN LPAD(id,5,0) ELSE id_substance END) padded_id_substance
+      (CASE WHEN LENGTH(id_substance)<5 THEN LPAD(id,5,0) ELSE id_substance END) padded_id_substance FROM publications
   """];
   rr:subjectMap [
     rr:template "http://rdf.molmedb.upol.cz/reference/{padded_id_reference}";
