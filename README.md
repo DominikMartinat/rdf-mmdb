@@ -4,7 +4,7 @@ RDF project for [MolMeDB](https://molmedb.upol.cz/). This repository was founded
 Shex files contain schema for data model. For syntax highlinghting https://www.weso.es/YASHE/ can be used.
 
 
-7-November-2021
+9-November-2021
 
 float values switched to double
 
@@ -19,5 +19,9 @@ added R2RML mappings
 ready for Biohackathon Europe 2021
 
 added skos:exactMatch to external links of substances
+
+tried to unify length of IDs in IRIs
+
+changed R2RML to avoid generating useless nodes
 
 ![alt text](https://i.redd.it/f06bdrfictf31.jpg "honest work")
