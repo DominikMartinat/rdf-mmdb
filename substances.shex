@@ -7,7 +7,6 @@ PREFIX obo: <http://purl.obolibrary.org/obo/>
 PREFIX edam: <http://edamontology.org/>
 PREFIX bao: <http://www.bioassayontology.org/bao#>
 PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
-PREFIX temp: <http://rdf.molmedb.upol.cz/vocabulary#> #IRIs yet missing
 
 
 
@@ -82,7 +81,7 @@ mmdbsub:chebi_substance{
 #pdb
 mmdbsub:pdb_substance{
   sio:SIO_000300 xsd:string; #MySQL substances.pdb
-  rdf:type temp:pdb_ligand_id #edam:data_1127 #needs IRI for pubchem ligand ID, not protein ID
+  rdf:type sio:CHEMINF_000572
 }
 
 #chembl
@@ -94,5 +93,5 @@ mmdbsub:chembl_substance{
 #molmedb id
 mmdbsub:mmdbid_substance{
   sio:SIO_000300 xsd:string; #MySQL substances.identifier OR substance_link.identifier
-  rdf:type temp:molmedb_id #need type for our ID
+  rdf:type sio:CHEMINF_000571
 }

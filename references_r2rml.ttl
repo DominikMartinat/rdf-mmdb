@@ -13,9 +13,9 @@
 @prefix temp: <http://rdf.molmedb.upol.cz/vocabulary#>. #right IRI not found yet
 
 <#TriplesMap1>
-  rr:logicalTable [ rr:tableName "publications" ];
+  rr:logicalTable [ rr:sqlQuerry "SELECT *, (LPAD(id,6,0)) padded_id FROM publications" ];
   rr:subjectMap [
-    rr:template "http://rdf.molmedb.upol.cz/reference/{id}";
+    rr:template "http://rdf.molmedb.upol.cz/reference/{padded_id}";
     rr:class temp:source;
   ];
     rr:predicateObjectMap [
@@ -36,7 +36,7 @@
   ];
     rr:predicateObjectMap [
     rr:predicate bibo:authorList;
-    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/reference/publication_authors_{id}" ]
+    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/reference/publication_authors_{padded_id}" ]
   ];
     rr:predicateObjectMap [
     rr:predicate dcterms:isPartOf;
@@ -64,33 +64,41 @@
   ].
 
 <#TriplesMap2>
-  rr:logicalTable [ rr:tableName "interaction" ];
+  rr:logicalTable [ rr:sqlQuerry """
+    SELECT id,
+      (LPAD(id,6,0)) padded_id,
+      (LPAD(id_reference,6,0)) padded_id_reference,
+      (CASE WHEN LENGTH(id_substance)<5 THEN LPAD(id,5,0) ELSE id_substance END) padded_id_substance
+  """];
   rr:subjectMap [
-    rr:template "http://rdf.molmedb.upol.cz/reference/{id_reference}";
-    rr:class temp:source;
+    rr:template "http://rdf.molmedb.upol.cz/reference/{padded_id_reference}";
   ];
     rr:predicateObjectMap [
     rr:predicate cito:isCitedAsDataSourceBy;
-    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/interaction/{id}" ]
+    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/interaction/{padded_id}" ]
   ];
     rr:predicateObjectMap [
     rr:predicate dcterms:subject;
-    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/substance/MM{id_substance}" ]
+    rr:objectMap [ rr:template "http://identifiers.org/molmedb/MM{padded_id_substance}" ]
   ].
                    
 <#TriplesMap3>
-  rr:logicalTable [ rr:tableName "transporters" ];
+  rr:logicalTable [ rr:sqlQuerry """
+    SELECT id,
+      (LPAD(id,6,0)) padded_id,
+      (LPAD(id_reference,6,0)) padded_id_reference,
+      (CASE WHEN LENGTH(id_substance)<5 THEN LPAD(id,5,0) ELSE id_substance END) padded_id_substance
+  """];
   rr:subjectMap [
-    rr:template "http://rdf.molmedb.upol.cz/reference/{id_reference}";
-    rr:class temp:source;
+    rr:template "http://rdf.molmedb.upol.cz/reference/{padded_id_reference}";
   ];
     rr:predicateObjectMap [
     rr:predicate cito:isCitedAsDataSourceBy;
-    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/{id}"]
+    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/{padded_id}"]
   ];
     rr:predicateObjectMap [
     rr:predicate dcterms:subject;
-    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/substance/MM{id_substance}" ]
+    rr:objectMap [ rr:template "http://identifiers.org/molmedb/MM{padded_id_substance}" ]
   ].
 
 #I have no idea how to do list of authors in R2RML. Names are in MySQL table single string delimited by column. Should be parsed somehow.
