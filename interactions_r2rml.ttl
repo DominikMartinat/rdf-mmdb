@@ -60,7 +60,7 @@
       (CASE WHEN LogK IS NULL THEN NULL ELSE LPAD(id,6,0) END) LogK_id,
       (CASE WHEN LogPerm IS NULL THEN NULL ELSE LPAD(id,6,0) END) LogPerm_id,
       (CASE WHEN temperature IS NULL THEN NULL ELSE LPAD(id,6,0) END) temperature_id,
-      (CASE WHEN charge IS NULL THEN NULL ELSE LPAD(id,6,0) END) charge FROM interaction
+      (CASE WHEN charge IS NULL THEN NULL ELSE LPAD(id,6,0) END) charge_id FROM interaction
   """];
   rr:subjectMap [
     rr:template "http://rdf.molmedb.upol.cz/interaction/measure_group_{padded_id}";
@@ -129,7 +129,7 @@
 <#TriplesMap4>
   rr:logicalTable [ rr:sqlQuerry "SELECT *, (LPAD(id,6,0)) padded_id FROM methods" ];
   rr:subjectMap [
-    rr:template "http://rdf.molmedb.upol.cz/interaction/method_{id}";
+    rr:template "http://rdf.molmedb.upol.cz/interaction/method_{padded_id}";
     rr:class bao:BAO_0002753;
   ];
     rr:predicateObjectMap [
