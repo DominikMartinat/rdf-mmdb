@@ -56,6 +56,7 @@
       (CASE WHEN LogPerm IS NULL THEN NULL ELSE id END) LogPerm_id,
       (CASE WHEN temperature IS NULL THEN NULL ELSE id END) temperature_id,
       (CASE WHEN charge IS NULL THEN NULL ELSE id END) charge_id FROM interaction
+
   """];
   rr:subjectMap [
     rr:template "http://rdf.molmedb.upol.cz/interaction/measure_group_{id}";
