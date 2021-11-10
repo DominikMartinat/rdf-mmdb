@@ -20,8 +20,12 @@ ready for Biohackathon Europe 2021
 
 added skos:exactMatch to external links of substances
 
-tried to unify length of IDs in IRIs
 
 changed R2RML to avoid generating useless nodes
+
+commented out has role and similar triplets - probably just anotation role in BAO ontology
+
+added has part link from membrane models to some of their components in CHEBI
+
 
 ![alt text](https://i.redd.it/f06bdrfictf31.jpg "honest work")

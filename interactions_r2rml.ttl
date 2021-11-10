@@ -208,3 +208,100 @@
     rr:predicate bao:BAO_0000559;
     rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/interaction/measure_group_{id}" ]
   ].
+
+####### ad hoc membrane to component map
+####### BAO_0090004 has part
+
+#1 DMPC
+<http://rdf.molmedb.upol.cz/interaction/membrane_1> bao:BAO_0090004 obo:CHEBI_45240.
+
+#2 SC mix -  mixture of free fatty acid (FFA 24:0), ceramide NS and cholesterol (in 1:1:1 ratio)
+<http://rdf.molmedb.upol.cz/interaction/membrane_2> bao:BAO_0090004 obo:CHEBI_28866, obo:CHEBI_16113. #ceramide NS missing
+
+#3 DOPC
+<http://rdf.molmedb.upol.cz/interaction/membrane_3> bao:BAO_0090004 obo:CHEBI_74669.
+
+#4 CERNS - ceramide ns?
+
+#13 EggPC - L-α-phosphatidylcholine (Egg, Chicken) or L-α-Lecithin is a mixture of phosphatidylcholines from egg. The distribution of
+#fatty acids shows that the closest single lipid is POPC
+<http://rdf.molmedb.upol.cz/interaction/membrane_13> bao:BAO_0090004 obo:CHEBI_73001. #there is more than POPC
+
+#14 DPPC
+<http://rdf.molmedb.upol.cz/interaction/membrane_14> bao:BAO_0090004 obo:CHEBI_72999.
+
+#15 POPC
+<http://rdf.molmedb.upol.cz/interaction/membrane_15> bao:BAO_0090004 obo:CHEBI_73001.
+
+#18 GENER -  method does not define specifically what membrane is used. 
+#19 BBB - Blood Brain Barrier membrane
+
+#20 SC_ML - Stratum corneum multilayer. major groups of lipids, namely free fatty acids (FFA), sterols (cholesterol and its derivatives) and ceramides (CER).
+<http://rdf.molmedb.upol.cz/interaction/membrane_20> bao:BAO_0090004 obo:CHEBI_16113. #there is way more than choleterol
+
+#21 CACO
+#23 GIT-0
+
+#24 PAMPA-skin  Its composition is 70% silicone and 30% isopropyl myristate (IPM).
+<http://rdf.molmedb.upol.cz/interaction/membrane_24> bao:BAO_0090004 obo:CHEBI_90027. #and silicone
+
+#25 PL-A mixture of phospholipids and alkanes
+
+#26 CHCl3
+<http://rdf.molmedb.upol.cz/interaction/membrane_26> bao:BAO_0090004 obo:CHEBI_35255.
+
+#27 DOPC_DOPE_CHOL
+<http://rdf.molmedb.upol.cz/interaction/membrane_27> bao:BAO_0090004 obo:CHEBI_74669, obo:CHEBI_74986, obo:CHEBI_16113.
+
+#28 SM_CHOL sphingomyelin : cholesterol in a 2:1 
+<http://rdf.molmedb.upol.cz/interaction/membrane_28> bao:BAO_0090004 obo:CHEBI_16113. #and sphingomyelin
+
+#29 Toluene
+<http://rdf.molmedb.upol.cz/interaction/membrane_29> bao:BAO_0090004 obo:17578.
+
+#31 SC -Stratum Corneum. corneocytes are embedded in a lipid matrix composed of ceramides (CER), cholesterol (Chol), and free fatty acids (FFA).
+<http://rdf.molmedb.upol.cz/interaction/membrane_31> bao:BAO_0090004 obo:CHEBI_16113. #and more than cholesterol
+
+#32 EYE-Cornea
+#33 EYE-Sclera
+#34 EYE-Conjunctiva
+#35 EYE-Stroma
+#36 EYE-Endothelium
+
+#37 n-Hexadecane
+<http://rdf.molmedb.upol.cz/interaction/membrane_37> bao:BAO_0090004 obo:CHEBI_45296.
+
+#38 LEC -Lecithin in n-dodecane
+<http://rdf.molmedb.upol.cz/interaction/membrane_38> bao:BAO_0090004 obo:CHEBI_28817. #and lecithin
+
+#39 BML - Bio (intestinal) mimetic lipid.  L-α-phosphatidylcholine (PC), L-α-phosphatidylethanolamine (PE),  L-α-phosphatidylserine (PS), #L-α-phosphatidylinositol (PI), cholesterol (CHO) and 1,7-octadiene.
+<http://rdf.molmedb.upol.cz/interaction/membrane_39> bao:BAO_0090004 obo:CHEBI_16113. #and more than cholesterol. 
+#1,7-octadiene missing in CHEBI
+
+#40 Jejunum
+#41 Sublingual mucous membrane
+#42 Caco2/MDCK
+
+#43 POPC:POPE (1:1)
+<http://rdf.molmedb.upol.cz/interaction/membrane_43> bao:BAO_0090004 obo:CHEBI_34083, obo:CHEBI_73001.
+
+#44 POPE 
+<http://rdf.molmedb.upol.cz/interaction/membrane_44> bao:BAO_0090004 obo:CHEBI_34083.
+
+#46 MDCK
+#47 CALU3
+
+#48 HBMEC - Human Brain Microvascular Endothelial Cells.Major lipid components of HBMEC are POPC, SLPC, SAPC, SOPE, SAPE, SAPS, SAPI, OSM #and cholesterol. 
+<http://rdf.molmedb.upol.cz/interaction/membrane_48> bao:BAO_0090004 obo:CHEBI_73001, obo:CHEBI_16113. #more than popc and cholesterol
+
+#49 DLPC
+<http://rdf.molmedb.upol.cz/interaction/membrane_49> bao:BAO_0090004 obo:CHEBI_65211.
+
+#51 DOPS
+<http://rdf.molmedb.upol.cz/interaction/membrane_51> bao:BAO_0090004 obo:CHEBI_60568.
+
+#52 DLPE #missing in CHEBI
+#53 DPhPC missing in CHEBI
+
+#54 1-octanol
+<http://rdf.molmedb.upol.cz/interaction/membrane_54> bao:BAO_0090004 obo:CHEBI_16188.
