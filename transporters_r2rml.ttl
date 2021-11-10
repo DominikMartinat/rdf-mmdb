@@ -174,7 +174,7 @@
   rr:logicalTable [ rr:sqlQuerry "SELECT * FROM transporters WHERE Km IS NOT NULL" ];
   rr:subjectMap [
     rr:template "http://rdf.molmedb.upol.cz/transporter/endpoint_pkm_{id}";
-    rr:class bao:BAO_0000040;
+    rr:class bao:BAO_0000477;
   ];
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0095007;
