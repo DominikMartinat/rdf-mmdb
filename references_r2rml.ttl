@@ -13,9 +13,9 @@
 @prefix temp: <http://rdf.molmedb.upol.cz/vocabulary#>. #right IRI not found yet
 
 <#TriplesMap1>
-  rr:logicalTable [ rr:sqlQuerry "SELECT *, (LPAD(id,6,0)) padded_id FROM publications" ];
+  rr:logicalTable [ rr:tableName "publications" ];
   rr:subjectMap [
-    rr:template "http://rdf.molmedb.upol.cz/reference/{padded_id}";
+    rr:template "http://rdf.molmedb.upol.cz/reference/{id}";
     rr:class temp:source;
   ];
     rr:predicateObjectMap [
@@ -36,7 +36,7 @@
   ];
     rr:predicateObjectMap [
     rr:predicate bibo:authorList;
-    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/reference/publication_authors_{padded_id}" ]
+    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/reference/publication_authors_{id}" ]
   ];
     rr:predicateObjectMap [
     rr:predicate dcterms:isPartOf;
@@ -65,17 +65,15 @@
 
 <#TriplesMap2>
   rr:logicalTable [ rr:sqlQuerry """
-    SELECT id,
-      (LPAD(id,6,0)) padded_id,
-      (LPAD(id_reference,6,0)) padded_id_reference,
-      (CASE WHEN LENGTH(id_substance)<5 THEN LPAD(id,5,0) ELSE id_substance END) padded_id_substance FROM publications
+    SELECT id, id_reference,
+      (CASE WHEN LENGTH(id_substance)<5 THEN LPAD(id_substance,5,0) ELSE id_substance END) padded_id_substance FROM interaction
   """];
   rr:subjectMap [
-    rr:template "http://rdf.molmedb.upol.cz/reference/{padded_id_reference}";
+    rr:template "http://rdf.molmedb.upol.cz/reference/{id_reference}";
   ];
     rr:predicateObjectMap [
     rr:predicate cito:isCitedAsDataSourceBy;
-    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/interaction/{padded_id}" ]
+    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/interaction/{id}" ]
   ];
     rr:predicateObjectMap [
     rr:predicate dcterms:subject;
@@ -84,17 +82,15 @@
                    
 <#TriplesMap3>
   rr:logicalTable [ rr:sqlQuerry """
-    SELECT id,
-      (LPAD(id,6,0)) padded_id,
-      (LPAD(id_reference,6,0)) padded_id_reference,
-      (CASE WHEN LENGTH(id_substance)<5 THEN LPAD(id,5,0) ELSE id_substance END) padded_id_substance FROM publications
+    SELECT id, id_reference,
+      (CASE WHEN LENGTH(id_substance)<5 THEN LPAD(id_substance,5,0) ELSE id_substance END) padded_id_substance FROM transporters
   """];
   rr:subjectMap [
-    rr:template "http://rdf.molmedb.upol.cz/reference/{padded_id_reference}";
+    rr:template "http://rdf.molmedb.upol.cz/reference/{id_reference}";
   ];
     rr:predicateObjectMap [
     rr:predicate cito:isCitedAsDataSourceBy;
-    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/{padded_id}"]
+    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/{id}"]
   ];
     rr:predicateObjectMap [
     rr:predicate dcterms:subject;
