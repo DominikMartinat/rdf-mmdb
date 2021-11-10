@@ -20,7 +20,7 @@ mmdbint:interaction{
   bao:BAO_0090012 @mmdbint:membrane; #MySQL interaction.id_membrane -> membranes.id
   bao:BAO_0090012 @mmdbsub:substance; #MySQL interaction.id_substance -> substances.id
   bao:BAO_0000209 @mmdbint:interaction_measure_group;
-  bao:BAO_0000205 bao:BAO_0000100; #has assay format small-molecule physicochemical format
+  #bao:BAO_0000205 bao:BAO_0000100; #has assay format small-molecule physicochemical format
   cito:citesAsDataSource  @mmdbref:publication?; #MySQL interaction.id_reference -> publications.id
   
 
@@ -49,7 +49,7 @@ mmdbint:membrane{
   rdfs:label xsd:string?; #MySQL membranes.name
   dc:description rdf:html?; #MySQL membranes.description
   dcterms:bibliographicCitation xsd:string?; #MySQL membranes.references
-  bao:BAO_0003102 bao:BAO_0003064 #has role target
+#  bao:BAO_0003102 bao:BAO_0003064 #has role target
 }
 
 mmdbint:method{

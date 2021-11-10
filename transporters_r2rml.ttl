@@ -34,10 +34,11 @@
     rr:predicate bao:BAO_0000209;
     rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/transporter_measure_group_{id}" ]
   ];
-    rr:predicateObjectMap [
-    rr:predicate bao:BAO_0000205;
-    rr:objectMap [ rr:constant bao:BAO_0000224 ]
-  ];
+# probably not needed
+#    rr:predicateObjectMap [
+#    rr:predicate bao:BAO_0000205;
+#    rr:objectMap [ rr:constant bao:BAO_0000224 ]
+#  ];
     rr:predicateObjectMap [
     rr:predicate cito:citesAsDataSource;
     rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/reference/{id_reference}" ]
@@ -112,11 +113,12 @@
     rr:predicateObjectMap [
     rr:predicate  obo:ERO_0000547;
     rr:objectMap [ rr:column "uniprot_id" ]
-  ];
-    rr:predicateObjectMap [
-    rr:predicate  bao:BAO_0003102;
-    rr:objectMap [ rr:constant bao:BAO_0003064]
   ].
+# has role target - might or might not be needed
+#    rr:predicateObjectMap [
+#    rr:predicate  bao:BAO_0003102;
+#    rr:objectMap [ rr:constant bao:BAO_0003064]
+#  ].
 
 <#TriplesMap4>
   rr:logicalTable [ rr:sqlQuerry """ 
@@ -201,14 +203,16 @@
     rr:predicate bao:BAO_0000559;
     rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/transporter_measure_group_{id}" ]
   ];
-    rr:predicateObjectMap [
-    rr:predicate bao:BAO_0000196;
-    rr:objectMap [ rr:constant bao:BAO_0000087 ]
-  ];
-    rr:predicateObjectMap [
-    rr:predicate bao:BAO_0000337;
-    rr:objectMap [ rr:constant bao:BAO_0000346 ]
-  ];
+# has mode of action activation
+#    rr:predicateObjectMap [
+#    rr:predicate bao:BAO_0000196;
+#    rr:objectMap [ rr:constant bao:BAO_0000087 ]
+#  ];
+#has percent response 50 percent activation
+#    rr:predicateObjectMap [
+#    rr:predicate bao:BAO_0000337;
+#    rr:objectMap [ rr:constant bao:BAO_0000346 ]
+#  ];
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000183;
     rr:objectMap [ rr:column obo:UO_0000062 ]
@@ -243,18 +247,21 @@
     rr:predicate bao:BAO_0000559;
     rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/transporter_measure_group_{id}" ]
   ];
-    rr:predicateObjectMap [
-    rr:predicate bao:BAO_0000196;
-    rr:objectMap [ rr:constant bao:BAO_0000091 ]
-  ];
-    rr:predicateObjectMap [
-    rr:predicate bao:BAO_0000337;
-    rr:objectMap [ rr:constant bao:BAO_0000347 ]
-  ];
-    rr:predicateObjectMap [
-    rr:predicate bao:BAO_0001105;
-    rr:objectMap [ rr:constant bao:BAO_0000065 ]
-  ];
+#has mode of action inhibition
+#    rr:predicateObjectMap [
+#    rr:predicate bao:BAO_0000196;
+#    rr:objectMap [ rr:constant bao:BAO_0000091 ]
+#  ];
+#has percent response 50 percent activation
+#    rr:predicateObjectMap [
+#    rr:predicate bao:BAO_0000337;
+#    rr:objectMap [ rr:constant bao:BAO_0000347 ]
+#  ];
+#based on normalization % inhibition normalization
+#    rr:predicateObjectMap [
+#    rr:predicate bao:BAO_0001105;
+#    rr:objectMap [ rr:constant bao:BAO_0000065 ]
+#  ];
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000183;
     rr:objectMap [ rr:constant obo:UO_0000062 ]

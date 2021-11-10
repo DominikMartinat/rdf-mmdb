@@ -33,14 +33,15 @@
     rr:predicate rdfs:label;
     rr:objectMap [ rr:column "name" ];
   ];
-  rr:predicateObjectMap [
-    rr:predicate bao:BAO_0003102;
-    rr:objectMap [ rr:constant bao:BAO_0002001 ]
-  ];
-  rr:predicateObjectMap [
-    rr:predicate bao:BAO_0003102;
-    rr:objectMap [ rr:constant bao:BAO_0002932 ]
-  ];
+#has role measured entity and screened entity - might or might not be needed
+#  rr:predicateObjectMap [
+#    rr:predicate bao:BAO_0003102;
+#    rr:objectMap [ rr:constant bao:BAO_0002001 ]
+#  ];
+#  rr:predicateObjectMap [
+#    rr:predicate bao:BAO_0003102;
+#    rr:objectMap [ rr:constant bao:BAO_0002932 ]
+#  ];
   rr:predicateObjectMap [
     rr:predicate sio:SIO_000008;
     rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/substance/smiles_MM{SMILES_id}" ]

@@ -38,10 +38,11 @@
     rr:predicate bao:BAO_0000209;
     rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/interaction/measure_group_{id}"  ]
   ];
-    rr:predicateObjectMap [
-    rr:predicate bao:BAO_0000205;
-    rr:objectMap [ rr:constant bao:BAO_0000100 ]
-  ];
+# probably not needed
+#    rr:predicateObjectMap [
+#    rr:predicate bao:BAO_0000205;
+#    rr:objectMap [ rr:constant bao:BAO_0000100 ]
+#  ];
     rr:predicateObjectMap [
     rr:predicate cito:citesAsDataSource;
     rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/reference/{id_reference}"  ]
@@ -114,11 +115,12 @@
     rr:predicateObjectMap [
     rr:predicate dcterms:bibliographicCitation;
     rr:objectMap [ rr:column "references" ]
-  ];
-    rr:predicateObjectMap [
-    rr:predicate bao:BAO_0003102;
-    rr:objectMap [ rr:constant bao:BAO_0003064 ]
   ].
+# has role target - might or might not be needed
+#    rr:predicateObjectMap [
+#    rr:predicate bao:BAO_0003102;
+#    rr:objectMap [ rr:constant bao:BAO_0003064 ]
+#  ].
 
 <#TriplesMap4>
   rr:logicalTable [ rr:tableName "methods" ];

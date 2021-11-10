@@ -12,8 +12,8 @@ PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 
 mmdbsub:substance{
   rdf:type bao:BAO_0000076; #screened entity, subclass of moleculare entity
-  bao:BAO_0003102 bao:BAO_0002001; #has role measured entity
-  bao:BAO_0003102 bao:BAO_0002932; #has role screened entity
+#  bao:BAO_0003102 bao:BAO_0002001; #has role measured entity
+#  bao:BAO_0003102 bao:BAO_0002932; #has role screened entity
   rdfs:label xsd:string?; #MySQL substances.name
   sio:SIO_000008 @mmdbsub:smiles_substance?;
   sio:SIO_000008 @mmdbsub:inchikey_substance?;
