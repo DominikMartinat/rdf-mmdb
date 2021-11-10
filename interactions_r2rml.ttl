@@ -19,14 +19,11 @@
 
 <#TriplesMap1>
   rr:logicalTable [ rr:sqlQuerry """
-    SELECT id,
-      (LPAD(id,6,0)) padded_id,
-      (CASE WHEN LENGTH(id_substance)<5 THEN LPAD(id,5,0) ELSE id_substance END) padded_id_substance,
-      (LPAD(id_membrane,6,0) padded_id_membrane,
-      (LPAD(id_reference,6,0) padded_id_reference from interactions
+    SELECT *,
+      (CASE WHEN LENGTH(id_substance)<5 THEN LPAD(id,5,0) ELSE id_substance END) padded_id_substance FROM interactions
   """];
   rr:subjectMap [
-    rr:template "http://rdf.molmedb.upol.cz/interaction/{padded_id}";
+    rr:template "http://rdf.molmedb.upol.cz/interaction/{id}";
     rr:class bao:BAO_0000015;
   ];
     rr:predicateObjectMap [
@@ -35,11 +32,11 @@
   ];
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0090012;
-    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/interaction/membrane_{padded_id_membrane}"  ]
+    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/interaction/membrane_{id_membrane}"  ]
   ];
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000209;
-    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/interaction/measure_group_{padded_id}"  ]
+    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/interaction/measure_group_{id}"  ]
   ];
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000205;
@@ -47,36 +44,33 @@
   ];
     rr:predicateObjectMap [
     rr:predicate cito:citesAsDataSource;
-    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/reference/{padded_id_reference}"  ]
+    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/reference/{id_reference}"  ]
   ].
 
 <#TriplesMap2>
   rr:logicalTable [ rr:sqlQuerry """
-    SELECT id, comment,
-      (LPAD(id,6,0)) padded_id,
+    SELECT *,
       (CASE WHEN LENGTH(id_substance)<5 THEN LPAD(id,5,0) ELSE id_substance END) padded_id_substance,
-      (LPAD(id_membrane,6,0)) id_membrane,
-      (LPAD(id_method,6,0)) id_method,
-      (CASE WHEN LogK IS NULL THEN NULL ELSE LPAD(id,6,0) END) LogK_id,
-      (CASE WHEN LogPerm IS NULL THEN NULL ELSE LPAD(id,6,0) END) LogPerm_id,
-      (CASE WHEN temperature IS NULL THEN NULL ELSE LPAD(id,6,0) END) temperature_id,
-      (CASE WHEN charge IS NULL THEN NULL ELSE LPAD(id,6,0) END) charge_id FROM interaction
+      (CASE WHEN LogK IS NULL THEN NULL ELSE id END) LogK_id,
+      (CASE WHEN LogPerm IS NULL THEN NULL ELSE id END) LogPerm_id,
+      (CASE WHEN temperature IS NULL THEN NULL ELSE id END) temperature_id,
+      (CASE WHEN charge IS NULL THEN NULL ELSE id END) charge_id FROM interaction
   """];
   rr:subjectMap [
-    rr:template "http://rdf.molmedb.upol.cz/interaction/measure_group_{padded_id}";
+    rr:template "http://rdf.molmedb.upol.cz/interaction/measure_group_{id}";
     rr:class bao:BAO_0000040;
   ];
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000212;
-    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/interaction/method_{padded_id_method}" ]
+    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/interaction/method_{id_method}" ]
   ];  
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000208;
-    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/interaction/measure_group_logk_{LogK_id}" ]
+    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/interaction/endpoint_logk_{LogK_id}" ]
   ]; 
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000208;
-    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/interaction/measure_group_logperm_{LogPerm_id}" ]
+    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/interaction/endpoint_logperm_{LogPerm_id}" ]
   ]; 
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0090012;
@@ -84,11 +78,11 @@
   ];
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0090012;
-    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/interaction/membrane_{padded_id_membrane}"  ]
+    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/interaction/membrane_{id_membrane}"  ]
   ];
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000426;
-    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/interaction/{padded_id}" ]
+    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/interaction/{id}" ]
   ]; 
     rr:predicateObjectMap [
     rr:predicate repr:hasExperimentalCondition;
@@ -104,9 +98,9 @@
   ].
 
 <#TriplesMap3>
-  rr:logicalTable [ rr:sqlQuerry "SELECT *, (LPAD(id,6,0)) padded_id FROM membranes" ];
+  rr:logicalTable [ rr:tableName "membranes" ];
   rr:subjectMap [
-    rr:template "http://rdf.molmedb.upol.cz/interaction/membrane_{padded_id}";
+    rr:template "http://rdf.molmedb.upol.cz/interaction/membrane_{id}";
     rr:class temp:membrane_model;
   ];
     rr:predicateObjectMap [
@@ -127,9 +121,9 @@
   ].
 
 <#TriplesMap4>
-  rr:logicalTable [ rr:sqlQuerry "SELECT *, (LPAD(id,6,0)) padded_id FROM methods" ];
+  rr:logicalTable [ rr:tableName "methods" ];
   rr:subjectMap [
-    rr:template "http://rdf.molmedb.upol.cz/interaction/method_{padded_id}";
+    rr:template "http://rdf.molmedb.upol.cz/interaction/method_{id}";
     rr:class bao:BAO_0002753;
   ];
     rr:predicateObjectMap [
@@ -146,9 +140,9 @@
   ].
 
 <#TriplesMap5>
-  rr:logicalTable [ rr:sqlQuerry "SELECT id, (LPAD(id,6,0)) padded_id, temperature FROM interaction WHERE temperature IS NOT NULL" ];
+  rr:logicalTable [ rr:tableName "interaction" ];
   rr:subjectMap [
-    rr:template "http://rdf.molmedb.upol.cz/interaction/measure_group_temperature_{padded_id}";
+    rr:template "http://rdf.molmedb.upol.cz/interaction/measure_group_temperature_{id}";
     rr:class obo:PATO_0000146;
   ];
     rr:predicateObjectMap [
@@ -161,9 +155,9 @@
   ].
 
 <#TriplesMap6>
-  rr:logicalTable [ rr:sqlQuerry "SELECT id, (LPAD(id,6,0)) padded_id, charge FROM interaction WHERE charge IS NOT NULL" ];
+  rr:logicalTable [ rr:tableName "interaction" ];
   rr:subjectMap [
-    rr:template "http://rdf.molmedb.upol.cz/interaction/measure_group_mol_charge_{padded_id}";
+    rr:template "http://rdf.molmedb.upol.cz/interaction/measure_group_mol_charge_{id}";
     rr:class edam:data_0845;
   ];
     rr:predicateObjectMap [
@@ -172,13 +166,13 @@
   ].
 
 <#TriplesMap7>
-  rr:logicalTable [ rr:sqlQuerry "SELECT id, (LPAD(id,6,0)) padded_id, LogK FROM interaction WHERE LogK IS NOT NULL" ];
+  rr:logicalTable [ rr:tableName "interaction" ];
   rr:subjectMap [
-    rr:template "http://rdf.molmedb.upol.cz/interaction/measure_group_logk_{padded_id}";
+    rr:template "http://rdf.molmedb.upol.cz/interaction/endpoint_logk_{id}";
     rr:class temp:logk;
   ];
     rr:predicateObjectMap [
-    rr:predicate sio:SIO_000300;
+    rr:predicate bao:BAO_0095007;
     rr:objectMap [ rr:column "LogK" ]
   ];
     rr:predicateObjectMap [
@@ -187,17 +181,17 @@
   ];
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000559;
-    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/interaction/measure_group_{padded_id}" ]
+    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/interaction/measure_group_{id}" ]
   ].
 
 <TriplesMap8>
-  rr:logicalTable [ rr:sqlQuerry "SELECT id,, (LPAD(id,6,0)) padded_id, LogPerm FROM interaction WHERE LogPerm IS NOT NULL" ];
+  rr:logicalTable [ rr:tableName "interaction" ];
   rr:subjectMap [
-    rr:template "http://rdf.molmedb.upol.cz/interaction/measure_group_logperm_{padded_id}";
+    rr:template "http://rdf.molmedb.upol.cz/interaction/endpoint_logperm_{id}";
     rr:class bao:BAO_0002808;
   ];
     rr:predicateObjectMap [
-    rr:predicate sio:SIO_000300;
+    rr:predicate bao:BAO_0095007;
     rr:objectMap [ rr:column "LogPerm" ]
   ];
     rr:predicateObjectMap [
@@ -210,5 +204,5 @@
   ];
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000559;
-    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/interaction/measure_group_{padded_id}" ]
+    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/interaction/measure_group_{id}" ]
   ].
