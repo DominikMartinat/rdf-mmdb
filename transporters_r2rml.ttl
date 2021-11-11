@@ -188,7 +188,7 @@ FROM transporters AS tr, transporter_targets AS ta WHERE tr.id_target = ta.id
   ].
 
 <#TriplesMap7>
-  rr:logicalTable [ rr:sqlQuerry "SELECT * FROM transporters WHERE EC50 IS NOT NULL;" ];
+  rr:logicalTable [ rr:sqlQuerry "SELECT * FROM transporters WHERE EC50 IS NOT NULL" ];
   rr:subjectMap [
     rr:template "http://rdf.molmedb.upol.cz/transporter/endpoint_pec50_{id}";
     rr:class bao:BAO_0002583;
@@ -218,7 +218,7 @@ FROM transporters AS tr, transporter_targets AS ta WHERE tr.id_target = ta.id
 #  ].
 
 <#TriplesMap8>
-  rr:logicalTable [ rr:sqlQuerry "SELECT * FROM transporters WHERE Ki IS NOT NULL;" ];
+  rr:logicalTable [ rr:sqlQuerry "SELECT * FROM transporters WHERE Ki IS NOT NULL" ];
   rr:subjectMap [
     rr:template "http://rdf.molmedb.upol.cz/transporter/endpoint_pki_{id}";
     rr:class bao:BAO_0190004;
@@ -233,7 +233,7 @@ FROM transporters AS tr, transporter_targets AS ta WHERE tr.id_target = ta.id
   ].
 
 <#TriplesMap9>
-  rr:logicalTable [ rr:sqlQuerry "SELECT * FROM transporters WHERE IC50 IS NOT NULL;" ];
+  rr:logicalTable [ rr:sqlQuerry "SELECT * FROM transporters WHERE IC50 IS NOT NULL" ];
   rr:subjectMap [
     rr:template "http://rdf.molmedb.upol.cz/transporter/endpoint_pic50_{id}";
     rr:class bao:BAO_0000199;
