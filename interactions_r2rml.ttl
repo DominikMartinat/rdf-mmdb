@@ -20,7 +20,7 @@
 <#TriplesMap1>
   rr:logicalTable [ rr:sqlQuerry """
     SELECT *,
-      (CASE WHEN LENGTH(id_substance)<5 THEN LPAD(id_substance,5,0) ELSE id_substance END) padded_id_substance FROM interactions
+      (CASE WHEN LENGTH(id_substance)<5 THEN LPAD(id_substance,5,0) ELSE id_substance END) padded_id_substance FROM interaction
   """];
   rr:subjectMap [
     rr:template "http://rdf.molmedb.upol.cz/interaction/{id}";
