@@ -29,5 +29,7 @@ added has part link from membrane models to some of their components in CHEBI
 
 switched transporter IRIS to uniprot IRIS
 
+split membrane mapping and interactions_r2rml to not interfere with r2rml
+
 
 ![alt text](https://i.redd.it/f06bdrfictf31.jpg "honest work")

@@ -200,7 +200,7 @@ FROM transporters AS tr, transporter_targets AS ta WHERE tr.id_target = ta.id
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000559;
     rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/transporter_measure_group_{id}" ]
-  ];
+  ].
 # has mode of action activation
 #    rr:predicateObjectMap [
 #    rr:predicate bao:BAO_0000196;
@@ -211,10 +211,11 @@ FROM transporters AS tr, transporter_targets AS ta WHERE tr.id_target = ta.id
 #    rr:predicate bao:BAO_0000337;
 #    rr:objectMap [ rr:constant bao:BAO_0000346 ]
 #  ];
-    rr:predicateObjectMap [
-    rr:predicate bao:BAO_0000183;
-    rr:objectMap [ rr:column obo:UO_0000062 ]
-  ].
+#needs better unit - something like -log(molar conc.)
+#    rr:predicateObjectMap [
+#    rr:predicate bao:BAO_0000183;
+#    rr:objectMap [ rr:column obo:UO_0000062 ]
+#  ].
 
 <#TriplesMap8>
   rr:logicalTable [ rr:sqlQuerry "SELECT * FROM transporters WHERE Ki IS NOT NULL;" ];
@@ -244,7 +245,7 @@ FROM transporters AS tr, transporter_targets AS ta WHERE tr.id_target = ta.id
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000559;
     rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/transporter_measure_group_{id}" ]
-  ];
+  ].
 #has mode of action inhibition
 #    rr:predicateObjectMap [
 #    rr:predicate bao:BAO_0000196;
@@ -260,7 +261,8 @@ FROM transporters AS tr, transporter_targets AS ta WHERE tr.id_target = ta.id
 #    rr:predicate bao:BAO_0001105;
 #    rr:objectMap [ rr:constant bao:BAO_0000065 ]
 #  ];
-    rr:predicateObjectMap [
-    rr:predicate bao:BAO_0000183;
-    rr:objectMap [ rr:constant obo:UO_0000062 ]
-  ].
+#needs better unit - something like -log(molar conc.)
+#    rr:predicateObjectMap [
+#    rr:predicate bao:BAO_0000183;
+#    rr:objectMap [ rr:constant obo:UO_0000062 ]
+#  ].
