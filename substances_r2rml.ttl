@@ -96,7 +96,7 @@
   ];
   rr:predicateObjectMap [
     rr:predicate skos:exactMatch;
-    rr:objectMap [ rr:template "http://rdf.ebi.ac.uk/resource/chembl/molecule/{chEMBL}" ]
+    rr:objectMap [ rr:template "http://rdf.ebi.ac.uk/resource/chembl/molecule/{chEMBL}" ] ###make this one consistent too
   ].
 
 <#TriplesMap2>
