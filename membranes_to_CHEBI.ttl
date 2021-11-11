@@ -49,7 +49,7 @@
 <http://rdf.molmedb.upol.cz/interaction/membrane_28> bao:BAO_0090004 obo:CHEBI_16113. #and sphingomyelin
 
 #29 Toluene
-<http://rdf.molmedb.upol.cz/interaction/membrane_29> bao:BAO_0090004 obo:17578.
+<http://rdf.molmedb.upol.cz/interaction/membrane_29> bao:BAO_0090004 obo:CHEBI_17578.
 
 #31 SC -Stratum Corneum. corneocytes are embedded in a lipid matrix composed of ceramides (CER), cholesterol (Chol), and free fatty acids (FFA).
 <http://rdf.molmedb.upol.cz/interaction/membrane_31> bao:BAO_0090004 obo:CHEBI_16113. #and more than cholesterol
