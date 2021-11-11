@@ -15,11 +15,12 @@
 
 <#TriplesMap1>
   rr:logicalTable [ rr:sqlQuerry """
-    SELECT *,
-      (CASE WHEN LENGTH(id_substance)<5 THEN LPAD(id_substance,5,0) ELSE id_substance END) padded_id_substance FROM transporters
+    SELECT tr.*, ta.uniprot_id,
+      (CASE WHEN LENGTH(tr.id_substance)<5 THEN LPAD(tr.id_substance,5,0) ELSE tr.id_substance END) padded_id_substance
+      FROM transporters AS tr, transporter_targets AS ta WHERE tr.id_target = ta.id
   """];
   rr:subjectMap [
-    rr:template "http://rdf.molmedb.upol.cz/transporter/{id}";
+    rr:template "http://rdf.molmedb.upol.cz/transporter/{tr.id}";
     rr:class bao:BAO_0003008;
   ];
     rr:predicateObjectMap [
@@ -28,11 +29,11 @@
   ];
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0090012;
-    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/target_{id_target}" ]
+    rr:objectMap [ rr:template "http://purl.uniprot.org/uniprot/{ta.uniprot_id}" ]
   ];
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000209;
-    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/transporter_measure_group_{id}" ]
+    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/transporter_measure_group_{ta.id}" ]
   ];
 # probably not needed
 #    rr:predicateObjectMap [
@@ -41,22 +42,23 @@
 #  ];
     rr:predicateObjectMap [
     rr:predicate cito:citesAsDataSource;
-    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/reference/{id_reference}" ]
+    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/reference/{ta.id_reference}" ]
   ].
 
 <#TriplesMap2>
   rr:logicalTable [ rr:sqlQuerry """
-    SELECT *,
-      (CASE WHEN LENGTH(id_substance)<5 THEN LPAD(id_substance,5,0) ELSE id_substance END) padded_id_substance,
-      (CASE WHEN type = 1 OR type = 2 THEN id ELSE NULL) substrate_id,
-      (CASE WHEN type = 3 OR type = 4 THEN id ELSE NULL) inhibitor_id,
-      (CASE WHEN Km IS NULL THEN NULL ELSE id END) Km_id,
-      (CASE WHEN EC50 IS NULL THEN NULL ELSE id END) EC50_id,
-      (CASE WHEN Ki IS NULL THEN NULL ELSE id END) Ki_id,
-      (CASE WHEN IC50 IS NULL THEN NULL ELSE id END) IC50_id FROM transporters
+    SELECT tr.*, ta.uniprot_id,
+      (CASE WHEN LENGTH(tr.id_substance)<5 THEN LPAD(tr.id_substance,5,0) ELSE tr.id_substance END) padded_id_substance,
+      (CASE WHEN tr.type = 1 OR tr.type = 2 THEN tr.id ELSE NULL END) substrate_id,
+      (CASE WHEN tr.type = 3 OR tr.type = 4 THEN tr.id ELSE NULL END) inhibitor_id,
+      (CASE WHEN tr.Km IS NULL THEN NULL ELSE tr.id END) Km_id,
+      (CASE WHEN tr.EC50 IS NULL THEN NULL ELSE tr.id END) EC50_id,
+      (CASE WHEN tr.Ki IS NULL THEN NULL ELSE tr.id END) Ki_id,
+      (CASE WHEN tr.IC50 IS NULL THEN NULL ELSE tr.id END) IC50_id 
+FROM transporters AS tr, transporter_targets AS ta WHERE tr.id_target = ta.id
   """ ];
   rr:subjectMap [
-    rr:template "http://rdf.molmedb.upol.cz/transporter/transporter_measure_group_{id}";
+    rr:template "http://rdf.molmedb.upol.cz/transporter/transporter_measure_group_{tr.id}";
     rr:class bao:BAO_0000040;
   ];
     rr:predicateObjectMap [
@@ -89,21 +91,21 @@
   ];
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0090012;
-    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/target_{id_target}" ]
+    rr:objectMap [ rr:template "http://purl.uniprot.org/uniprot/{ta.uniprot_id}" ]
   ];
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000426;
-    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/{id}" ]
+    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/{tr.id}" ]
   ];
     rr:predicateObjectMap [
     rr:predicate rdfs:comment;
-    rr:objectMap [ rr:column "note" ]
+    rr:objectMap [ rr:column "tr.note" ]
   ].
 
 <#TriplesMap3>
   rr:logicalTable [ rr:tableName "transporter_targets" ];
   rr:subjectMap [
-    rr:template "http://rdf.molmedb.upol.cz/transporter/target_{id}";
+    rr:template "http://purl.uniprot.org/uniprot/{uniprot_id}";
     rr:class bao:BAO_0000283;
   ];
     rr:predicateObjectMap [
@@ -174,15 +176,11 @@
   rr:logicalTable [ rr:sqlQuerry "SELECT * FROM transporters WHERE Km IS NOT NULL" ];
   rr:subjectMap [
     rr:template "http://rdf.molmedb.upol.cz/transporter/endpoint_pkm_{id}";
-    rr:class bao:BAO_0000040;
+    rr:class temp:pkm;
   ];
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0095007;
     rr:objectMap [ rr:column "Km"]
-  ];
-    rr:predicateObjectMap [
-    rr:predicate bao:BAO_0002858;
-    rr:objectMap [ rr:constant bao:BAO_0002175 ]
   ];
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000559;

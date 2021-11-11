@@ -4,7 +4,7 @@ RDF project for [MolMeDB](https://molmedb.upol.cz/). This repository was founded
 Shex files contain schema for data model. For syntax highlinghting https://www.weso.es/YASHE/ can be used.
 
 
-9-November-2021
+11-November-2021
 
 float values switched to double
 
@@ -26,6 +26,8 @@ changed R2RML to avoid generating useless nodes
 commented out has role and similar triplets - probably just anotation role in BAO ontology
 
 added has part link from membrane models to some of their components in CHEBI
+
+switched transporter IRIS to uniprot IRIS
 
 
 ![alt text](https://i.redd.it/f06bdrfictf31.jpg "honest work")

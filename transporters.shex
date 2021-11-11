@@ -67,8 +67,7 @@ mmdbtra:assay_inhibitor{
 
 mmdbtra:assay_pkm{
   sio:SIO_000300 xsd:double; #MySQL transporters.Km
-  rdf:type bao:BAO_0000477;
-  bao:BAO_0002858 bao:BAO_0002175; #has endpoint modifier -(log10(endpoint))
+  rdf:type temp:pkm;
   bao:BAO_0000559 @mmdbtra:transporter_assay_measure_group;
   #dwc:measurementAccuracy xsd:double? #standard deviation would be nice
 }
