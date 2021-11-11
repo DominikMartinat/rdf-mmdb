@@ -143,7 +143,7 @@
   ].
 
 <#TriplesMap5>
-  rr:logicalTable [ rr:tableName "interaction" ];
+  rr:logicalTable [ rr:sqlQuerry "SELECT * FROM interaction WHERE temperature IS NOT NULL" ];
   rr:subjectMap [
     rr:template "http://rdf.molmedb.upol.cz/interaction/measure_group_temperature_{id}";
     rr:class obo:PATO_0000146;
@@ -158,7 +158,7 @@
   ].
 
 <#TriplesMap6>
-  rr:logicalTable [ rr:tableName "interaction" ];
+  rr:logicalTable [ rr:sqlQuerry "SELECT * FROM interaction WHERE charge IS NOT NULL" ];
   rr:subjectMap [
     rr:template "http://rdf.molmedb.upol.cz/interaction/measure_group_mol_charge_{id}";
     rr:class edam:data_0845;
@@ -169,7 +169,7 @@
   ].
 
 <#TriplesMap7>
-  rr:logicalTable [ rr:tableName "interaction" ];
+  rr:logicalTable [ rr:sqlQuerry "SELECT * FROM interaction WHERE LogK IS NOT NULL" ];
   rr:subjectMap [
     rr:template "http://rdf.molmedb.upol.cz/interaction/endpoint_logk_{id}";
     rr:class temp:logk;
@@ -188,7 +188,7 @@
   ].
 
 <TriplesMap8>
-  rr:logicalTable [ rr:tableName "interaction" ];
+  rr:logicalTable [ rr:sqlQuerry "SELECT * FROM interaction WHERE LogPerm IS NOT NULL" ];
   rr:subjectMap [
     rr:template "http://rdf.molmedb.upol.cz/interaction/endpoint_logperm_{id}";
     rr:class bao:BAO_0002808;
