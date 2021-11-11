@@ -84,7 +84,7 @@
   ];
   rr:predicateObjectMap [
     rr:predicate skos:exactMatch;
-    rr:objectMap [ rr:template "http://purl.obolibrary.org/obo/CHEBI_{chEBI}" ]
+    rr:objectMap [ rr:template "http://purl.obolibrary.org/obo/CHEBI_{chEBI}" ] ###TODO - make all chebi IDs in database consistent
   ];
   rr:predicateObjectMap [
     rr:predicate skos:exactMatch;
