@@ -43,5 +43,11 @@
     <obo:IAO_0000115>Logarithm of partition coefficient membrane/water.</obo:IAO_0000115>
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">LogK</rdfs:label>
   </owl:Class>
+
+  <owl:Class rdf:about="http://rdf.molmedb.upol.cz/vocabulary#pkm">
+    <rdfs:subClassOf rdf:resource="http://www.bioassayontology.org/bao#BAO_0000477"/>
+    <obo:IAO_0000115>pKm is -log pKm, where pKm is the concentration of substrate at ½ Vmax, according to the Henri-Michaelis-Menten kinetic model.</obo:IAO_0000115>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">pKm</rdfs:label>
+  </owl:Class>
 </rdf:RDF>
 

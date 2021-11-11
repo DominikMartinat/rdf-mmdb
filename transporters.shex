@@ -67,8 +67,7 @@ mmdbtra:assay_inhibitor{
 
 mmdbtra:assay_pkm{
   sio:SIO_000300 xsd:double; #MySQL transporters.Km
-  rdf:type bao:BAO_0000477;
-  bao:BAO_0002858 bao:BAO_0002175; #has endpoint modifier -(log10(endpoint))
+  rdf:type temp:pkm;
   bao:BAO_0000559 @mmdbtra:transporter_assay_measure_group;
   #dwc:measurementAccuracy xsd:double? #standard deviation would be nice
 }
@@ -79,7 +78,7 @@ mmdbtra:assay_pec50{
   bao:BAO_0000559 @mmdbtra:transporter_assay_measure_group;
 #  bao:BAO_0000196 bao:BAO_0000087; #has mode of action activation
 #  bao:BAO_0000337 bao:BAO_0000346; #has percent response 50 percent activation
-  bao:BAO_0000183 obo:UO_0000062; #has concentration unit molar
+#  bao:BAO_0000183 obo:UO_0000062; #has concentration unit molar - need negative logarithm of molar concentratin unit
   #dwc:measurementAccuracy xsd:double?
 }
 
@@ -97,7 +96,7 @@ mmdbtra:assay_pic50{
 #  bao:BAO_0000196 bao:BAO_0000091; #has mode of action inhibition
 #  bao:BAO_0000337 bao:BAO_0000347; #has percent response 50 percent activation
 # bao:BAO_0001105 bao:BAO_0000065; #based on normalization % inhibition normalization
-  bao:BAO_0000183 obo:UO_0000062; #has concentration unit molar
+#  bao:BAO_0000183 obo:UO_0000062; #has concentration unit molar - need -log of molar concentration unit
   #dwc:measurementAccuracy xsd:double?
 }
 
