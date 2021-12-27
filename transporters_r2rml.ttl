@@ -4,10 +4,8 @@
 @prefix obo: <http://purl.obolibrary.org/obo/>.
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
-@prefix sio: <http://semanticscience.org/resource/>.
 @prefix cito: <http://purl.org/spar/cito/>.
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
-@prefix dwc: <http://rs.tdwg.org/dwc/terms/>.
 @prefix bao: <http://www.bioassayontology.org/bao#>.
 @prefix repr: <https://w3id.org/reproduceme#>.
 @prefix rr: <http://www.w3.org/ns/r2rml#>.
