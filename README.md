@@ -7,6 +7,8 @@ RDF project for [MolMeDB](https://molmedb.upol.cz/). This repository was founded
 
 * Temporary vocabulary is stored in temp.rdfs file.
 
+* SPARQL endpoint prototype accessible [HERE](https://idsm.elixir-czech.cz/sparql/endpoint/molmedb). 
+
 
 
 ## RDF data model
