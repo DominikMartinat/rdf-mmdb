@@ -1,35 +1,32 @@
 # rdf-mmdb
 RDF project for [MolMeDB](https://molmedb.upol.cz/). This repository was founded for purpose of my thesis on incerasing interoparability of MolMeDB database.
 
-Shex files contain schema for data model. For syntax highlinghting https://www.weso.es/YASHE/ can be used.
+* Shex files contain schema for data model.
+
+* Turtle files contain R2RML mappings and membranes_to_CHEBI.ttl is file with links between membranes and their membrane components in CHEBI database.
+
+* Temporary vocabulary is stored in temp.rdfs file.
 
 
-11-November-2021
 
-float values switched to double
+## RDF data model
 
-substance.shex, interactions.shex and transporters.shex made more compliant with BAO ontology requirements
+Original SQL schema of MolMeDB.
 
-comments translated into english
+![alt text](https://github.com/DominikMartinat/rdf-mmdb/blob/master/diagrams/schema-mmdb.png)
 
-added file with temporary class definitions temp.rdfs
+Substances.
 
-added R2RML mappings
+![alt text](https://github.com/DominikMartinat/rdf-mmdb/blob/master/diagrams/diagram-substances.png)
 
-ready for Biohackathon Europe 2021
+Membrane interactions.
 
-added skos:exactMatch to external links of substances
+![alt text](https://github.com/DominikMartinat/rdf-mmdb/blob/master/diagrams/diagram-new-interaction.png)
 
+Transporter interactions.
 
-changed R2RML to avoid generating useless nodes
+![alt text](https://github.com/DominikMartinat/rdf-mmdb/blob/master/diagrams/diagram-new-transporter.png)
 
-commented out has role and similar triplets - probably just anotation role in BAO ontology
+Publications. This one will be simplified.
 
-added has part link from membrane models to some of their components in CHEBI
-
-switched transporter IRIS to uniprot IRIS
-
-split membrane mapping and interactions_r2rml to not interfere with r2rml
-
-
-![alt text](https://i.redd.it/f06bdrfictf31.jpg "honest work")
+![alt text](https://github.com/DominikMartinat/rdf-mmdb/blob/master/diagrams/diagram-publications.png)
