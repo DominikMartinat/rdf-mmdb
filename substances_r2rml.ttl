@@ -92,7 +92,7 @@
   ];
   rr:predicateObjectMap [
     rr:predicate skos:exactMatch;
-    rr:objectMap [ rr:template "https://rdf.wwpdb.org/cc/{pdb}/chem_comp/{pdb}" ]
+    rr:objectMap [ rr:template "http://rdf.wwpdb.org/cc/{pdb}/chem_comp/{pdb}" ]
   ];
   rr:predicateObjectMap [
     rr:predicate skos:exactMatch;
