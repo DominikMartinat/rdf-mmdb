@@ -1,14 +1,9 @@
-@prefix sio: <http://semanticscience.org/resource/>.
-@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
-@prefix mmdbsub: <http://rdf.molmedb.upol.cz/substance/>.
-@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
-@prefix obo: <http://purl.obolibrary.org/obo/>.
-@prefix edam: <http://edamontology.org/>.
-@prefix bao: <http://www.bioassayontology.org/bao#>.
-@prefix skos: <http://www.w3.org/2004/02/skos/core#>.
-@prefix rr: <http://www.w3.org/ns/r2rml#>.
-@prefix temp: <http://rdf.molmedb.upol.cz/vocabulary#>. #IRIs yet missing
+@prefix sio: <http://semanticscience.org/resource/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix obo: <http://purl.obolibrary.org/obo/> .
+@prefix bao: <http://www.bioassayontology.org/bao#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix rr: <http://www.w3.org/ns/r2rml#> .
 
 <#TriplesMap1>
   rr:logicalTable [ rr:sqlQuerry """
@@ -24,224 +19,216 @@
       (CASE WHEN chEBI IS NULL THEN NULL ELSE (CASE WHEN LENGTH(id)<5 THEN LPAD(id,5,0) ELSE id END) END) chEBI_id,
       (CASE WHEN pdb IS NULL THEN NULL ELSE (CASE WHEN LENGTH(id)<5 THEN LPAD(id,5,0) ELSE id END) END) pdb_id,
       (CASE WHEN chEMBL IS NULL THEN NULL ELSE (CASE WHEN LENGTH(id)<5 THEN LPAD(id,5,0) ELSE id END) END) chEMBL_id FROM substances
-  """ ];
+  """ ] ;
   rr:subjectMap [
-    rr:template "http://identifiers.org/molmedb/MM{padded_id}";
-    rr:class bao:BAO_0000076;
-  ];
+    rr:template "http://identifiers.org/molmedb/MM{padded_id}" ;
+    rr:class bao:BAO_0000076 ;
+  ] ;
   rr:predicateObjectMap [
-    rr:predicate rdfs:label;
-    rr:objectMap [ rr:column "name" ];
-  ];
-#has role measured entity and screened entity - might or might not be needed
-#  rr:predicateObjectMap [
-#    rr:predicate bao:BAO_0003102;
-#    rr:objectMap [ rr:constant bao:BAO_0002001 ]
-#  ];
-#  rr:predicateObjectMap [
-#    rr:predicate bao:BAO_0003102;
-#    rr:objectMap [ rr:constant bao:BAO_0002932 ]
-#  ];
+    rr:predicate rdfs:label ;
+    rr:objectMap [ rr:column "name" ] ;
+  ] ;
   rr:predicateObjectMap [
-    rr:predicate sio:SIO_000008;
+    rr:predicate sio:SIO_000008 ;
     rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/substance/MM{SMILES_id}_smiles" ]
-  ];
+  ] ;
   rr:predicateObjectMap [
-    rr:predicate sio:SIO_000008;
+    rr:predicate sio:SIO_000008 ;
     rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/substance/MM{inchikey_id}_inchikey" ]
-  ];
+  ] ;
   rr:predicateObjectMap [
-    rr:predicate sio:SIO_000008;
+    rr:predicate sio:SIO_000008 ;
     rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/substance/MM{MW_id}_molecular_weight" ]
-  ];
+  ] ;
   rr:predicateObjectMap [
-    rr:predicate sio:SIO_000008;
+    rr:predicate sio:SIO_000008 ;
     rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/substance/MM{LogP_id}_logp" ]
-  ];
+  ] ;
   rr:predicateObjectMap [
-    rr:predicate sio:SIO_000008;
+    rr:predicate sio:SIO_000008 ;
     rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/substance/MM{pubchem_id}_pubchem" ]
-  ];
+  ] ;
   rr:predicateObjectMap [
-    rr:predicate sio:SIO_000008;
+    rr:predicate sio:SIO_000008 ;
     rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/substance/MM{drugbank_id}_drugbank" ]
-  ];
+  ] ;
   rr:predicateObjectMap [
-    rr:predicate sio:SIO_000008;
+    rr:predicate sio:SIO_000008 ;
     rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/substance/MM{chEBI_id}_chebi" ]
-  ];
+  ] ;
   rr:predicateObjectMap [
-    rr:predicate sio:SIO_000008;
+    rr:predicate sio:SIO_000008 ;
     rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/substance/MM{pdb_id}_pdb" ]
-  ];
+  ] ;
   rr:predicateObjectMap [
-    rr:predicate sio:SIO_000008;
+    rr:predicate sio:SIO_000008 ;
     rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/substance/MM{chEMBL_id}_chembl" ]
-  ];
+  ] ;
   rr:predicateObjectMap [
-    rr:predicate sio:SIO_000008;
+    rr:predicate sio:SIO_000008 ;
     rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/substance/MM{padded_id}_mmdbid" ]
-  ];
+  ] ;
   rr:predicateObjectMap [
-    rr:predicate skos:exactMatch;
+    rr:predicate skos:exactMatch ;
     rr:objectMap [ rr:template "http://purl.obolibrary.org/obo/CHEBI_{chEBI}" ] ###TODO - make all chebi IDs in database consistent
-  ];
+  ] ;
   rr:predicateObjectMap [
-    rr:predicate skos:exactMatch;
+    rr:predicate skos:exactMatch ;
     rr:objectMap [ rr:template "http://rdf.ncbi.nlm.nih.gov/pubchem/compound/CID{pubchem}" ]
-  ];
+  ] ;
   rr:predicateObjectMap [
-    rr:predicate skos:exactMatch;
+    rr:predicate skos:exactMatch ;
     rr:objectMap [ rr:template "http://rdf.wwpdb.org/cc/{pdb}/chem_comp/{pdb}" ]
-  ];
+  ] ;
   rr:predicateObjectMap [
-    rr:predicate skos:exactMatch;
+    rr:predicate skos:exactMatch ;
     rr:objectMap [ rr:template "http://rdf.ebi.ac.uk/resource/chembl/molecule/{chEMBL}" ] ###make this one consistent too
-  ].
+  ] .
 
 <#TriplesMap2>
-  rr:logicalTable [ rr:sqlQuerry "SELECT *, (CASE WHEN LENGTH(id_substance)<5 THEN LPAD(id,5,0) ELSE id_substance END) padded_id_substance FROM substance_links" ];
+  rr:logicalTable [ rr:sqlQuerry "SELECT *, (CASE WHEN LENGTH(id_substance)<5 THEN LPAD(id,5,0) ELSE id_substance END) padded_id_substance
+      FROM substance_links" ] ;
   rr:subjectMap [
-    rr:template "http://identifiers.org/molmedb/{identifier}";
-    rr:class bao:BAO_0000076;
-  ];
+    rr:template "http://identifiers.org/molmedb/{identifier}" ;
+    rr:class bao:BAO_0000076 ;
+  ] ;
     rr:predicateObjectMap [
-    rr:predicate obo:IAO_0100001;
+    rr:predicate obo:IAO_0100001 ;
     rr:objectMap [ rr:template "http://identifiers.org/molmedb/MM{padded_id_substance}" ]
-  ];
+  ] ;
     rr:predicateObjectMap [
-    rr:predicate obo:IAO_0000231;
+    rr:predicate obo:IAO_0000231 ;
     rr:objectMap [ rr:constant obo:IAO_0000227 ]
-  ].
+  ] .
 
 <#TriplesMap3>
   rr:logicalTable [ rr:sqlQuerry """
     SELECT id, (CASE WHEN LENGTH(id)<5 THEN LPAD(id,5,0) ELSE id END) padded_id, SMILES FROM substances WHERE SMILES IS NOT NULL
-  """ ];
+  """ ] ;
   rr:subjectMap [
-    rr:template "http://rdf.molmedb.upol.cz/substance/MM{padded_id}_smiles";
-    rr:class sio:CHEMINF_000018;
-  ];
+    rr:template "http://rdf.molmedb.upol.cz/substance/MM{padded_id}_smiles" ;
+    rr:class sio:CHEMINF_000018 ;
+  ] ;
   rr:predicateObjectMap [
-    rr:predicate sio:SIO_000300;
-    rr:objectMap [ rr:column "SMILES" ];
-  ].
+    rr:predicate sio:SIO_000300 ;
+    rr:objectMap [ rr:column "SMILES" ]
+  ] .
 
 <#TriplesMap4>
   rr:logicalTable [ rr:sqlQuerry """
     SELECT id, (CASE WHEN LENGTH(id)<5 THEN LPAD(id,5,0) ELSE id END) padded_id, inchikey FROM substances WHERE inchikey IS NOT NULL
-  """ ];
+  """ ] ;
   rr:subjectMap [
-    rr:template "http://rdf.molmedb.upol.cz/substance/MM{padded_id}_inchikey";
-    rr:class sio:CHEMINF_000059;
-  ];
+    rr:template "http://rdf.molmedb.upol.cz/substance/MM{padded_id}_inchikey" ;
+    rr:class sio:CHEMINF_000059
+  ] ;
   rr:predicateObjectMap [
-    rr:predicate sio:SIO_000300;
-    rr:objectMap [ rr:column "inchikey" ];
-  ].
+    rr:predicate sio:SIO_000300 ;
+    rr:objectMap [ rr:column "inchikey" ]
+  ] .
 
 <#TriplesMap5>
   rr:logicalTable [ rr:sqlQuerry """
     SELECT id, (CASE WHEN LENGTH(id)<5 THEN LPAD(id,5,0) ELSE id END) padded_id, MW FROM substances WHERE MW IS NOT NULL
-  """ ];
+  """ ] ;
   rr:subjectMap [
-    rr:template "http://rdf.molmedb.upol.cz/substance/MM{padded_id}_molecular_weight";
-    rr:class sio:CHEMINF_000216;
-  ];
+    rr:template "http://rdf.molmedb.upol.cz/substance/MM{padded_id}_molecular_weight" ;
+    rr:class sio:CHEMINF_000216
+  ] ;
   rr:predicateObjectMap [
-    rr:predicate sio:SIO_000300;
-    rr:objectMap [ rr:column "MW" ];
-  ];
+    rr:predicate sio:SIO_000300 ;
+    rr:objectMap [ rr:column "MW" ]
+  ] ;
   rr:predicateObjecMap [
-    rr:predicate sio:SIO_000221;
+    rr:predicate sio:SIO_000221 ;
     rr:objectmap [ rr:constant obo:UO_0000055]
-  ].
+  ] .
 
 <#TriplesMap6>
   rr:logicalTable [ rr:sqlQuerry """
     SELECT id, (CASE WHEN LENGTH(id)<5 THEN LPAD(id,5,0) ELSE id END) padded_id, LogP FROM substances WHERE LogP IS NOT NULL
-  """ ];
+  """ ] ;
   rr:subjectMap [
-    rr:template "http://rdf.molmedb.upol.cz/substance/MM{padded_id}_logp";
-    rr:class sio:CHEMINF_000251;
+    rr:template "http://rdf.molmedb.upol.cz/substance/MM{padded_id}_logp" ;
+    rr:class sio:CHEMINF_000251 ;
   ];
   rr:predicateObjectMap [
-    rr:predicate sio:SIO_000300;
-    rr:objectMap [ rr:column "LogP" ];
-  ].
+    rr:predicate sio:SIO_000300 ;
+    rr:objectMap [ rr:column "LogP" ]
+  ] .
 
 <#TriplesMap7>
   rr:logicalTable [ rr:sqlQuerry """
     SELECT id, (CASE WHEN LENGTH(id)<5 THEN LPAD(id,5,0) ELSE id END) padded_id, pubchem FROM substances WHERE pubchem IS NOT NULL
-  """ ];
+  """ ] ;
   rr:subjectMap [
-    rr:template "http://rdf.molmedb.upol.cz/substance/MM{padded_id}_pubchem";
-    rr:class sio:CHEMINF_000140;
-  ];
+    rr:template "http://rdf.molmedb.upol.cz/substance/MM{padded_id}_pubchem" ;
+    rr:class sio:CHEMINF_000140 ;
+  ] ;
   rr:predicateObjectMap [
-    rr:predicate sio:SIO_000300;
-    rr:objectMap [ rr:column "pubchem" ];
-  ].
+    rr:predicate sio:SIO_000300 ;
+    rr:objectMap [ rr:column "pubchem" ]
+  ] .
 
 <#TriplesMap8>
   rr:logicalTable [ rr:sqlQuerry """
     SELECT id, (CASE WHEN LENGTH(id)<5 THEN LPAD(id,5,0) ELSE id END) padded_id, drugbank FROM substances WHERE drugbank IS NOT NULL
-  """ ];
+  """ ] ;
   rr:subjectMap [
-    rr:template "http://rdf.molmedb.upol.cz/substance/MM{padded_id}_drugbank";
-    rr:class sio:CHEMINF_000406;
-  ];
+    rr:template "http://rdf.molmedb.upol.cz/substance/MM{padded_id}_drugbank" ;
+    rr:class sio:CHEMINF_000406
+  ] ;
   rr:predicateObjectMap [
-    rr:predicate sio:SIO_000300;
-    rr:objectMap [ rr:column "drugbank" ];
-  ].
+    rr:predicate sio:SIO_000300 ;
+    rr:objectMap [ rr:column "drugbank" ]
+  ] .
 
 <#TriplesMap9>
   rr:logicalTable [ rr:sqlQuerry """
     SELECT id, (CASE WHEN LENGTH(id)<5 THEN LPAD(id,5,0) ELSE id END) padded_id, chEBI FROM substances WHERE chEBI IS NOT NULL
-  """ ];
+  """ ] ;
   rr:subjectMap [
-    rr:template "http://rdf.molmedb.upol.cz/substance/MM{padded_id}_chebi";
-    rr:class sio:CHEMINF_000407;
-  ];
+    rr:template "http://rdf.molmedb.upol.cz/substance/MM{padded_id}_chebi" ;
+    rr:class sio:CHEMINF_000407
+  ] ;
   rr:predicateObjectMap [
-    rr:predicate sio:SIO_000300;
-    rr:objectMap [ rr:column "chEBI" ];
-  ].
+    rr:predicate sio:SIO_000300 ;
+    rr:objectMap [ rr:column "chEBI" ]
+  ] .
 
 <#TriplesMap10>
   rr:logicalTable [ rr:sqlQuerry """
     SELECT id, (CASE WHEN LENGTH(id)<5 THEN LPAD(id,5,0) ELSE id END) padded_id, pdb FROM substances WHERE pdb IS NOT NULL
-  """ ];
+  """ ] ;
   rr:subjectMap [
-    rr:template "http://rdf.molmedb.upol.cz/substance/MM{padded_id}_pdb";
-    rr:class sio:CHEMINF_000572;
-  ];
+    rr:template "http://rdf.molmedb.upol.cz/substance/MM{padded_id}_pdb" ;
+    rr:class sio:CHEMINF_000572
+  ] ;
   rr:predicateObjectMap [
-    rr:predicate sio:SIO_000300;
-    rr:objectMap [ rr:column "pdb" ];
-  ].
+    rr:predicate sio:SIO_000300 ;
+    rr:objectMap [ rr:column "pdb" ]
+  ] .
 
 <#TriplesMap11>
   rr:logicalTable [ rr:sqlQuerry """
     SELECT id, (CASE WHEN LENGTH(id)<5 THEN LPAD(id,5,0) ELSE id END) padded_id, chEMBL FROM substances WHERE chEMBL IS NOT NULL
-  """ ];
+  """ ] ;
   rr:subjectMap [
-    rr:template "http://rdf.molmedb.upol.cz/substance/MM{padded_id}_chembl";
-    rr:class sio:CHEMINF_000412;
-  ];
+    rr:template "http://rdf.molmedb.upol.cz/substance/MM{padded_id}_chembl" ;
+    rr:class sio:CHEMINF_000412
+  ] ;
   rr:predicateObjectMap [
-    rr:predicate sio:SIO_000300;
-    rr:objectMap [ rr:column "chEMBL" ];
-  ].
+    rr:predicate sio:SIO_000300 ;
+    rr:objectMap [ rr:column "chEMBL" ]
+  ] .
 
 <#TriplesMap12>
-  rr:logicalTable [ rr:sqlQuerry "SELECT id, (CASE WHEN LENGTH(id)<5 THEN LPAD(id,5,0) ELSE id END) padded_id, identifier FROM substances" ];
+  rr:logicalTable [ rr:sqlQuerry "SELECT id, (CASE WHEN LENGTH(id)<5 THEN LPAD(id,5,0) ELSE id END) padded_id, identifier FROM substances" ] ;
   rr:subjectMap [
-    rr:template "http://rdf.molmedb.upol.cz/substance/MM{padded_id}_mmdbid";
-    rr:class sio:CHEMINF_000571;
-  ];
+    rr:template "http://rdf.molmedb.upol.cz/substance/MM{padded_id}_mmdbid" ;
+    rr:class sio:CHEMINF_000571
+  ] ;
   rr:predicateObjectMap [
     rr:predicate sio:SIO_000300;
-    rr:objectMap [ rr:column "identifier" ];
-  ].
+    rr:objectMap [ rr:column "identifier" ]
+  ] .

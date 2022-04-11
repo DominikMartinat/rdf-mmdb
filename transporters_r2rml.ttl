@@ -1,47 +1,36 @@
-@prefix mmdbtra: <http://rdf.molmedb.upol.cz/transporter/>.
-@prefix mmdbsub: <http://rdf.molmedb.upol.cz/substance/>.
-@prefix mmdbref: <http://rdf.molmedb.upol.cz/reference/>.
 @prefix obo: <http://purl.obolibrary.org/obo/>.
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
-@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
 @prefix cito: <http://purl.org/spar/cito/>.
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
 @prefix bao: <http://www.bioassayontology.org/bao#>.
-@prefix repr: <https://w3id.org/reproduceme#>.
 @prefix rr: <http://www.w3.org/ns/r2rml#>.
-@prefix temp: <http://rdf.molmedb.upol.cz/vocabulary#>. #zatim bez IRI
+@prefix mmdbvoc: <http://rdf.molmedb.upol.cz/vocabulary#>.
 
 <#TriplesMap1>
   rr:logicalTable [ rr:sqlQuerry """
     SELECT tr.*, ta.uniprot_id,
       (CASE WHEN LENGTH(tr.id_substance)<5 THEN LPAD(tr.id_substance,5,0) ELSE tr.id_substance END) padded_id_substance
       FROM transporters AS tr, transporter_targets AS ta WHERE tr.id_target = ta.id
-  """];
+  """] ;
   rr:subjectMap [
-    rr:template "http://rdf.molmedb.upol.cz/transporter/{tr.id}";
-    rr:class bao:BAO_0003008;
-  ];
+    rr:template "http://rdf.molmedb.upol.cz/transporter/tra{tr.id}" ;
+    rr:class bao:BAO_0003008
+  ] ;
     rr:predicateObjectMap [
-    rr:predicate bao:BAO_0090012;
+    rr:predicate bao:BAO_0090012 ;
     rr:objectMap [ rr:template "http://identifiers.org/molmedb/MM{padded_id_substance}" ]
-  ];
+  ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0090012;
     rr:objectMap [ rr:template "http://purl.uniprot.org/uniprot/{ta.uniprot_id}" ]
-  ];
+  ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000209;
-    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/transporter_measure_group_{ta.id}" ]
-  ];
-# probably not needed
-#    rr:predicateObjectMap [
-#    rr:predicate bao:BAO_0000205;
-#    rr:objectMap [ rr:constant bao:BAO_0000224 ]
-#  ];
+    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/measure_group_tra{ta.id}" ]
+  ] ;
     rr:predicateObjectMap [
-    rr:predicate cito:citesAsDataSource;
-    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/reference/{ta.id_reference}" ]
-  ].
+    rr:predicate cito:citesAsDataSource ;
+    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/reference/ref{ta.id_reference}" ]
+  ] .
 
 <#TriplesMap2>
   rr:logicalTable [ rr:sqlQuerry """
@@ -54,71 +43,66 @@
       (CASE WHEN tr.Ki IS NULL THEN NULL ELSE tr.id END) Ki_id,
       (CASE WHEN tr.IC50 IS NULL THEN NULL ELSE tr.id END) IC50_id 
 FROM transporters AS tr, transporter_targets AS ta WHERE tr.id_target = ta.id
-  """ ];
+  """ ] ;
   rr:subjectMap [
-    rr:template "http://rdf.molmedb.upol.cz/transporter/transporter_measure_group_{tr.id}";
-    rr:class bao:BAO_0000040;
-  ];
+    rr:template "http://rdf.molmedb.upol.cz/transporter/measure_group_tra{tr.id}" ;
+    rr:class bao:BAO_0000040 ;
+  ] ;
     rr:predicateObjectMap [
-    rr:predicate  bao:BAO_0000208;
-    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/endpoint_substrate_{substrate_id}" ]
-  ];
+    rr:predicate  bao:BAO_0000208 ;
+    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/endpoint_substrate_tra{substrate_id}" ]
+  ] ;
     rr:predicateObjectMap [
-    rr:predicate  bao:BAO_0000208;
-    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/endpoint_inhibitor_{inhibitor_id}" ]
-  ];
+    rr:predicate  bao:BAO_0000208 ;
+    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/endpoint_inhibitor_tra{inhibitor_id}" ]
+  ] ;
     rr:predicateObjectMap [
-    rr:predicate bao:BAO_0000208;
-    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/endpoint_pkm_{KM_id}" ]
-  ];
+    rr:predicate bao:BAO_0000208 ;
+    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/endpoint_pkm_tra{KM_id}" ]
+  ] ;
     rr:predicateObjectMap [
-    rr:predicate bao:BAO_0000208;
-    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/endpoint_pec50_{EC50_id}" ]
-  ];
+    rr:predicate bao:BAO_0000208 ;
+    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/endpoint_pec50_tra{EC50_id}" ]
+  ] ;
     rr:predicateObjectMap [
-    rr:predicate bao:BAO_0000208;
-    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/endpoint_pki_{Ki_id}" ]
-  ];
+    rr:predicate bao:BAO_0000208 ;
+    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/endpoint_pki_tra{Ki_id}" ]
+  ] ;
     rr:predicateObjectMap [
-    rr:predicate bao:BAO_0000208;
-    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/endpoint_pic50_{IC50_id}" ]
-  ];
+    rr:predicate bao:BAO_0000208 ;
+    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/endpoint_pic50_tra{IC50_id}" ]
+  ] ;
     rr:predicateObjectMap [
-    rr:predicate bao:BAO_0090012;
+    rr:predicate bao:BAO_0090012 ;
     rr:objectMap [ rr:template "http://identifiers.org/molmedb/MM{padded_id_substance}" ]
-  ];
+  ] ;
     rr:predicateObjectMap [
-    rr:predicate bao:BAO_0090012;
+    rr:predicate bao:BAO_0090012 ;
     rr:objectMap [ rr:template "http://purl.uniprot.org/uniprot/{ta.uniprot_id}" ]
-  ];
+  ] ;
     rr:predicateObjectMap [
-    rr:predicate bao:BAO_0000426;
-    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/{tr.id}" ]
-  ];
+    rr:predicate bao:BAO_0000426 ;
+    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/tra{tr.id}" ]
+  ] ;
     rr:predicateObjectMap [
-    rr:predicate rdfs:comment;
+    rr:predicate rdfs:comment ;
     rr:objectMap [ rr:column "tr.note" ]
-  ].
+  ] .
 
 <#TriplesMap3>
-  rr:logicalTable [ rr:tableName "transporter_targets" ];
+  rr:logicalTable [ rr:tableName "transporter_targets" ] ;
   rr:subjectMap [
-    rr:template "http://purl.uniprot.org/uniprot/{uniprot_id}";
-    rr:class bao:BAO_0000283;
-  ];
+    rr:template "http://purl.uniprot.org/uniprot/{uniprot_id}" ;
+    rr:class bao:BAO_0000283
+  ] ;
     rr:predicateObjectMap [
-    rr:predicate  rdfs:label;
+    rr:predicate  rdfs:label ;
     rr:objectMap [ rr:column "name" ]
-  ];
+  ] ;
     rr:predicateObjectMap [
-    rr:predicate  obo:ERO_0000547;
+    rr:predicate  obo:ERO_0000547 ;
     rr:objectMap [ rr:column "uniprot_id" ]
-  ].
-# has role target - might or might not be needed
-#    rr:predicateObjectMap [
-#    rr:predicate  bao:BAO_0003102;
-#    rr:objectMap [ rr:constant bao:BAO_0003064]
-#  ].
+  ] .
 
 <#TriplesMap4>
   rr:logicalTable [ rr:sqlQuerry """ 
@@ -127,23 +111,19 @@ FROM transporters AS tr, transporter_targets AS ta WHERE tr.id_target = ta.id
       WHEN 1 THEN 'PositiveResult'
       WHEN 2 THEN 'NegativeResult'
       END) res FROM transporters WHERE type = 1 OR type = 2
-  """];
+  """] ;
   rr:subjectMap [
-    rr:template "http://rdf.molmedb.upol.cz/transporter/endpoint_substrate_{id}";
-    rr:class bao:BAO_0080024;
-  ];
+    rr:template "http://rdf.molmedb.upol.cz/transporter/endpoint_substrate_tra{id}" ;
+    rr:class mmdbvoc:SubstrateBindingAssay ;
+  ] ;
     rr:predicateObjectMap [
-    rr:predicate bao:BAO_0095007;
+    rr:predicate bao:BAO_0095007 ;
     rr:objectMap [ rr:template "https://w3id.org/reproduceme#{res}" ]
-  ];
+  ] ;
     rr:predicateObjectMap [
-    rr:predicate bao:BAO_0000196;
-    rr:objectMap [ rr:constant temp:substrate_binding ]
-  ]; 
-    rr:predicateObjectMap [
-    rr:predicate bao:BAO_0000559;
-    rr:objectMap [ rr:constant "http://rdf.molmedb.upol.cz/transporter/transporter_measure_group_{id}" ]
-  ].
+    rr:predicate bao:BAO_0000559 ;
+    rr:objectMap [ rr:constant "http://rdf.molmedb.upol.cz/transporter/measure_group_tra{id}" ]
+  ] .
 
 <#TriplesMap5>
   rr:logicalTable [ rr:sqlQuerry """ 
@@ -152,115 +132,76 @@ FROM transporters AS tr, transporter_targets AS ta WHERE tr.id_target = ta.id
       WHEN 3 THEN 'PositiveResult'
       WHEN 4 THEN 'NegativeResult'
       END) res FROM transporters WHERE type = 3 or type = 4
-  """];
+  """] ;
   rr:subjectMap [
-    rr:template "http://rdf.molmedb.upol.cz/transporter/endpoint_inhibitor_{id}";
-    rr:class bao:BAO_0080024;
-  ];
+    rr:template "http://rdf.molmedb.upol.cz/transporter/endpoint_inhibitor_tra{id}" ;
+    rr:class mmdbvoc:InhibitionAssay
+  ] ;
     rr:predicateObjectMap [
-    rr:predicate bao:BAO_0095007;
+    rr:predicate bao:BAO_0095007 ;
     rr:objectMap [ rr:template "https://w3id.org/reproduceme#{res}" ]
-  ];
+  ] ;
     rr:predicateObjectMap [
-    rr:predicate bao:BAO_0000196;
-    rr:objectMap [ rr:constant bao:BAO_0000091 ]
-  ]; 
-    rr:predicateObjectMap [
-    rr:predicate bao:BAO_0000559;
-    rr:objectMap [ rr:constant "http://rdf.molmedb.upol.cz/transporter/transporter_measure_group_{id}" ]
-  ].
+    rr:predicate bao:BAO_0000559 ;
+    rr:objectMap [ rr:constant "http://rdf.molmedb.upol.cz/transporter/measure_group_tra{id}" ]
+  ] .
 
 <#TriplesMap6>
-  rr:logicalTable [ rr:sqlQuerry "SELECT * FROM transporters WHERE Km IS NOT NULL" ];
+  rr:logicalTable [ rr:sqlQuerry "SELECT * FROM transporters WHERE Km IS NOT NULL" ] ;
   rr:subjectMap [
-    rr:template "http://rdf.molmedb.upol.cz/transporter/endpoint_pkm_{id}";
-    rr:class temp:pkm;
+    rr:template "http://rdf.molmedb.upol.cz/transporter/endpoint_pkm_tra{id}" ;
+    rr:class mmdbvoc:PKm ;
   ];
     rr:predicateObjectMap [
-    rr:predicate bao:BAO_0095007;
+    rr:predicate bao:BAO_0095007 ;
     rr:objectMap [ rr:column "Km"]
   ];
     rr:predicateObjectMap [
-    rr:predicate bao:BAO_0000559;
-    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/transporter_measure_group_{id}" ]
+    rr:predicate bao:BAO_0000559 ;
+    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/measure_group_tra{id}" ]
   ].
 
 <#TriplesMap7>
-  rr:logicalTable [ rr:sqlQuerry "SELECT * FROM transporters WHERE EC50 IS NOT NULL" ];
+  rr:logicalTable [ rr:sqlQuerry "SELECT * FROM transporters WHERE EC50 IS NOT NULL" ] ;
   rr:subjectMap [
-    rr:template "http://rdf.molmedb.upol.cz/transporter/endpoint_pec50_{id}";
-    rr:class bao:BAO_0002583;
-  ];
+    rr:template "http://rdf.molmedb.upol.cz/transporter/endpoint_pec50_tra{id}" ;
+    rr:class bao:BAO_0002583
+  ] ;
     rr:predicateObjectMap [
-    rr:predicate bao:BAO_0002666;
+    rr:predicate bao:BAO_0002666 ;
     rr:objectMap [ rr:column "EC50"]
-  ];
+  ] ;
     rr:predicateObjectMap [
-    rr:predicate bao:BAO_0000559;
-    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/transporter_measure_group_{id}" ]
-  ].
-# has mode of action activation
-#    rr:predicateObjectMap [
-#    rr:predicate bao:BAO_0000196;
-#    rr:objectMap [ rr:constant bao:BAO_0000087 ]
-#  ];
-#has percent response 50 percent activation
-#    rr:predicateObjectMap [
-#    rr:predicate bao:BAO_0000337;
-#    rr:objectMap [ rr:constant bao:BAO_0000346 ]
-#  ];
-#needs better unit - something like -log(molar conc.)
-#    rr:predicateObjectMap [
-#    rr:predicate bao:BAO_0000183;
-#    rr:objectMap [ rr:column obo:UO_0000062 ]
-#  ].
+    rr:predicate bao:BAO_0000559 ;
+    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/measure_group_tra{id}" ]
+  ] .
 
 <#TriplesMap8>
-  rr:logicalTable [ rr:sqlQuerry "SELECT * FROM transporters WHERE Ki IS NOT NULL" ];
+  rr:logicalTable [ rr:sqlQuerry "SELECT * FROM transporters WHERE Ki IS NOT NULL" ] ;
   rr:subjectMap [
-    rr:template "http://rdf.molmedb.upol.cz/transporter/endpoint_pki_{id}";
-    rr:class bao:BAO_0190004;
-  ];
+    rr:template "http://rdf.molmedb.upol.cz/transporter/endpoint_pki_tra{id}" ;
+    rr:class bao:BAO_0190004
+  ] ;
     rr:predicateObjectMap [
-    rr:predicate bao:BAO_0095007;
+    rr:predicate bao:BAO_0095007 ;
     rr:objectMap [ rr:column "Ki" ]
-  ];
+  ] ;
     rr:predicateObjectMap [
-    rr:predicate bao:BAO_0000559;
-    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/transporter_measure_group_{id}" ]
-  ].
+    rr:predicate bao:BAO_0000559 ;
+    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/measure_group_tra{id}" ]
+  ] .
 
 <#TriplesMap9>
-  rr:logicalTable [ rr:sqlQuerry "SELECT * FROM transporters WHERE IC50 IS NOT NULL" ];
+  rr:logicalTable [ rr:sqlQuerry "SELECT * FROM transporters WHERE IC50 IS NOT NULL" ] ;
   rr:subjectMap [
-    rr:template "http://rdf.molmedb.upol.cz/transporter/endpoint_pic50_{id}";
-    rr:class bao:BAO_0000199;
-  ];
+    rr:template "http://rdf.molmedb.upol.cz/transporter/endpoint_pic50_tra{id}" ;
+    rr:class bao:BAO_0000199
+  ] ;
     rr:predicateObjectMap [
-    rr:predicate bao:BAO_0002666;
+    rr:predicate bao:BAO_0002666 ;
     rr:objectMap [ rr:column "IC50"]
-  ];
+  ] ;
     rr:predicateObjectMap [
-    rr:predicate bao:BAO_0000559;
-    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/transporter_measure_group_{id}" ]
-  ].
-#has mode of action inhibition
-#    rr:predicateObjectMap [
-#    rr:predicate bao:BAO_0000196;
-#    rr:objectMap [ rr:constant bao:BAO_0000091 ]
-#  ];
-#has percent response 50 percent activation
-#    rr:predicateObjectMap [
-#    rr:predicate bao:BAO_0000337;
-#    rr:objectMap [ rr:constant bao:BAO_0000347 ]
-#  ];
-#based on normalization % inhibition normalization
-#    rr:predicateObjectMap [
-#    rr:predicate bao:BAO_0001105;
-#    rr:objectMap [ rr:constant bao:BAO_0000065 ]
-#  ];
-#needs better unit - something like -log(molar conc.)
-#    rr:predicateObjectMap [
-#    rr:predicate bao:BAO_0000183;
-#    rr:objectMap [ rr:constant obo:UO_0000062 ]
-#  ].
+    rr:predicate bao:BAO_0000559 ;
+    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/measure_group_tra{id}" ]
+  ] .

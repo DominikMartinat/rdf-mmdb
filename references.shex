@@ -1,4 +1,3 @@
-PREFIX cito: <http://purl.org/spar/cito/>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX bibo: <http://purl.org/ontology/bibo/>
 PREFIX mmdbref: <http://rdf.molmedb.upol.cz/reference/>
@@ -7,23 +6,14 @@ PREFIX mmdbtra: <http://rdf.molmedb.upol.cz/transporter/>
 PREFIX mmdbsub: <http://rdf.molmedb.upol.cz/substance/>
 PREFIX dcterms: <http://purl.org/dc/terms/>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-PREFIX fabio: <http://purl.org/spar/fabio/>
 PREFIX cito: <http://purl.org/spar/cito/>
-PREFIX temp: <http://rdf.molmedb.upol.cz/vocabulary#> #right IRI not found yet
+PREFIX dcmitypes: <http://purl.org/dc/dcmitype/>
 
-mmdbref:publication{
-  rdf:type temp:source; #dcterms:BibliographicResource; # but sources like pubchem calculations and our in house calculations need to be included
+mmdbref:publication{#without databases
+  rdf:type dcterms:BibliographicResource;
   dcterms:bibliographicCitation xsd:string?; #MySQL publications.citation
   bibo:doi xsd:string?; #MySQL publications.doi
   bibo:pmid xsd:string?; #MySQL publications.pmid
-  dcterms:title xsd:string?; #MySQL publications.title
-  bibo:authorList @mmdbref:publication_authors?;
-  dcterms:isPartOf xsd:string?;#MySQL publications.journal
-  bibo:volume xsd:string?; #MySQL publications.volume
-  bibo:issue xsd:string?; #MySQL publications.issue
-  bibo:pages xsd:string?; #MySQL publications.page
-  fabio:hasPublicationYear xsd:integer?; #MySQL publications.year
-  dcterms:issued xsd:date?; #MySQL publicated_date #publications.publicated_date
   cito:isCitedAsDataSourceBy [mmdbint:interaction mmdbtra:transporter_assay]*;#[@mmdbint:interaction @mmdbtran:transporter_assay]* i'm probably doing something wrong
   dcterms:subject @mmdbsub:substance* #MySQL substances.id WHERE interaction.id_reference = publication.id AND interaction.id_substance = substance.id
 }
@@ -31,9 +21,8 @@ mmdbref:publication{
 mmdbsub:substance{#susbtances.shex
 }
 
-mmdbref:publication_authors{
-  #every item in list is author - MySQL publications.authors - names are delimited by "," needs to be parsed first
-  rdf:type rdf:list;
-  rdf:first xsd:string;
-  rdf:rest [mmdbref:publication_authors rdf:nil] #don't really know how to describe a list in shex
+mmdbref:database{
+  rdf:type dcmitypes:Dataset;
+  dcterms:bibliographicCitation xsd:string?; #MySQL publications.citation
+  rdfs:seeAlso IRI
 }

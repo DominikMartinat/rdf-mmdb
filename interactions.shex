@@ -10,65 +10,64 @@ PREFIX bao: <http://www.bioassayontology.org/bao#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 PREFIX edam: <http://edamontology.org/>
 PREFIX repr: <https://w3id.org/reproduceme#>
-PREFIX dwc: <http://rs.tdwg.org/dwc/terms/>
 PREFIX dc: <http://purl.org/dc/elements/1.1/>
 PREFIX dcterms: <http://purl.org/dc/terms/>
-PREFIX temp: <http://rdf.molmedb.upol.cz/vocabulary#> #IRIS yet missing
+PREFIX mmdbvoc: <http://rdf.molmedb.upol.cz/vocabulary#>
 
 mmdbint:interaction{
-  rdf:type bao:BAO_0000015; 
+  rdf:type bao:BAO_0002182; #pharmacokinetic assay
   bao:BAO_0090012 @mmdbint:membrane; #MySQL interaction.id_membrane -> membranes.id
   bao:BAO_0090012 @mmdbsub:substance; #MySQL interaction.id_substance -> substances.id
   bao:BAO_0000209 @mmdbint:interaction_measure_group;
-  #bao:BAO_0000205 bao:BAO_0000100; #has assay format small-molecule physicochemical format
-  cito:citesAsDataSource  @mmdbref:publication?; #MySQL interaction.id_reference -> publications.id
-  
-
-  
+  cito:citesAsDataSource  @mmdbref:publication? #MySQL interaction.id_reference -> publications.id
 }
 
 mmdbint:interaction_measure_group{
-  rdf:type bao:BAO_0000040;
+  rdf:type bao:BAO_0000040; #type measure group
   bao:BAO_0000212 @mmdbint:method?;
   bao:BAO_0000208 @mmdbint:interaction_logk?;
   bao:BAO_0000208 @mmdbint:interaction_logperm?;
+  bao:BAO_0000208 @mmdbint:interaction_position?;
+  bao:BAO_0000208 @mmdbint:interaction_penetration?;
+  bao:BAO_0000208 @mmdbint:interaction_water?;
+  bao:BAO_0000208 @mmdbint:interaction_theta?;
+  bao:BAO_0000208 @mmdbint:interaction_abs_wl?;
+  bao:BAO_0000208 @mmdbint:interaction_fluo_wl?;
+  bao:BAO_0000208 @mmdbint:interaction_qy?;
+  bao:BAO_0000208 @mmdbint:interaction_lt?;
+
   bao:BAO_0090012 @mmdbint:substance; #MySQL interaction.id_substance -> substances.id
   bao:BAO_0090012 @mmdbint:membrane; #MySQL interaction.id_membrane -> membranes.id
   bao:BAO_0000426 @mmdbint:interaction;
 
   repr:hasExperimentalCondition @mmdbint:interaction_temperature?;
   repr:hasExperimentalCondition @mmdbint:interaction_mol_charge?;
-  rdfs:comment xsd:string?; #MySQL interaction.comment
-
-  #measure group should have detection method - missing in MolMeDB mysql dataset
-
+  rdfs:comment xsd:string? #MySQL interaction.comment
 }
 
 mmdbint:membrane{
-  rdf:type temp:membrane_model; #needs membrane model class - BAO wants biologgical macromol for bioassay, but mebrane is not
+  rdf:type mmdbvoc:MembraneModel; #needs membrane model class - BAO wants biologgical macromol for bioassay, but mebrane is not
   rdfs:label xsd:string?; #MySQL membranes.name
   dc:description rdf:html?; #MySQL membranes.description
-  dcterms:bibliographicCitation xsd:string?; #MySQL membranes.references
-#  bao:BAO_0003102 bao:BAO_0003064 #has role target
+  dcterms:bibliographicCitation xsd:html? #MySQL membranes.references
 }
 
 mmdbint:method{
   rdf:type bao:BAO_0002753; #assay method component, should be BAO_0002202 (assay design method) but we need consider computational data
   rdfs:label xsd:string?; #MySQL methods.name
   dc:description rdf:html?; #MySQL methods.description
-  dcterms:bibliographicCitation xsd:string?; #MySQL methods.references
+  dcterms:bibliographicCitation xsd:html? #MySQL methods.references
 }
 
 mmdbint:interaction_temperature{
   sio:SIO_000300 xsd:integer; #MySQL interaction.temperature
   sio:SIO_000221 obo:UO_0000027; #has unit degree celsius
-  rdf:type  obo:PATO_0000146; #type temperature
+  rdf:type  obo:PATO_0000146 #type temperature
 }
 
 mmdbint:interaction_mol_charge{
   sio:SIO_000300 xsd:string; #MySQL interaction.charge
-  rdf:type  edam:data_0845; #type molecular charge
-  
+  rdf:type  edam:data_0845 #type molecular charge
 }
 
 mmdbsub:substance{ #described in substance.shx
@@ -81,18 +80,70 @@ mmdbref:publication {
 
 mmdbint:interaction_logk{
   bao:BAO_0095007 xsd:double; #MySQL interaction.LogK
-  sio:SIO_000221 obo:NCIT_C70455;
-  rdf:type  temp:logk;#needs to be BAO endpoint subclass BAO_0000179, missing in BAO
-  bao:BAO_0000559 @mmdbint:interaction_measure_group;
-  #dwc:measurementAccuracy xsd:float? standard deviation would be nice
-
+  sio:SIO_000221 obo:NCIT_C70455; #unit mole per mole
+  rdf:type mmdbvoc:LogK;
+  bao:BAO_0000559 @mmdbint:interaction_measure_group
 }
 
 mmdbint:interaction_logperm{
   bao:BAO_0095007 xsd:double; #MySQL interaction.LogPerm
   bao:BAO_0002858 bao:BAO_0002172; #has endpoint modifier log10(endpoint)
-  sio:SIO_000221 obo:NCIT_C102406;
-  rdf:type  bao:BAO_0002808;
-  bao:BAO_0000559 @mmdbint:interaction_measure_group;
-  #dwc:measurementAccuracy xsd:float?
+  sio:SIO_000221 obo:NCIT_C102406;  #cm/s unit
+  rdf:type  bao:BAO_0002808; #type permeability
+  bao:BAO_0000559 @mmdbint:interaction_measure_group
+}
+
+mmdbint:interaction_position{
+  bao:BAO_0095007 xsd:double; #MySQL interaction.Position
+  sio:SIO_000221 obo:NCIT_C67328; #unit nm
+  rdf:type mmdbvoc:PositionOfMinima;
+  bao:BAO_0000559 @mmdbint:interaction_measure_group
+}
+
+mmdbint:interaction_penetration{
+  bao:BAO_0095007 xsd:double; #MySQL interaction.Penetration
+  sio:SIO_000221 mmdbvocab:kcalMol;
+  rdf:type mmdbvoc:PenetrationBarrier;
+  bao:BAO_0000559 @mmdbint:interaction_measure_group
+}
+
+mmdbint:interaction_water{
+  bao:BAO_0095007 xsd:double; #MySQL interaction.Water
+  sio:SIO_000221 mmdbvocab:kcalMol;
+  rdf:type mmdbvoc:DepthOfMinima;
+  bao:BAO_0000559 @mmdbint:interaction_measure_group
+}
+
+mmdbint:interaction_theta{
+  bao:BAO_0095007 xsd:double; #MySQL interaction.theta
+  sio:SIO_000221 obo:NCIT_C68667; #unit planar angle degrees
+  rdf:type mmdbvoc:ContactAngle;
+  bao:BAO_0000559 @mmdbint:interaction_measure_group
+}
+
+mmdbint:interaction_abs_wl{
+  bao:BAO_0095007 xsd:double; #MySQL interaction.abs_wl
+  sio:SIO_000221 obo:NCIT_C67328; #unit nm
+  rdf:type mmdbvoc:AbsorbtionWavelength;
+  bao:BAO_0000559 @mmdbint:interaction_measure_group
+}
+
+mmdbint:interaction_fluo_wl{
+  bao:BAO_0095007 xsd:double; #MySQL interaction.fluo_wl
+  sio:SIO_000221 obo:NCIT_C67328; #unit nm
+  rdf:type mmdbvoc:FluorescenceWavelength;
+  bao:BAO_0000559 @mmdbint:interaction_measure_group
+}
+
+mmdbint:interaction_qy{
+  bao:BAO_0095007 xsd:double; #MySQL interaction.QY
+  rdf:type mmdbvoc:QuantumYield;
+  bao:BAO_0000559 @mmdbint:interaction_measure_group
+}
+
+mmdbint:interaction_lt{
+  bao:BAO_0095007 xsd:double; #MySQL interaction.lt
+  sio:SIO_000221 obo:NCIT_C73767; #unit nanosecond
+  rdf:type mmdbvoc:FluorescenceLifetime;
+  bao:BAO_0000559 @mmdbint:interaction_measure_group
 }

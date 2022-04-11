@@ -7,24 +7,21 @@ PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 PREFIX sio: <http://semanticscience.org/resource/>
 PREFIX cito: <http://purl.org/spar/cito/>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-PREFIX dwc: <http://rs.tdwg.org/dwc/terms/>
 PREFIX bao: <http://www.bioassayontology.org/bao#>
 PREFIX repr: <https://w3id.org/reproduceme#>
-PREFIX temp: <http://rdf.molmedb.upol.cz/vocabulary#> #without IRI yet
+PREFIX mmdbvoc: <http://rdf.molmedb.upol.cz/vocabulary#>
 
 mmdbtra:transporter_assay{
-  rdf:type bao:BAO_0003008;
+  rdf:type bao:BAO_0003008; #transporter assay type
   bao:BAO_0090012 @mmdbsub:substance; #MySQL transporters.id_substance -> substance.id
   bao:BAO_0090012 @mmdbtra:target; #MySQLtransporters.id_target -> transporter_targets.id
   bao:BAO_0000209 @mmdbtra:transporter_assay_measure_group;
-#  bao:BAO_0000205 bao:BAO_0000224; #has assay format proteinformat
   cito:citesAsDataSource  @mmdbref:publication? #MySQL transporters.id_reference -> publications.id
 }
 
 mmdbtra:transporter_assay_measure_group{
-  rdf:type bao:BAO_0000040;
+  rdf:type bao:BAO_0000040; #measure group type
 
-  #in database only (non)substrate/inhibitor now, so this temporary solution with positive/negative result
   bao:BAO_0000208 @mmdbtra:assay_substrate?; #IF transpoters.type = 1 OR transporters.type = 2
   bao:BAO_0000208 @mmdbtra:assay_inhibitor?; #IF transpoters.type = 3 OR transporters.type = 4
 
@@ -36,68 +33,52 @@ mmdbtra:transporter_assay_measure_group{
 
   bao:BAO_0090012 @mmdbsub:substance; #MySQL transporters.id_substance -> substance.id
   bao:BAO_0090012 @mmdbtra:target; #MySQLtransporters.id_target -> transporter_targets.id
-  bao:BAO_0000426 @mmdbtra:transporter_assay;
-  #no detection method, no assay detection method, 
+  bao:BAO_0000426 @mmdbtra:transporter_assay
 }
 
 mmdbsub:substance{#susbtances.shx
 }
 
-mmdbtra:target{
+mmdbtra:target{#uniprot IRI
   rdf:type bao:BAO_0000283; #transporter
   rdfs:label xsd:string; #MySQL transpoter_targets.name
-  obo:ERO_0000547 xsd:string; #MysQL transporter_targets.uniprot_id
-#  bao:BAO_0003102 bao:BAO_0003064; #has role target
+  obo:ERO_0000547 xsd:string #MysQL transporter_targets.uniprot_id
 }
 
 mmdbtra:assay_substrate{
   sio:SIO_000300 [repr:PositiveResult repr:NegativeResult]; #IF transporters.type = 1 repr:PositiveResult, IF transporters.type = 2 repr:NegativeResult
-  rdf:type bao:BAO_0080024; #binary edpoint
-  bao:BAO_0000196 temp:substrate_binding; #has mode of action binding as substrate
-  bao:BAO_0000559 @mmdbtra:transporter_assay_measure_group;
+  rdf:type mmdbvoc:SubstrateBindingAssay;
+  bao:BAO_0000559 @mmdbtra:transporter_assay_measure_group
 }
 
 mmdbtra:assay_inhibitor{
   sio:SIO_000300 [repr:PositiveResult repr:NegativeResult]; #IF transporters.type = 3 repr:PositiveResult, IF transporters.type = 4 repr:NegativeResult
-  rdf:type bao:BAO_0080024; #binary endpoint
-  bao:BAO_0000196 bao:BAO_0000091; #has mode of action inhibition
-  bao:BAO_0000559 @mmdbtra:transporter_assay_measure_group;
-  #according to BAO_0000091 description should have % value, dataset is only non/inhibitor
+  rdf:type mmdbvoc:InhibitionAssay;
+  bao:BAO_0000559 @mmdbtra:transporter_assay_measure_group
 }
 
 mmdbtra:assay_pkm{
   sio:SIO_000300 xsd:double; #MySQL transporters.Km
-  rdf:type temp:pkm;
-  bao:BAO_0000559 @mmdbtra:transporter_assay_measure_group;
-  #dwc:measurementAccuracy xsd:double? #standard deviation would be nice
+  rdf:type mmdbvoc:PKm;
+  bao:BAO_0000559 @mmdbtra:transporter_assay_measure_group
 }
 
 mmdbtra:assay_pec50{
   bao:BAO_0002666 xsd:double; #MySQL transporters.EC50
-  rdf:type  bao:BAO_0002583;
-  bao:BAO_0000559 @mmdbtra:transporter_assay_measure_group;
-#  bao:BAO_0000196 bao:BAO_0000087; #has mode of action activation
-#  bao:BAO_0000337 bao:BAO_0000346; #has percent response 50 percent activation
-#  bao:BAO_0000183 obo:UO_0000062; #has concentration unit molar - need negative logarithm of molar concentratin unit
-  #dwc:measurementAccuracy xsd:double?
+  rdf:type  bao:BAO_0002583; #pEC50 endpoint type
+  bao:BAO_0000559 @mmdbtra:transporter_assay_measure_group
 }
 
 mmdbtra:assay_pki{
   sio:SIO_000300 xsd:double; #MySQL transporters.Ki
-  rdf:type  bao:BAO_0190004;
+  rdf:type  bao:BAO_0190004; #pKi endpoint type
   bao:BAO_0000559 @mmdbtra:transporter_assay_measure_group;
-  #dwc:measurementAccuracy xsd:double?
 }
 
 mmdbtra:assay_pic50{
   bao:BAO_0002666 xsd:double; #MySQL transporters.IC50
-  rdf:type  bao:BAO_0000199; #should be endpoint subclass bao:BAO_0000179
+  rdf:type  bao:BAO_0000199; #pIC50 endpoint type
   bao:BAO_0000559 @mmdbtra:transporter_assay_measure_group;
-#  bao:BAO_0000196 bao:BAO_0000091; #has mode of action inhibition
-#  bao:BAO_0000337 bao:BAO_0000347; #has percent response 50 percent activation
-# bao:BAO_0001105 bao:BAO_0000065; #based on normalization % inhibition normalization
-#  bao:BAO_0000183 obo:UO_0000062; #has concentration unit molar - need -log of molar concentration unit
-  #dwc:measurementAccuracy xsd:double?
 }
 
 mmdbref:publication{#reference.shex

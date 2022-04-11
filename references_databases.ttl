@@ -1,0 +1,27 @@
+#manually created RDF file for databases in references
+
+@prefix mmdbref: <http://rdf.molmedb.upol.cz/reference/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix dcmitypes: <http://purl.org/dc/dcmitype/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+mmdbref:ref22 rdf:type dcmitypes:Dataset ;
+    dcterms:bibliographicCitation "MolMeDB" ;
+    rdfs:seeAlso <https://molmedb.upol.cz/> .
+
+mmdbref:ref1030 rdf:type dcmitypes:Dataset ;
+    dcterms:bibliographicCitation "PubChem" ;
+    rdfs:seeAlso <https://pubchem.ncbi.nlm.nih.gov/> .
+
+mmdbref:ref1031 rdf:type dcmitypes:Dataset ;
+    dcterms:bibliographicCitation "ChEMBL" ;
+    rdfs:seeAlso <https://www.ebi.ac.uk/chembl/> .
+
+mmdbref:ref1875 rdf:type dcmitypes:Dataset ;
+    dcterms:bibliographicCitation "IUPHAR" ;
+    rdfs:seeAlso <https://www.guidetopharmacology.org/> .
+
+mmdbref:ref1876 rdf:type dcmitypes:Dataset ;
+    dcterms:bibliographicCitation "Metrabase" ;
+    rdfs:seeAlso <http://www-metrabase.ch.cam.ac.uk/> .
