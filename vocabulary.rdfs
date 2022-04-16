@@ -41,6 +41,12 @@
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">LogK</rdfs:label>
   </owl:Class>
 
+  <owl:Class rdf:about="http://rdf.molmedb.upol.cz/vocabulary#LogPerm">
+    <rdfs:subClassOf rdf:resource="http://www.bioassayontology.org/bao#BAO_0002808"/>
+    <obo:IAO_0000115>Logarithm of membrane permeability.</obo:IAO_0000115>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">LogPerm</rdfs:label>
+  </owl:Class>
+
   <owl:Class rdf:about="http://rdf.molmedb.upol.cz/vocabulary#PositionOfMinima">
     <rdfs:subClassOf rdf:resource="http://www.bioassayontology.org/bao#BAO_0002118"/>
     <!--graphical calculation endpoint - values obtained from curve? --> 

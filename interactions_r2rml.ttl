@@ -4,7 +4,6 @@
 @prefix obo: <http://purl.obolibrary.org/obo/> .
 @prefix cito: <http://purl.org/spar/cito/> .
 @prefix bao: <http://www.bioassayontology.org/bao#> .
-@prefix edam: <http://edamontology.org/> .
 @prefix repr: <https://w3id.org/reproduceme#> .
 @prefix dc: <http://purl.org/dc/elements/1.1/> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
@@ -12,6 +11,9 @@
 @prefix mmdbvoc: <http://rdf.molmedb.upol.cz/vocabulary#> .
 
 
+################################################
+## interaction central node
+################################################
 <#TriplesMap1>
   rr:logicalTable [ rr:sqlQuerry """
     SELECT *,
@@ -38,6 +40,9 @@
     rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/reference/ref{id_reference}"  ]
   ] .
 
+################################################
+## interaction measure group
+################################################
 <#TriplesMap2>
   rr:logicalTable [ rr:sqlQuerry """
     SELECT *,
@@ -129,6 +134,9 @@
     rr:objectMap [ rr:column "comment" ]
   ] .
 
+################################################
+## membrane
+################################################
 <#TriplesMap3>
   rr:logicalTable [ rr:sqlQuerry """
   SELECT id, name,
@@ -152,6 +160,9 @@
     rr:objectMap [ rr:column "ref"; rr:datatype rdf:HTML ]
   ] .
 
+################################################
+## method
+################################################
 <#TriplesMap4>
   rr:logicalTable [ rr:sqlQuerry """
   SELECT id, name,
@@ -175,6 +186,9 @@
     rr:objectMap [ rr:column "ref"; rr:datatype rdf:HTML ]
   ] .
 
+################################################
+## experimental conditions
+################################################
 <#TriplesMap5>
   rr:logicalTable [ rr:sqlQuerry "SELECT * FROM interaction WHERE temperature IS NOT NULL" ] ;
   rr:subjectMap [
@@ -187,7 +201,7 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate sio:SIO_000221 ;
-    rr:objectMap [ rr:constant obo:UO_0000027 ]
+    rr:objectMap [ rr:constant obo:NCIT_C42559 ]
   ] .
 
 #charges need to be standardized first - delet + symbols and whitespaces
@@ -200,15 +214,20 @@
   """ ] ;
   rr:subjectMap [
     rr:template "http://rdf.molmedb.upol.cz/interaction/measure_group_mol_charge_int{id}" ;
-    rr:class edam:data_0845
+    rr:class sio:CHEMINF_000120
   ] ;
     rr:predicateObjectMap [
     rr:predicate sio:SIO_000300 ;
     rr:objectMap [ rr:column "standardized_charge" ]
   ] .
 
+################################################
+## interaction endpoints
+################################################
 <#TriplesMap7>
-  rr:logicalTable [ rr:sqlQuerry "SELECT * FROM interaction WHERE LogK IS NOT NULL" ] ;
+  rr:logicalTable [ rr:sqlQuerry """
+    SELECT *, (CASE WHEN LogK_acc IS NULL THEN NULL ELSE id END) stdev_id FROM interaction WHERE LogK IS NOT NULL
+    """ ] ;
   rr:subjectMap [
     rr:template "http://rdf.molmedb.upol.cz/interaction/endpoint_logk_int{id}" ;
     rr:class mmdbvoc:LogK
@@ -222,27 +241,33 @@
     rr:objectMap [ rr:constant obo:NCIT_C70455 ]
   ] ;
     rr:predicateObjectMap [
+    rr:predicate bao:BAO_0002858 ;
+    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/interaction/endpoint_logk_stdev_int{stdev_id}" ]
+  ] ;
+    rr:predicateObjectMap [
     rr:predicate bao:BAO_0000559 ;
     rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/interaction/measure_group_int{id}" ]
   ] .
 
 <TriplesMap8>
-  rr:logicalTable [ rr:sqlQuerry "SELECT * FROM interaction WHERE LogPerm IS NOT NULL" ] ;
+  rr:logicalTable [ rr:sqlQuerry """
+    SELECT *, (CASE WHEN LogPerm_acc IS NULL THEN NULL ELSE id END) stdev_id FROM interaction WHERE LogPerm IS NOT NULL
+    """ ] ;
   rr:subjectMap [
     rr:template "http://rdf.molmedb.upol.cz/interaction/endpoint_logperm_int{id}" ;
-    rr:class bao:BAO_0002808
+    rr:class mmdbvoc:LogPerm
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0095007 ;
     rr:objectMap [ rr:column "LogPerm" ]
   ] ;
     rr:predicateObjectMap [
-    rr:predicate bao:BAO_0002858 ;
-    rr:objectMap [ rr:constant bao:BAO_0002172 ]
-  ] ;
-    rr:predicateObjectMap [
     rr:predicate sio:SIO_000221 ;
     rr:objectMap [ rr:constant obo:NCIT_C102406 ]
+  ] ;
+    rr:predicateObjectMap [
+    rr:predicate bao:BAO_0002858 ;
+    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/interaction/endpoint_logperm_stdev_int{stdev_id}" ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000559 ;
@@ -250,7 +275,9 @@
   ] .
 
 <#TriplesMap9>
-  rr:logicalTable [ rr:sqlQuerry "SELECT * FROM interaction WHERE Position IS NOT NULL" ] ;
+  rr:logicalTable [ rr:sqlQuerry """
+    SELECT *, (CASE WHEN Position_acc IS NULL THEN NULL ELSE id END) stdev_id FROM interaction WHERE Position IS NOT NULL
+    """ ] ;
   rr:subjectMap [
     rr:template "http://rdf.molmedb.upol.cz/interaction/endpoint_position_int{id}" ;
     rr:class mmdbvoc:PositionOfMinima
@@ -264,12 +291,18 @@
     rr:objectMap [ rr:constant obo:NCIT_C67328 ]
   ] ;
     rr:predicateObjectMap [
+    rr:predicate bao:BAO_0002858 ;
+    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/interaction/endpoint_position_stdev_int{stdev_id}" ]
+  ] ;
+    rr:predicateObjectMap [
     rr:predicate bao:BAO_0000559 ;
     rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/interaction/measure_group_int{id}" ]
   ] .
 
 <#TriplesMap10>
-  rr:logicalTable [ rr:sqlQuerry "SELECT * FROM interaction WHERE Penetration IS NOT NULL" ] ;
+  rr:logicalTable [ rr:sqlQuerry """
+    SELECT *, (CASE WHEN Penetration_acc IS NULL THEN NULL ELSE id END) stdev_id FROM interaction WHERE Penetration IS NOT NULL
+    """ ] ;
   rr:subjectMap [
     rr:template "http://rdf.molmedb.upol.cz/interaction/endpoint_penetration_int{id}" ;
     rr:class mmdbvoc:PenetrationBarrier
@@ -283,12 +316,18 @@
     rr:objectMap [ rr:constant mmdbvoc:kcalMol ]
   ] ;
     rr:predicateObjectMap [
+    rr:predicate bao:BAO_0002858 ;
+    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/interaction/endpoint_penetration_stdev_int{stdev_id}" ]
+  ] ;
+    rr:predicateObjectMap [
     rr:predicate bao:BAO_0000559 ;
     rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/interaction/measure_group_int{id}" ]
   ] .
 
 <#TriplesMap11>
-  rr:logicalTable [ rr:sqlQuerry "SELECT * FROM interaction WHERE Water IS NOT NULL" ] ;
+  rr:logicalTable [ rr:sqlQuerry """
+    SELECT *, (CASE WHEN Water_acc IS NULL THEN NULL ELSE id END) stdev_id FROM interaction WHERE Water IS NOT NULL
+    """ ] ;
   rr:subjectMap [
     rr:template "http://rdf.molmedb.upol.cz/interaction/endpoint_water_int{id}" ;
     rr:class mmdbvoc:DepthOfMinima
@@ -302,12 +341,18 @@
     rr:objectMap [ rr:constant mmdbvoc:kcalMol ]
   ] ;
     rr:predicateObjectMap [
+    rr:predicate bao:BAO_0002858 ;
+    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/interaction/endpoint_water_stdev_int{stdev_id}" ]
+  ] ;
+    rr:predicateObjectMap [
     rr:predicate bao:BAO_0000559 ;
     rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/interaction/measure_group_int{id}" ]
   ] .
 
 <#TriplesMap12>
-  rr:logicalTable [ rr:sqlQuerry "SELECT * FROM interaction WHERE theta IS NOT NULL" ] ;
+  rr:logicalTable [ rr:sqlQuerry """
+    SELECT *, (CASE WHEN theta_acc IS NULL THEN NULL ELSE id END) stdev_id FROM interaction WHERE theta IS NOT NULL
+    """ ] ;
   rr:subjectMap [
     rr:template "http://rdf.molmedb.upol.cz/interaction/endpoint_theta_int{id}" ;
     rr:class mmdbvoc:ContactAngle
@@ -321,12 +366,18 @@
     rr:objectMap [ rr:constant obo:NCIT_C68667 ]
   ] ;
     rr:predicateObjectMap [
+    rr:predicate bao:BAO_0002858 ;
+    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/interaction/endpoint_theta_stdev_int{stdev_id}" ]
+  ] ;
+    rr:predicateObjectMap [
     rr:predicate bao:BAO_0000559 ;
     rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/interaction/measure_group_int{id}" ]
   ] .
 
 <#TriplesMap13>
-  rr:logicalTable [ rr:sqlQuerry "SELECT * FROM interaction WHERE abs_wl IS NOT NULL" ] ;
+  rr:logicalTable [ rr:sqlQuerry """
+    SELECT *, (CASE WHEN abs_wl_acc IS NULL THEN NULL ELSE id END) stdev_id FROM interaction WHERE abs_wl IS NOT NULL
+    """ ] ;
   rr:subjectMap [
     rr:template "http://rdf.molmedb.upol.cz/interaction/endpoint_abs_wl_int{id}" ;
     rr:class mmdbvoc:AbsorbtionWavelength
@@ -340,12 +391,18 @@
     rr:objectMap [ rr:constant obo:NCIT_C67328 ]
   ] ;
     rr:predicateObjectMap [
+    rr:predicate bao:BAO_0002858 ;
+    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/interaction/endpoint_abs_wl_stdev_int{stdev_id}" ]
+  ] ;
+    rr:predicateObjectMap [
     rr:predicate bao:BAO_0000559 ;
     rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/interaction/measure_group_int{id}" ]
   ] .
 
 <#TriplesMap14>
-  rr:logicalTable [ rr:sqlQuerry "SELECT * FROM interaction WHERE fluo_wl IS NOT NULL" ] ;
+  rr:logicalTable [ rr:sqlQuerry """
+    SELECT *, (CASE WHEN fluo_wl_acc IS NULL THEN NULL ELSE id END) stdev_id FROM interaction WHERE fluo_wl IS NOT NULL
+    """ ] ;
   rr:subjectMap [
     rr:template "http://rdf.molmedb.upol.cz/interaction/endpoint_fluo_wl_int{id}" ;
     rr:class mmdbvoc:FluorescenceWavelength
@@ -359,12 +416,18 @@
     rr:objectMap [ rr:constant obo:NCIT_C67328 ]
   ] ;
     rr:predicateObjectMap [
+    rr:predicate bao:BAO_0002858 ;
+    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/interaction/endpoint_fluo_wl_stdev_int{stdev_id}" ]
+  ] ;
+    rr:predicateObjectMap [
     rr:predicate bao:BAO_0000559 ;
     rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/interaction/measure_group_int{id}" ]
   ] .
 
 <#TriplesMap15>
-  rr:logicalTable [ rr:sqlQuerry "SELECT * FROM interaction WHERE QY IS NOT NULL" ] ;
+  rr:logicalTable [ rr:sqlQuerry """
+    SELECT *, (CASE WHEN QY_acc IS NULL THEN NULL ELSE id END) stdev_id FROM interaction WHERE QY IS NOT NULL
+    """ ] ;
   rr:subjectMap [
     rr:template "http://rdf.molmedb.upol.cz/interaction/endpoint_qy_int{id}" ;
     rr:class mmdbvoc:QuantumYield
@@ -374,12 +437,18 @@
     rr:objectMap [ rr:column "QY" ]
   ] ;
     rr:predicateObjectMap [
+    rr:predicate bao:BAO_0002858 ;
+    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/interaction/endpoint_qy_stdev_int{stdev_id}" ]
+  ] ;
+    rr:predicateObjectMap [
     rr:predicate bao:BAO_0000559 ;
     rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/interaction/measure_group_int{id}" ]
   ] .
 
 <#TriplesMap16>
-  rr:logicalTable [ rr:sqlQuerry "SELECT * FROM interaction WHERE lt IS NOT NULL" ] ;
+  rr:logicalTable [ rr:sqlQuerry """
+    SELECT *, (CASE WHEN lt_acc IS NULL THEN NULL ELSE id END) stdev_id FROM interaction WHERE lt IS NOT NULL
+    """ ] ;
   rr:subjectMap [
     rr:template "http://rdf.molmedb.upol.cz/interaction/endpoint_lt_int{id}" ;
     rr:class mmdbvoc:FluorescenceLifetime
@@ -393,6 +462,123 @@
     rr:objectMap [ rr:constant obo:NCIT_C73767 ]
   ] ;
     rr:predicateObjectMap [
+    rr:predicate bao:BAO_0002858 ;
+    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/interaction/endpoint_lt_stdev_int{stdev_id}" ]
+  ] ;
+    rr:predicateObjectMap [
     rr:predicate bao:BAO_0000559 ;
     rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/interaction/measure_group_int{id}" ]
+  ] .
+
+################################################
+## endpoint strandard deviations
+################################################
+<#TriplesMap17>
+  rr:logicalTable [ rr:sqlQuerry "SELECT * FROM interaction WHERE LogK_acc IS NOT NULL" ] ;
+  rr:subjectMap [
+    rr:template "http://rdf.molmedb.upol.cz/interaction/endpoint_logk_stdev_int{id}" ;
+    rr:class bao:BAO_0002176
+  ] ;
+    rr:predicateObjectMap [
+    rr:predicate bao:BAO_0095007 ;
+    rr:objectMap [ rr:column "LogK_acc" ]
+  ] .
+
+<#TriplesMap18>
+  rr:logicalTable [ rr:sqlQuerry "SELECT * FROM interaction WHERE LogPerm_acc IS NOT NULL" ] ;
+  rr:subjectMap [
+    rr:template "http://rdf.molmedb.upol.cz/interaction/endpoint_logperm_stdev_int{id}" ;
+    rr:class bao:BAO_0002176
+  ] ;
+    rr:predicateObjectMap [
+    rr:predicate bao:BAO_0095007 ;
+    rr:objectMap [ rr:column "LogPerm_acc" ]
+  ] .
+
+<#TriplesMap19>
+  rr:logicalTable [ rr:sqlQuerry "SELECT * FROM interaction WHERE Position_acc IS NOT NULL" ] ;
+  rr:subjectMap [
+    rr:template "http://rdf.molmedb.upol.cz/interaction/endpoint_position_stdev_int{id}" ;
+    rr:class bao:BAO_0002176
+  ] ;
+    rr:predicateObjectMap [
+    rr:predicate bao:BAO_0095007 ;
+    rr:objectMap [ rr:column "Position_acc" ]
+  ] .
+
+<#TriplesMap20>
+  rr:logicalTable [ rr:sqlQuerry "SELECT * FROM interaction WHERE Penetration_acc IS NOT NULL" ] ;
+  rr:subjectMap [
+    rr:template "http://rdf.molmedb.upol.cz/interaction/endpoint_penetration_stdev_int{id}" ;
+    rr:class bao:BAO_0002176
+  ] ;
+    rr:predicateObjectMap [
+    rr:predicate bao:BAO_0095007 ;
+    rr:objectMap [ rr:column "Penetration_acc" ]
+  ] .
+
+<#TriplesMap21>
+  rr:logicalTable [ rr:sqlQuerry "SELECT * FROM interaction WHERE Water_acc IS NOT NULL" ] ;
+  rr:subjectMap [
+    rr:template "http://rdf.molmedb.upol.cz/interaction/endpoint_water_stdev_int{id}" ;
+    rr:class bao:BAO_0002176
+  ] ;
+    rr:predicateObjectMap [
+    rr:predicate bao:BAO_0095007 ;
+    rr:objectMap [ rr:column "Water_acc" ]
+  ] .
+
+<#TriplesMap22>
+  rr:logicalTable [ rr:sqlQuerry "SELECT * FROM interaction WHERE theta_acc IS NOT NULL" ] ;
+  rr:subjectMap [
+    rr:template "http://rdf.molmedb.upol.cz/interaction/endpoint_theta_stdev_int{id}" ;
+    rr:class bao:BAO_0002176
+  ] ;
+    rr:predicateObjectMap [
+    rr:predicate bao:BAO_0095007 ;
+    rr:objectMap [ rr:column "theta_acc" ]
+  ] .
+
+<#TriplesMap23>
+  rr:logicalTable [ rr:sqlQuerry "SELECT * FROM interaction WHERE abs_wl_acc IS NOT NULL" ] ;
+  rr:subjectMap [
+    rr:template "http://rdf.molmedb.upol.cz/interaction/endpoint_abs_wl_stdev_int{id}" ;
+    rr:class bao:BAO_0002176
+  ] ;
+    rr:predicateObjectMap [
+    rr:predicate bao:BAO_0095007 ;
+    rr:objectMap [ rr:column "abs_wl_acc" ]
+  ] .
+
+<#TriplesMap24>
+  rr:logicalTable [ rr:sqlQuerry "SELECT * FROM interaction WHERE fluo_wl_acc IS NOT NULL" ] ;
+  rr:subjectMap [
+    rr:template "http://rdf.molmedb.upol.cz/interaction/endpoint_fluo_wl_stdev_int{id}" ;
+    rr:class bao:BAO_0002176
+  ] ;
+    rr:predicateObjectMap [
+    rr:predicate bao:BAO_0095007 ;
+    rr:objectMap [ rr:column "fluo_wl_acc" ]
+  ] .
+
+<#TriplesMap25>
+  rr:logicalTable [ rr:sqlQuerry "SELECT * FROM interaction WHERE QY_acc IS NOT NULL" ] ;
+  rr:subjectMap [
+    rr:template "http://rdf.molmedb.upol.cz/interaction/endpoint_qy_stdev_int{id}" ;
+    rr:class bao:BAO_0002176
+  ] ;
+    rr:predicateObjectMap [
+    rr:predicate bao:BAO_0095007 ;
+    rr:objectMap [ rr:column "QY_acc" ]
+  ] .
+
+<#TriplesMap26>
+  rr:logicalTable [ rr:sqlQuerry "SELECT * FROM interaction WHERE lt_acc IS NOT NULL" ] ;
+  rr:subjectMap [
+    rr:template "http://rdf.molmedb.upol.cz/interaction/endpoint_lt_stdev_int{id}" ;
+    rr:class bao:BAO_0002176
+  ] ;
+    rr:predicateObjectMap [
+    rr:predicate bao:BAO_0095007 ;
+    rr:objectMap [ rr:column "lt_acc" ]
   ] .

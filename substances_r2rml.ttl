@@ -5,6 +5,9 @@
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix rr: <http://www.w3.org/ns/r2rml#> .
 
+################################################
+## substance central node
+################################################
 <#TriplesMap1>
   rr:logicalTable [ rr:sqlQuerry """
     SELECT id,name, pubchem, chEBI, chEMBL, pdb,
@@ -70,7 +73,7 @@
   ] ;
   rr:predicateObjectMap [
     rr:predicate skos:exactMatch ;
-    rr:objectMap [ rr:template "http://purl.obolibrary.org/obo/CHEBI_{chEBI}" ] ###TODO - make all chebi IDs in database consistent
+    rr:objectMap [ rr:template "http://purl.obolibrary.org/obo/CHEBI_{chEBI}" ]
   ] ;
   rr:predicateObjectMap [
     rr:predicate skos:exactMatch ;
@@ -82,9 +85,12 @@
   ] ;
   rr:predicateObjectMap [
     rr:predicate skos:exactMatch ;
-    rr:objectMap [ rr:template "http://rdf.ebi.ac.uk/resource/chembl/molecule/{chEMBL}" ] ###make this one consistent too
+    rr:objectMap [ rr:template "http://rdf.ebi.ac.uk/resource/chembl/molecule/{chEMBL}" ]
   ] .
 
+################################################
+## mapping of obsolete substances
+################################################
 <#TriplesMap2>
   rr:logicalTable [ rr:sqlQuerry "SELECT *, (CASE WHEN LENGTH(id_substance)<5 THEN LPAD(id,5,0) ELSE id_substance END) padded_id_substance
       FROM substance_links" ] ;
@@ -101,6 +107,9 @@
     rr:objectMap [ rr:constant obo:IAO_0000227 ]
   ] .
 
+################################################
+## molecular descriptors
+################################################
 <#TriplesMap3>
   rr:logicalTable [ rr:sqlQuerry """
     SELECT id, (CASE WHEN LENGTH(id)<5 THEN LPAD(id,5,0) ELSE id END) padded_id, SMILES FROM substances WHERE SMILES IS NOT NULL
@@ -141,7 +150,7 @@
   ] ;
   rr:predicateObjecMap [
     rr:predicate sio:SIO_000221 ;
-    rr:objectmap [ rr:constant obo:UO_0000055]
+    rr:objectmap [ rr:constant obo:NCIT_C41127 ]
   ] .
 
 <#TriplesMap6>
@@ -157,6 +166,9 @@
     rr:objectMap [ rr:column "LogP" ]
   ] .
 
+################################################
+## database identifiers
+################################################
 <#TriplesMap7>
   rr:logicalTable [ rr:sqlQuerry """
     SELECT id, (CASE WHEN LENGTH(id)<5 THEN LPAD(id,5,0) ELSE id END) padded_id, pubchem FROM substances WHERE pubchem IS NOT NULL
