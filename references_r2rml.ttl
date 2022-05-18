@@ -12,7 +12,7 @@
     SELECT id, doi, citation, pmid FROM publications WHERE citation NOT IN ('in-house calculations','PUBCHEM', 'ChEMBL', 'IUPHAR', 'Metrabase')
     """ ] ;
   rr:subjectMap [
-    rr:template "http://rdf.molmedb.upol.cz/reference/ref{id}" ;
+    rr:template "https://rdf.molmedb.upol.cz/reference/ref{id}" ;
     rr:class dcterms:BibliographicResource
   ] ;
     rr:predicateObjectMap [
@@ -27,38 +27,45 @@
     rr:predicate bibo:pmid ;
     rr:objectMap [ rr:column "pmid" ]
   ] .
-#which interactions and substances there in source - database included
+
+#which interactions - database included
 <#TriplesMap2>
   rr:logicalTable [ rr:sqlQuerry """
-    SELECT id, id_reference,
-      (CASE WHEN LENGTH(id_substance)<5 THEN LPAD(id_substance,5,0) ELSE id_substance END) padded_id_substance FROM interaction
+    SELECT id, id_reference FROM interaction
   """] ;
   rr:subjectMap [
-    rr:template "http://rdf.molmedb.upol.cz/reference/ref{id_reference}"
+    rr:template "https://rdf.molmedb.upol.cz/reference/ref{id_reference}"
   ] ;
     rr:predicateObjectMap [
     rr:predicate cito:isCitedAsDataSourceBy ;
-    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/interaction/int{id}" ]
-  ] ;
-    rr:predicateObjectMap [
-    rr:predicate dcterms:subject ;
-    rr:objectMap [ rr:template "http://identifiers.org/molmedb/MM{padded_id_substance}" ]
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/int{id}" ]
   ] .
 
-#which transproter measurements and substances there in source - database included                  
+#which transproter measurements  - database included                  
 <#TriplesMap3>
   rr:logicalTable [ rr:sqlQuerry """
-    SELECT id, id_reference,
-      (CASE WHEN LENGTH(id_substance)<5 THEN LPAD(id_substance,5,0) ELSE id_substance END) padded_id_substance FROM transporters
+    SELECT id, id_reference FROM transporters
   """] ;
   rr:subjectMap [
-    rr:template "http://rdf.molmedb.upol.cz/reference/ref{id_reference}"
+    rr:template "https://rdf.molmedb.upol.cz/reference/ref{id_reference}"
   ] ;
     rr:predicateObjectMap [
     rr:predicate cito:isCitedAsDataSourceBy ;
-    rr:objectMap [ rr:template "http://rdf.molmedb.upol.cz/transporter/tra{id}"]
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/transporter/tra{id}"]
+  ] .
+
+
+
+
+<#TriplesMap4>
+  rr:logicalTable [ rr:sqlQuerry """
+    SELECT (CASE WHEN LENGTH(id_substance)<5 THEN LPAD(id_substance,5,0) ELSE id_substance END) padded_id_substance, id_reference FROM interaction UNION
+    SELECT (CASE WHEN LENGTH(id_substance)<5 THEN LPAD(id_substance,5,0) ELSE id_substance END) padded_id_substance, id_reference FROM transporters
+  """] ;
+  rr:subjectMap [
+    rr:template "https://rdf.molmedb.upol.cz/reference/ref{id_reference}"
   ] ;
     rr:predicateObjectMap [
     rr:predicate dcterms:subject ;
-    rr:objectMap [ rr:template "http://identifiers.org/molmedb/MM{padded_id_substance}" ]
+    rr:objectMap [ rr:template "https://identifiers.org/molmedb/MM{padded_id_substance}" ]
   ] .

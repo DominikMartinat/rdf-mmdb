@@ -1,9 +1,9 @@
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX bibo: <http://purl.org/ontology/bibo/>
-PREFIX mmdbref: <http://rdf.molmedb.upol.cz/reference/>
-PREFIX mmdbint: <http://rdf.molmedb.upol.cz/interaction/>
-PREFIX mmdbtra: <http://rdf.molmedb.upol.cz/transporter/>
-PREFIX mmdbsub: <http://rdf.molmedb.upol.cz/substance/>
+PREFIX mmdbref: <https://rdf.molmedb.upol.cz/reference/>
+PREFIX mmdbint: <https://rdf.molmedb.upol.cz/interaction/>
+PREFIX mmdbtra: <https://rdf.molmedb.upol.cz/transporter/>
+PREFIX mmdbsub: <https://rdf.molmedb.upol.cz/substance/>
 PREFIX dcterms: <http://purl.org/dc/terms/>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 PREFIX cito: <http://purl.org/spar/cito/>

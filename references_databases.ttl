@@ -1,6 +1,6 @@
 #manually created RDF file for databases in references
 
-@prefix mmdbref: <http://rdf.molmedb.upol.cz/reference/> .
+@prefix mmdbref: <https://rdf.molmedb.upol.cz/reference/> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix dcmitypes: <http://purl.org/dc/dcmitype/> .
 @prefix dcterms: <http://purl.org/dc/terms/> .

@@ -1,9 +1,9 @@
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX sio: <http://semanticscience.org/resource/>
-PREFIX mmdbint: <http://rdf.molmedb.upol.cz/interaction/>
-PREFIX mmdbsub: <http://rdf.molmedb.upol.cz/substance/>
-PREFIX mmdbref: <http://rdf.molmedb.upol.cz/reference/>
+PREFIX mmdbint: <https://rdf.molmedb.upol.cz/interaction/>
+PREFIX mmdbsub: <https://rdf.molmedb.upol.cz/substance/>
+PREFIX mmdbref: <https://rdf.molmedb.upol.cz/reference/>
 PREFIX obo: <http://purl.obolibrary.org/obo/>
 PREFIX cito: <http://purl.org/spar/cito/>
 PREFIX bao: <http://www.bioassayontology.org/bao#>
@@ -11,7 +11,7 @@ PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 PREFIX repr: <https://w3id.org/reproduceme#>
 PREFIX dc: <http://purl.org/dc/elements/1.1/>
 PREFIX dcterms: <http://purl.org/dc/terms/>
-PREFIX mmdbvoc: <http://rdf.molmedb.upol.cz/vocabulary#>
+PREFIX mmdbvoc: <https://rdf.molmedb.upol.cz/vocabulary#>
 
 ###################################
 ## central node

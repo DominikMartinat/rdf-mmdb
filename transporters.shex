@@ -1,6 +1,6 @@
-PREFIX mmdbtra: <http://rdf.molmedb.upol.cz/transporter/>
-PREFIX mmdbsub: <http://rdf.molmedb.upol.cz/substance/>
-PREFIX mmdbref: <http://rdf.molmedb.upol.cz/reference/>
+PREFIX mmdbtra: <https://rdf.molmedb.upol.cz/transporter/>
+PREFIX mmdbsub: <https://rdf.molmedb.upol.cz/substance/>
+PREFIX mmdbref: <https://rdf.molmedb.upol.cz/reference/>
 PREFIX obo: <http://purl.obolibrary.org/obo/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
@@ -9,7 +9,7 @@ PREFIX cito: <http://purl.org/spar/cito/>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX bao: <http://www.bioassayontology.org/bao#>
 PREFIX repr: <https://w3id.org/reproduceme#>
-PREFIX mmdbvoc: <http://rdf.molmedb.upol.cz/vocabulary#>
+PREFIX mmdbvoc: <https://rdf.molmedb.upol.cz/vocabulary#>
 
 ###################################
 ## transporter assay central node
