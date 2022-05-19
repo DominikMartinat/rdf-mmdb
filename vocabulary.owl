@@ -13,8 +13,7 @@
 
   <owl:Class rdf:about="https://rdf.molmedb.upol.cz/vocabulary#PKm">
     <rdfs:subClassOf rdf:resource="http://www.bioassayontology.org/bao#BAO_0000477"/>
-    <obo:IAO_0000115>pKm is -log Km, where Km is the concentration of substrate at ½ Vmax,
-      according to the Henri-Michaelis-Menten kinetic model.</obo:IAO_0000115>
+    <obo:IAO_0000115>pKm is -log Km, where Km is the concentration of substrate at ½ Vmax, according to the Henri-Michaelis-Menten kinetic model.</obo:IAO_0000115>
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">pKm</rdfs:label>
   </owl:Class>
 
@@ -107,8 +106,7 @@
   <owl:Class rdf:about="https://rdf.molmedb.upol.cz/vocabulary#MembraneModel">
     <rdfs:subClassOf rdf:resource="http://www.bioassayontology.org/bao#BAO_0003114"/>
     <!-- should be subclass of BAO_0003111 to comply with BAO_0000015 restrictions but it is not macromolecule -->
-    <obo:IAO_0000115>Model of biological membrane used in experimental and computational assays of interactions of molecular entities
-      with membranes. Contains biological membranes, lipid membrane models, nonlipid membrane models (eg. octanol) etc.</obo:IAO_0000115>
+    <obo:IAO_0000115>Model of biological membrane used in experimental and computational assays of interactions of molecular entities with membranes. Contains biological membranes, lipid membrane models, nonlipid membrane models (eg. octanol) etc.</obo:IAO_0000115>
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">membrane model</rdfs:label>
   </owl:Class>
 
