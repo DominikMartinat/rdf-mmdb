@@ -134,7 +134,7 @@ FROM transporters AS tr, transporter_targets AS ta WHERE tr.id_target = ta.id
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000559 ;
-    rr:objectMap [ rr:constant "https://rdf.molmedb.upol.cz/transporter/measure_group_tra{id}" ]
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/transporter/measure_group_tra{id}" ]
   ] .
 
 <#TriplesMap5>
@@ -155,7 +155,7 @@ FROM transporters AS tr, transporter_targets AS ta WHERE tr.id_target = ta.id
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000559 ;
-    rr:objectMap [ rr:constant "https://rdf.molmedb.upol.cz/transporter/measure_group_tra{id}" ]
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/transporter/measure_group_tra{id}" ]
   ] .
 
 <#TriplesMap6>
@@ -165,11 +165,15 @@ FROM transporters AS tr, transporter_targets AS ta WHERE tr.id_target = ta.id
   rr:subjectMap [
     rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_pkm_tra{id}" ;
     rr:class mmdbvoc:PKm ;
-  ];
+  ] ;
     rr:predicateObjectMap [
-    rr:predicate bao:BAO_0095007 ;
+    rr:predicate bao:BAO_0002666 ;
     rr:objectMap [ rr:column "Km"]
-  ];
+  ] ;
+    rr:predicateObjectMap [
+    rr:predicate bao:BAO_0000183 ;
+    rr:objectMap [ rr:constant obo:UO_0000062 ]
+  ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0002858 ;
     rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_pkm_stdev_tra{stdev_id}" ]
@@ -192,6 +196,10 @@ FROM transporters AS tr, transporter_targets AS ta WHERE tr.id_target = ta.id
     rr:objectMap [ rr:column "EC50"]
   ] ;
     rr:predicateObjectMap [
+    rr:predicate bao:BAO_0000183 ;
+    rr:objectMap [ rr:constant obo:UO_0000062 ]
+  ] ;
+    rr:predicateObjectMap [
     rr:predicate bao:BAO_0002858 ;
     rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_pec50_stdev_tra{stdev_id}" ]
   ] ;
@@ -206,11 +214,15 @@ FROM transporters AS tr, transporter_targets AS ta WHERE tr.id_target = ta.id
     """ ] ;
   rr:subjectMap [
     rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_pki_tra{id}" ;
-    rr:class bao:BAO_0190004
+    rr:class mmdbvoc:PKi
   ] ;
     rr:predicateObjectMap [
-    rr:predicate bao:BAO_0095007 ;
+    rr:predicate bao:BAO_0002666 ;
     rr:objectMap [ rr:column "Ki" ]
+  ] ;
+    rr:predicateObjectMap [
+    rr:predicate bao:BAO_0000183 ;
+    rr:objectMap [ rr:constant obo:UO_0000062 ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0002858 ;
@@ -232,6 +244,10 @@ FROM transporters AS tr, transporter_targets AS ta WHERE tr.id_target = ta.id
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0002666 ;
     rr:objectMap [ rr:column "IC50"]
+  ] ;
+    rr:predicateObjectMap [
+    rr:predicate bao:BAO_0000183 ;
+    rr:objectMap [ rr:constant obo:UO_0000062 ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0002858 ;

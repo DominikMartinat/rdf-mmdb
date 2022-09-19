@@ -17,6 +17,12 @@
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">pKm</rdfs:label>
   </owl:Class>
 
+  <owl:Class rdf:about="https://rdf.molmedb.upol.cz/vocabulary#PKi">
+    <rdfs:subClassOf rdf:resource="http://www.bioassayontology.org/bao#BAO_0000192"/>
+    <obo:IAO_0000115>pKi is -log Ki, where Kmi is  the equilibrium inhibitor dissociation constant, the concentration of the competing inhibitor that results in binding to half the enzymes sites at equilibrium in the absence of substrate or other competitors.</obo:IAO_0000115>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">pKi</rdfs:label>
+  </owl:Class>
+
   <owl:Class rdf:about="https://rdf.molmedb.upol.cz/vocabulary#InhibitionAssay">
     <rdfs:subClassOf rdf:resource="http://www.bioassayontology.org/bao#BAO_0080024"/>
     <obo:IAO_0000115>Result of the assay whether the measured entity acts as inhibitor of the target enzyme.</obo:IAO_0000115>
@@ -112,14 +118,37 @@
 
  <!--
    ////////////////////////////////////
-   // UNIT INSTANCES
+   // UNIT INDIVIDUALS/CLASSES
    ////////////////////////////////////
    --> 
-  <obo:NCIT_C70444 rdf:about="https://rdf.molmedb.upol.cz/vocabulary#kcalMol">
-    <obo:IAO_0000115>A derived unit of molar thermodynamic energy defined as the energy equal to 1000 calories in one mole of substance.</obo:IAO_0000115>
-    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">kcal/mol</rdfs:label>
-  </obo:NCIT_C70444>
+  
+  <owl:NamedIndividual rdf:about="https://rdf.molmedb.upol.cz/vocabulary#KcalMol">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:oneOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="https://rdf.molmedb.upol.cz/vocabulary#KcalMol"/>
+                </owl:oneOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/UO_0000111"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">kcal/mol</rdfs:label>
+        <obo:IAO_0000115>A derived unit of molar thermodynamic energy defined as the energy equal to 1000 calories in one mole of substance.</obo:IAO_0000115>
+  </owl:NamedIndividual>
 
+  <owl:NamedIndividual rdf:about="https://rdf.molmedb.upol.cz/vocabulary#CmS">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:oneOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="https://rdf.molmedb.upol.cz/vocabulary#CmS"/>
+                </owl:oneOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/UO_0000060"/>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">cm/s</rdfs:label>
+        <obo:IAO_0000115>Centimeter per second. A derived unit of speed/velocity equivalent to 0.01 meter of distance traveled per 1 second.</obo:IAO_0000115>
+  </owl:NamedIndividual>
 
 
 

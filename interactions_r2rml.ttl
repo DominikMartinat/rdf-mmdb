@@ -196,12 +196,12 @@
     rr:class obo:PATO_0000146
   ] ;
     rr:predicateObjectMap [
-    rr:predicate sio:SIO_000300 ;
+    rr:predicate bao:BAO_0095007 ;
     rr:objectMap [ rr:column "temperature" ]
   ] ;
     rr:predicateObjectMap [
-    rr:predicate sio:SIO_000221 ;
-    rr:objectMap [ rr:constant obo:NCIT_C42559 ]
+    rr:predicate bao:BAO_0002874 ;
+    rr:objectMap [ rr:constant obo:UO_0000027 ]
   ] .
 
 #charges need to be standardized first - delete + symbols and whitespaces
@@ -216,7 +216,7 @@
     rr:class sio:CHEMINF_000120
   ] ;
     rr:predicateObjectMap [
-    rr:predicate sio:SIO_000300 ;
+    rr:predicate bao:BAO_0095007 ;
     rr:objectMap [ rr:column "standardized_charge" ]
   ] .
 
@@ -234,10 +234,6 @@
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0095007 ;
     rr:objectMap [ rr:column "LogK" ]
-  ] ;
-    rr:predicateObjectMap [
-    rr:predicate sio:SIO_000221 ;
-    rr:objectMap [ rr:constant obo:NCIT_C70455 ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0002858 ;
@@ -261,8 +257,8 @@
     rr:objectMap [ rr:column "LogPerm" ]
   ] ;
     rr:predicateObjectMap [
-    rr:predicate sio:SIO_000221 ;
-    rr:objectMap [ rr:constant obo:NCIT_C102406 ]
+    rr:predicate bao:BAO_0002874 ;
+    rr:objectMap [ rr:constant mmdbvoc:CmS ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0002858 ;
@@ -286,8 +282,8 @@
     rr:objectMap [ rr:column "Position" ]
   ] ;
     rr:predicateObjectMap [
-    rr:predicate sio:SIO_000221 ;
-    rr:objectMap [ rr:constant obo:NCIT_C67328 ]
+    rr:predicate bao:BAO_0002874 ;
+    rr:objectMap [ rr:constant obo:UO_0000018 ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0002858 ;
@@ -311,8 +307,8 @@
     rr:objectMap [ rr:column "Penetration" ]
   ] ;
     rr:predicateObjectMap [
-    rr:predicate sio:SIO_000221 ;
-    rr:objectMap [ rr:constant mmdbvoc:kcalMol ]
+    rr:predicate bao:BAO_0002874 ;
+    rr:objectMap [ rr:constant mmdbvoc:KcalMol ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0002858 ;
@@ -336,8 +332,8 @@
     rr:objectMap [ rr:column "Water" ]
   ] ;
     rr:predicateObjectMap [
-    rr:predicate sio:SIO_000221 ;
-    rr:objectMap [ rr:constant mmdbvoc:kcalMol ]
+    rr:predicate bao:BAO_0002874 ;
+    rr:objectMap [ rr:constant mmdbvoc:KcalMol ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0002858 ;
@@ -361,8 +357,8 @@
     rr:objectMap [ rr:column "theta" ]
   ] ;
     rr:predicateObjectMap [
-    rr:predicate sio:SIO_000221 ;
-    rr:objectMap [ rr:constant obo:NCIT_C68667 ]
+    rr:predicate bao:BAO_0002874 ;
+    rr:objectMap [ rr:constant obo:UO_0000185 ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0002858 ;
@@ -386,8 +382,8 @@
     rr:objectMap [ rr:column "abs_wl" ]
   ] ;
     rr:predicateObjectMap [
-    rr:predicate sio:SIO_000221 ;
-    rr:objectMap [ rr:constant obo:NCIT_C67328 ]
+    rr:predicate bao:BAO_0002874 ;
+    rr:objectMap [ rr:constant obo:UO_0000018 ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0002858 ;
@@ -411,8 +407,8 @@
     rr:objectMap [ rr:column "fluo_wl" ]
   ] ;
     rr:predicateObjectMap [
-    rr:predicate sio:SIO_000221 ;
-    rr:objectMap [ rr:constant obo:NCIT_C67328 ]
+    rr:predicate bao:BAO_0002874 ;
+    rr:objectMap [ rr:constant obo:UO_0000018 ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0002858 ;
@@ -457,8 +453,8 @@
     rr:objectMap [ rr:column "lt" ]
   ] ;
     rr:predicateObjectMap [
-    rr:predicate sio:SIO_000221 ;
-    rr:objectMap [ rr:constant obo:NCIT_C73767 ]
+    rr:predicate bao:BAO_0002874 ;
+    rr:objectMap [ rr:constant obo:UO_0000150 ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0002858 ;
