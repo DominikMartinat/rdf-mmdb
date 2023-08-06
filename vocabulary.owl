@@ -105,7 +105,7 @@
 
    <!--
    ////////////////////////////////////
-   // OTHER CLASSES
+   // Membrane CLASSES - temporary solution
    ////////////////////////////////////
    --> 
 
@@ -115,6 +115,126 @@
     <obo:IAO_0000115>Model of biological membrane used in experimental and computational assays of interactions of molecular entities with membranes. Contains biological membranes, lipid membrane models, nonlipid membrane models (eg. octanol) etc.</obo:IAO_0000115>
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">membrane model</rdfs:label>
   </owl:Class>
+
+  <owl:Class rdf:about="https://rdf.molmedb.upol.cz/vocabulary#MembraneModelByLocation">
+    <rdfs:subClassOf rdf:resource="https://rdf.molmedb.upol.cz/vocabulary#MembraneModel"/>
+
+    <obo:IAO_0000115>Cathegory of membrane model according to where are approximated membranes located anatomically. It can be bound to tissue or cells.</obo:IAO_0000115>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">membrane model by location</rdfs:label>
+  </owl:Class>
+
+  <owl:Class rdf:about="https://rdf.molmedb.upol.cz/vocabulary#BrainMembraneModel">
+    <rdfs:subClassOf rdf:resource="https://rdf.molmedb.upol.cz/vocabulary#MembraneModelByLocation"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">brain membrane model</rdfs:label>
+  </owl:Class>
+
+  <owl:Class rdf:about="https://rdf.molmedb.upol.cz/vocabulary#CellMembraneModel">
+    <rdfs:subClassOf rdf:resource="https://rdf.molmedb.upol.cz/vocabulary#MembraneModelByLocation"/>
+    <obo:IAO_0000115>Model of a membrane located in brain tissue.</obo:IAO_0000115>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">cell membrane model</rdfs:label>
+  </owl:Class>
+
+  <owl:Class rdf:about="https://rdf.molmedb.upol.cz/vocabulary#EyeMembraneModel">
+    <rdfs:subClassOf rdf:resource="https://rdf.molmedb.upol.cz/vocabulary#MembraneModelByLocation"/>
+    <obo:IAO_0000115>Model of a membrane located in eye tissue.</obo:IAO_0000115>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">eye membrane model</rdfs:label>
+  </owl:Class>
+
+  <owl:Class rdf:about="https://rdf.molmedb.upol.cz/vocabulary#GenericMembraneModel">
+    <rdfs:subClassOf rdf:resource="https://rdf.molmedb.upol.cz/vocabulary#MembraneModelByLocation"/>
+    <obo:IAO_0000115>Model of a membrane without specified anatomical location.</obo:IAO_0000115>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">generic membrane model</rdfs:label>
+  </owl:Class>
+
+  <owl:Class rdf:about="https://rdf.molmedb.upol.cz/vocabulary#IntestineMembraneModel">
+    <rdfs:subClassOf rdf:resource="https://rdf.molmedb.upol.cz/vocabulary#MembraneModelByLocation"/>
+    <obo:IAO_0000115>Model of a membrane located in intestine tissue.</obo:IAO_0000115>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">intestine membrane model</rdfs:label>
+  </owl:Class>
+
+  <owl:Class rdf:about="https://rdf.molmedb.upol.cz/vocabulary#OralMembraneModel">
+    <rdfs:subClassOf rdf:resource="https://rdf.molmedb.upol.cz/vocabulary#MembraneModelByLocation"/>
+    <obo:IAO_0000115>Model of a membrane located in mouth tissue.</obo:IAO_0000115>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">oral membrane model</rdfs:label>
+  </owl:Class>
+
+  <owl:Class rdf:about="https://rdf.molmedb.upol.cz/vocabulary#SkinMembraneModel">
+    <rdfs:subClassOf rdf:resource="https://rdf.molmedb.upol.cz/vocabulary#MembraneModelByLocation"/>
+    <obo:IAO_0000115>Model of a membrane located in skin tissue.</obo:IAO_0000115>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">skin membrane model</rdfs:label>
+  </owl:Class>
+
+  <owl:Class rdf:about="https://rdf.molmedb.upol.cz/vocabulary#CellBasedMembraneModel">
+    <rdfs:subClassOf rdf:resource="https://rdf.molmedb.upol.cz/vocabulary#MembraneModel"/>
+    <obo:IAO_0000115>Model of a membrane consisting of cells.</obo:IAO_0000115>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">skin membrane model</rdfs:label>
+  </owl:Class>
+
+  <owl:Class rdf:about="https://rdf.molmedb.upol.cz/vocabulary#SubstanceBasedMembraneModel">
+    <rdfs:subClassOf rdf:resource="https://rdf.molmedb.upol.cz/vocabulary#MembraneModel"/>
+    <obo:IAO_0000115>Model of a membrane consisting one or more chemical substances.</obo:IAO_0000115>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">skin membrane model</rdfs:label>
+  </owl:Class>
+
+   <!--
+   ////////////////////////////////////
+   //Method INDIVIDUALS/CLASSES - temporary solution
+   ////////////////////////////////////
+   --> 
+  <owl:Class rdf:about="https://rdf.molmedb.upol.cz/vocabulary#SimulationByResolution">
+      <rdfs:subClassOf rdf:resource="http://www.bioassayontology.org/bao#BAO_0002282"/>
+      <obo:IAO_0000115>Granularity level at which is simulated system modelled (e.g. atomistic, coarse grained etc.).</obo:IAO_0000115>
+      <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">computer simulation method by resolution</rdfs:label>
+  </owl:Class>
+
+  <owl:Class rdf:about="https://rdf.molmedb.upol.cz/vocabulary#AtomisticSimulation">
+      <rdfs:subClassOf rdf:resource="https://rdf.molmedb.upol.cz/vocabulary#SimulationByResolution"/>
+      <obo:IAO_0000115>Simulation where every atom of simulated system is explicitly represented.</obo:IAO_0000115>
+      <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">atomistic simulation</rdfs:label>
+  </owl:Class>
+
+  <owl:Class rdf:about="https://rdf.molmedb.upol.cz/vocabulary#UnitedAtomsSimulation">
+      <rdfs:subClassOf rdf:resource="https://rdf.molmedb.upol.cz/vocabulary#SimulationByResolution"/>
+      <obo:IAO_0000115>Simulation where every atom of simulated system, except hydrogen, is represented.</obo:IAO_0000115>
+      <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">united atoms simulation</rdfs:label>
+  </owl:Class>
+
+  <owl:Class rdf:about="https://rdf.molmedb.upol.cz/vocabulary#CoarseGrainedSimulation">
+      <rdfs:subClassOf rdf:resource="https://rdf.molmedb.upol.cz/vocabulary#SimulationByResolution"/>
+      <obo:IAO_0000115>Simulation where groups of multiple atoms of simulated system are represented as one entity.</obo:IAO_0000115>
+      <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">coarse grained simulation</rdfs:label>
+  </owl:Class>
+
+  <owl:Class rdf:about="https://rdf.molmedb.upol.cz/vocabulary#HybridResolutionSimulation">
+      <rdfs:subClassOf rdf:resource="https://rdf.molmedb.upol.cz/vocabulary#SimulationByResolution"/>
+      <obo:IAO_0000115>Simulationusing multiple levels of granularity for representation of atoms in a simulated system.</obo:IAO_0000115>
+      <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">hybrid resolution simulation</rdfs:label>
+  </owl:Class>
+
+  <owl:Class rdf:about="https://rdf.molmedb.upol.cz/vocabulary#MembraneInteractionAssessmentMethod">
+      <rdfs:subClassOf rdf:resource="http://www.bioassayontology.org/bao#BAO_0002202"/>
+      <obo:IAO_0000115>Experimental method for quantification of interaction between molecule and membrane (e.g. peremability, partition etc.).</obo:IAO_0000115>
+      <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">membrane interaction assessment method</rdfs:label>
+  </owl:Class>
+
+  <owl:Class rdf:about="https://rdf.molmedb.upol.cz/vocabulary#WaterMembranePartitioningMethod">
+      <rdfs:subClassOf rdf:resource="https://rdf.molmedb.upol.cz/vocabulary#MembraneInteractionAssessmentMethod"/>
+      <obo:IAO_0000115>Method measuring partitioning of molecules between water and membrane.</obo:IAO_0000115>
+      <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">water/membrane partition measuring method</rdfs:label>
+  </owl:Class>
+
+  <owl:Class rdf:about="https://rdf.molmedb.upol.cz/vocabulary#MembranePositionMethod">
+      <rdfs:subClassOf rdf:resource="https://rdf.molmedb.upol.cz/vocabulary#MembraneInteractionAssessmentMethod"/>
+      <obo:IAO_0000115>Method measuring distance of stable position of molecule from the centre of a membrane.</obo:IAO_0000115>
+      <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">position measuring method</rdfs:label>
+  </owl:Class>
+
+  <owl:Class rdf:about="https://rdf.molmedb.upol.cz/vocabulary#MembranePermeabilityMethod">
+      <rdfs:subClassOf rdf:resource="https://rdf.molmedb.upol.cz/vocabulary#MembraneInteractionAssessmentMethod"/>
+      <obo:IAO_0000115>Method measuring permeability of a molecule across a membrane.</obo:IAO_0000115>
+      <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">membrane peremability measuring method</rdfs:label>
+  </owl:Class>  
+
 
  <!--
    ////////////////////////////////////

@@ -59,13 +59,13 @@
 
 <#TriplesMap4>
   rr:logicalTable [ rr:sqlQuerry """
-    SELECT (CASE WHEN LENGTH(id_substance)<5 THEN LPAD(id_substance,5,0) ELSE id_substance END) padded_id_substance, id_reference FROM interaction UNION
-    SELECT (CASE WHEN LENGTH(id_substance)<5 THEN LPAD(id_substance,5,0) ELSE id_substance END) padded_id_substance, id_reference FROM transporters
+    SELECT subs.identifier, inte.id_reference FROM interaction AS inte, substances AS subs WHERE inte.id_substance = subs.id UNION
+    SELECT subs.identifier, tr.id_reference FROM transporters AS tr, substances AS subs WHERE tr.id_substance = subs.id LIMIT 100
   """] ;
   rr:subjectMap [
     rr:template "https://rdf.molmedb.upol.cz/reference/ref{id_reference}"
   ] ;
     rr:predicateObjectMap [
     rr:predicate dcterms:subject ;
-    rr:objectMap [ rr:template "https://identifiers.org/molmedb/MM{padded_id_substance}" ]
+    rr:objectMap [ rr:template "https://identifiers.org/molmedb/{identifier}" ]
   ] .

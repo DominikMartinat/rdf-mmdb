@@ -10,70 +10,86 @@
 ################################################
 <#TriplesMap1>
   rr:logicalTable [ rr:sqlQuerry """
-    SELECT id,name, pubchem, chEBI, chEMBL, pdb,
-      (CASE WHEN LENGTH(id)<5 THEN LPAD(id,5,0) ELSE id END) padded_id,
-      (CASE WHEN SMILES IS NULL THEN NULL ELSE (CASE WHEN LENGTH(id)<5 THEN LPAD(id,5,0) ELSE id END) END) SMILES_id,
-      (CASE WHEN inchikey IS NULL THEN NULL ELSE (CASE WHEN LENGTH(id)<5 THEN LPAD(id,5,0) ELSE id END) END) inchikey_id,
-      (CASE WHEN MW IS NULL THEN NULL ELSE (CASE WHEN LENGTH(id)<5 THEN LPAD(id,5,0) ELSE id END) END) MW_id,
-      (CASE WHEN inchikey IS NULL THEN NULL ELSE (CASE WHEN LENGTH(id)<5 THEN LPAD(id,5,0) ELSE id END) END) inchikey_id,
-      (CASE WHEN LogP IS NULL THEN NULL ELSE (CASE WHEN LENGTH(id)<5 THEN LPAD(id,5,0) ELSE id END) END) LogP_id,
-      (CASE WHEN pubchem IS NULL THEN NULL ELSE (CASE WHEN LENGTH(id)<5 THEN LPAD(id,5,0) ELSE id END) END) pubchem_id,
-      (CASE WHEN drugbank IS NULL THEN NULL ELSE (CASE WHEN LENGTH(id)<5 THEN LPAD(id,5,0) ELSE id END) END) drugbank_id,
-      (CASE WHEN chEBI IS NULL THEN NULL ELSE (CASE WHEN LENGTH(id)<5 THEN LPAD(id,5,0) ELSE id END) END) chEBI_id,
-      (CASE WHEN pdb IS NULL THEN NULL ELSE (CASE WHEN LENGTH(id)<5 THEN LPAD(id,5,0) ELSE id END) END) pdb_id,
-      (CASE WHEN chEMBL IS NULL THEN NULL ELSE (CASE WHEN LENGTH(id)<5 THEN LPAD(id,5,0) ELSE id END) END) chEMBL_id FROM substances
+    SELECT id,identifier,
+      (CASE WHEN MW IS NULL THEN NULL ELSE identifier END) MW_id,
+      (CASE WHEN LogP IS NULL THEN NULL ELSE identifier END) LogP_id FROM substances
   """ ] ;
   rr:subjectMap [
-    rr:template "https://identifiers.org/molmedb/MM{padded_id}" ;
+    rr:template "https://identifiers.org/molmedb/{identifier}" ;###tady hodit proste identifier
     rr:class bao:BAO_0000076 ;
   ] ;
   rr:predicateObjectMap [
+    rr:predicate sio:SIO_000008 ;
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/substance/{MW_id}_molecular_weight" ]
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate sio:SIO_000008 ;
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/substance/{LogP_id}_logp" ]
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate sio:SIO_000008 ;
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/substance/{identifier)_mmdbid" ]
+  ] .
+
+################################################
+## identifiers and crossreferences
+################################################
+<#TriplesMap2>
+  rr:logicalTable [ rr:sqlQuerry """
+    SELECT vi.id, subs.identifier,
+      (CASE WHEN vi.identifier = 1 THEN vi.value ELSE NULL END) molname,
+      (CASE WHEN vi.identifier = 2 THEN subs.identifier ELSE NULL END) SMILES_id,
+      (CASE WHEN vi.identifier = 3 THEN subs.identifier ELSE NULL END) inchikey_id,
+      (CASE WHEN vi.identifier = 4 THEN subs.identifier ELSE NULL END) pubchem_id,
+      (CASE WHEN vi.identifier = 5 THEN subs.identifier ELSE NULL END) drugbank_id,
+      (CASE WHEN vi.identifier = 6 THEN subs.identifier ELSE NULL END) chebi_id,
+      (CASE WHEN vi.identifier = 7 THEN subs.identifier ELSE NULL END) pdb_id,
+      (CASE WHEN vi.identifier = 8 THEN subs.identifier ELSE NULL END) chembl_id,
+      (CASE WHEN vi.identifier = 4 THEN vi.value ELSE NULL END) pubchem,
+      (CASE WHEN vi.identifier = 6 THEN vi.value ELSE NULL END) chebi,
+      (CASE WHEN vi.identifier = 7 THEN vi.value ELSE NULL END) pdb,
+      (CASE WHEN vi.identifier = 8 THEN vi.value ELSE NULL END) chembl
+      FROM validator_identifiers AS vi, substances AS subs 
+      WHERE vi.state = 1 AND vi.active = 1 AND vi.id_substance = subs.id
+  """] ;
+  rr:subjectMap [
+    rr:template "https://identifiers.org/molmedb/{identifier}" ;
+  ] ;
+  rr:predicateObjectMap [
     rr:predicate rdfs:label ;
-    rr:objectMap [ rr:column "name" ] ;
+    rr:objectMap [ rr:column "molname" ] ;
   ] ;
   rr:predicateObjectMap [
     rr:predicate sio:SIO_000008 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/substance/MM{SMILES_id}_smiles" ]
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/substance/{SMILES_id}_smiles" ]
   ] ;
   rr:predicateObjectMap [
     rr:predicate sio:SIO_000008 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/substance/MM{inchikey_id}_inchikey" ]
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/substance/{inchikey_id}_inchikey" ]
   ] ;
   rr:predicateObjectMap [
     rr:predicate sio:SIO_000008 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/substance/MM{MW_id}_molecular_weight" ]
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/substance/{pubchem_id}_pubchem" ]
   ] ;
   rr:predicateObjectMap [
     rr:predicate sio:SIO_000008 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/substance/MM{LogP_id}_logp" ]
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/substance/{drugbank_id}_drugbank" ]
   ] ;
   rr:predicateObjectMap [
     rr:predicate sio:SIO_000008 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/substance/MM{pubchem_id}_pubchem" ]
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/substance/{chebi_id}_chebi" ]
   ] ;
   rr:predicateObjectMap [
     rr:predicate sio:SIO_000008 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/substance/MM{drugbank_id}_drugbank" ]
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/substance/{pdb_id}_pdb" ]
   ] ;
   rr:predicateObjectMap [
     rr:predicate sio:SIO_000008 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/substance/MM{chEBI_id}_chebi" ]
-  ] ;
-  rr:predicateObjectMap [
-    rr:predicate sio:SIO_000008 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/substance/MM{pdb_id}_pdb" ]
-  ] ;
-  rr:predicateObjectMap [
-    rr:predicate sio:SIO_000008 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/substance/MM{chEMBL_id}_chembl" ]
-  ] ;
-  rr:predicateObjectMap [
-    rr:predicate sio:SIO_000008 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/substance/MM{padded_id}_mmdbid" ]
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/substance/{chembl_id}_chembl" ]
   ] ;
   rr:predicateObjectMap [
     rr:predicate skos:exactMatch ;
-    rr:objectMap [ rr:template "http://purl.obolibrary.org/obo/CHEBI_{chEBI}" ]
+    rr:objectMap [ rr:template "http://purl.obolibrary.org/obo/CHEBI_{chebi}" ]
   ] ;
   rr:predicateObjectMap [
     rr:predicate skos:exactMatch ;
@@ -85,22 +101,25 @@
   ] ;
   rr:predicateObjectMap [
     rr:predicate skos:exactMatch ;
-    rr:objectMap [ rr:template "http://rdf.ebi.ac.uk/resource/chembl/molecule/{chEMBL}" ]
+    rr:objectMap [ rr:template "http://rdf.ebi.ac.uk/resource/chembl/molecule/{chembl}" ]
   ] .
+
 
 ################################################
 ## mapping of obsolete substances
 ################################################
-<#TriplesMap2>
-  rr:logicalTable [ rr:sqlQuerry "SELECT *, (CASE WHEN LENGTH(id_substance)<5 THEN LPAD(id,5,0) ELSE id_substance END) padded_id_substance
-      FROM substance_links" ] ;
+<#TriplesMap3>
+  rr:logicalTable [ rr:sqlQuerry """
+    SELECT sl.id, sl.identifier AS obsolete_id, subs.identifier AS actual_id
+      FROM substance_links AS sl, substances AS subs WHERE sl.id_substance = subs.id
+    """ ] ;
   rr:subjectMap [
-    rr:template "https://identifiers.org/molmedb/{identifier}" ;
+    rr:template "https://identifiers.org/molmedb/{obsolete_id}" ;
     rr:class bao:BAO_0000076 ;
   ] ;
     rr:predicateObjectMap [
     rr:predicate obo:IAO_0100001 ;
-    rr:objectMap [ rr:template "https://identifiers.org/molmedb/MM{padded_id_substance}" ]
+    rr:objectMap [ rr:template "https://identifiers.org/molmedb/{actual_id}" ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate obo:IAO_0000231 ;
@@ -110,38 +129,42 @@
 ################################################
 ## molecular descriptors
 ################################################
-<#TriplesMap3>
+<#TriplesMap4>
   rr:logicalTable [ rr:sqlQuerry """
-    SELECT id, (CASE WHEN LENGTH(id)<5 THEN LPAD(id,5,0) ELSE id END) padded_id, SMILES FROM substances WHERE SMILES IS NOT NULL
+    SELECT vi.id, subs.identifier, vi.value
+      FROM validator_identifiers AS vi, substances AS subs 
+      WHERE vi.state = 1 AND vi.active = 1 AND vi.id_substance = subs.id AND vi.identifier = 2
   """ ] ;
   rr:subjectMap [
-    rr:template "https://rdf.molmedb.upol.cz/substance/MM{padded_id}_smiles" ;
+    rr:template "https://rdf.molmedb.upol.cz/substance/{identifier}_smiles" ;
     rr:class sio:CHEMINF_000018 ;
   ] ;
   rr:predicateObjectMap [
     rr:predicate sio:SIO_000300 ;
-    rr:objectMap [ rr:column "SMILES" ]
-  ] .
-
-<#TriplesMap4>
-  rr:logicalTable [ rr:sqlQuerry """
-    SELECT id, (CASE WHEN LENGTH(id)<5 THEN LPAD(id,5,0) ELSE id END) padded_id, inchikey FROM substances WHERE inchikey IS NOT NULL
-  """ ] ;
-  rr:subjectMap [
-    rr:template "https://rdf.molmedb.upol.cz/substance/MM{padded_id}_inchikey" ;
-    rr:class sio:CHEMINF_000059
-  ] ;
-  rr:predicateObjectMap [
-    rr:predicate sio:SIO_000300 ;
-    rr:objectMap [ rr:column "inchikey" ]
+    rr:objectMap [ rr:column "value" ]
   ] .
 
 <#TriplesMap5>
   rr:logicalTable [ rr:sqlQuerry """
-    SELECT id, (CASE WHEN LENGTH(id)<5 THEN LPAD(id,5,0) ELSE id END) padded_id, MW FROM substances WHERE MW IS NOT NULL
+    SELECT vi.id, subs.identifier, vi.value
+      FROM validator_identifiers AS vi, substances AS subs 
+      WHERE vi.state = 1 AND vi.active = 1 AND vi.id_substance = subs.id AND vi.identifier = 3
   """ ] ;
   rr:subjectMap [
-    rr:template "https://rdf.molmedb.upol.cz/substance/MM{padded_id}_molecular_weight" ;
+    rr:template "https://rdf.molmedb.upol.cz/substance/{identifier}_inchikey" ;
+    rr:class sio:CHEMINF_000059
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate sio:SIO_000300 ;
+    rr:objectMap [ rr:column "value" ]
+  ] .
+
+<#TriplesMap6>
+  rr:logicalTable [ rr:sqlQuerry """
+    SELECT id, identifier, MW FROM substances WHERE MW IS NOT NULL
+  """ ] ;
+  rr:subjectMap [
+    rr:template "https://rdf.molmedb.upol.cz/substance/{identifier}_molecular_weight" ;
     rr:class sio:CHEMINF_000216
   ] ;
   rr:predicateObjectMap [
@@ -153,12 +176,12 @@
     rr:objectmap [ rr:constant obo:UO_0000221 ]
   ] .
 
-<#TriplesMap6>
+<#TriplesMap7>
   rr:logicalTable [ rr:sqlQuerry """
-    SELECT id, (CASE WHEN LENGTH(id)<5 THEN LPAD(id,5,0) ELSE id END) padded_id, LogP FROM substances WHERE LogP IS NOT NULL
+    SELECT id, identifier, LogP FROM substances WHERE LogP IS NOT NULL
   """ ] ;
   rr:subjectMap [
-    rr:template "https://rdf.molmedb.upol.cz/substance/MM{padded_id}_logp" ;
+    rr:template "https://rdf.molmedb.upol.cz/substance/{identifier}_logp" ;
     rr:class sio:CHEMINF_000251 ;
   ];
   rr:predicateObjectMap [
@@ -169,75 +192,85 @@
 ################################################
 ## database identifiers
 ################################################
-<#TriplesMap7>
+<#TriplesMap8>
   rr:logicalTable [ rr:sqlQuerry """
-    SELECT id, (CASE WHEN LENGTH(id)<5 THEN LPAD(id,5,0) ELSE id END) padded_id, pubchem FROM substances WHERE pubchem IS NOT NULL
+    SELECT vi.id, subs.identifier, vi.value
+      FROM validator_identifiers AS vi, substances AS subs 
+      WHERE vi.state = 1 AND vi.active = 1 AND vi.id_substance = subs.id AND vi.identifier = 4
   """ ] ;
   rr:subjectMap [
-    rr:template "https://rdf.molmedb.upol.cz/substance/MM{padded_id}_pubchem" ;
+    rr:template "https://rdf.molmedb.upol.cz/substance/{identifier}_pubchem" ;
     rr:class sio:CHEMINF_000140 ;
   ] ;
   rr:predicateObjectMap [
     rr:predicate sio:SIO_000300 ;
-    rr:objectMap [ rr:column "pubchem" ]
-  ] .
-
-<#TriplesMap8>
-  rr:logicalTable [ rr:sqlQuerry """
-    SELECT id, (CASE WHEN LENGTH(id)<5 THEN LPAD(id,5,0) ELSE id END) padded_id, drugbank FROM substances WHERE drugbank IS NOT NULL
-  """ ] ;
-  rr:subjectMap [
-    rr:template "https://rdf.molmedb.upol.cz/substance/MM{padded_id}_drugbank" ;
-    rr:class sio:CHEMINF_000406
-  ] ;
-  rr:predicateObjectMap [
-    rr:predicate sio:SIO_000300 ;
-    rr:objectMap [ rr:column "drugbank" ]
+    rr:objectMap [ rr:column "value" ]
   ] .
 
 <#TriplesMap9>
   rr:logicalTable [ rr:sqlQuerry """
-    SELECT id, (CASE WHEN LENGTH(id)<5 THEN LPAD(id,5,0) ELSE id END) padded_id, chEBI FROM substances WHERE chEBI IS NOT NULL
+    SELECT vi.id, subs.identifier, vi.value
+      FROM validator_identifiers AS vi, substances AS subs 
+      WHERE vi.state = 1 AND vi.active = 1 AND vi.id_substance = subs.id AND vi.identifier = 5
   """ ] ;
   rr:subjectMap [
-    rr:template "https://rdf.molmedb.upol.cz/substance/MM{padded_id}_chebi" ;
-    rr:class sio:CHEMINF_000407
+    rr:template "https://rdf.molmedb.upol.cz/substance/{identifier}_drugbank" ;
+    rr:class sio:CHEMINF_000406
   ] ;
   rr:predicateObjectMap [
     rr:predicate sio:SIO_000300 ;
-    rr:objectMap [ rr:column "chEBI" ]
+    rr:objectMap [ rr:column "value" ]
   ] .
 
 <#TriplesMap10>
   rr:logicalTable [ rr:sqlQuerry """
-    SELECT id, (CASE WHEN LENGTH(id)<5 THEN LPAD(id,5,0) ELSE id END) padded_id, pdb FROM substances WHERE pdb IS NOT NULL
+    SELECT vi.id, subs.identifier, vi.value
+      FROM validator_identifiers AS vi, substances AS subs 
+      WHERE vi.state = 1 AND vi.active = 1 AND vi.id_substance = subs.id AND vi.identifier = 6
   """ ] ;
   rr:subjectMap [
-    rr:template "https://rdf.molmedb.upol.cz/substance/MM{padded_id}_pdb" ;
-    rr:class sio:CHEMINF_000572
+    rr:template "https://rdf.molmedb.upol.cz/substance/{identifier}_chebi" ;
+    rr:class sio:CHEMINF_000407
   ] ;
   rr:predicateObjectMap [
     rr:predicate sio:SIO_000300 ;
-    rr:objectMap [ rr:column "pdb" ]
+    rr:objectMap [ rr:column "value" ]
   ] .
 
 <#TriplesMap11>
   rr:logicalTable [ rr:sqlQuerry """
-    SELECT id, (CASE WHEN LENGTH(id)<5 THEN LPAD(id,5,0) ELSE id END) padded_id, chEMBL FROM substances WHERE chEMBL IS NOT NULL
+    SELECT vi.id, subs.identifier, vi.value
+      FROM validator_identifiers AS vi, substances AS subs 
+      WHERE vi.state = 1 AND vi.active = 1 AND vi.id_substance = subs.id AND vi.identifier = 7
   """ ] ;
   rr:subjectMap [
-    rr:template "https://rdf.molmedb.upol.cz/substance/MM{padded_id}_chembl" ;
+    rr:template "https://rdf.molmedb.upol.cz/substance/{identifier}_pdb" ;
+    rr:class sio:CHEMINF_000572
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate sio:SIO_000300 ;
+    rr:objectMap [ rr:column "value" ]
+  ] .
+
+<#TriplesMap12>
+  rr:logicalTable [ rr:sqlQuerry """
+    SELECT vi.id, subs.identifier, vi.value
+      FROM validator_identifiers AS vi, substances AS subs 
+      WHERE vi.state = 1 AND vi.active = 1 AND vi.id_substance = subs.id AND vi.identifier = 8
+  """ ] ;
+  rr:subjectMap [
+    rr:template "https://rdf.molmedb.upol.cz/substance/{identifier}_chembl" ;
     rr:class sio:CHEMINF_000412
   ] ;
   rr:predicateObjectMap [
     rr:predicate sio:SIO_000300 ;
-    rr:objectMap [ rr:column "chEMBL" ]
+    rr:objectMap [ rr:column "value" ]
   ] .
 
-<#TriplesMap12>
-  rr:logicalTable [ rr:sqlQuerry "SELECT id, (CASE WHEN LENGTH(id)<5 THEN LPAD(id,5,0) ELSE id END) padded_id, identifier FROM substances" ] ;
+<#TriplesMap13>
+  rr:logicalTable [ rr:sqlQuerry "SELECT id, identifier FROM substances" ] ;
   rr:subjectMap [
-    rr:template "https://rdf.molmedb.upol.cz/substance/MM{padded_id}_mmdbid" ;
+    rr:template "https://rdf.molmedb.upol.cz/substance/{identifier}_mmdbid" ;
     rr:class sio:CHEMINF_000571
   ] ;
   rr:predicateObjectMap [
