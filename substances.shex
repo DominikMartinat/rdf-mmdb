@@ -49,7 +49,7 @@ mmdbsub:inchikey_substance{
 mmdbsub:molecularweight_substance{
  sio:SIO_000300 xsd:double; #MySQL substances.MW
  rdf:type sio:CHEMINF_000216;
- sio:SIO_000221 obo:NCIT_C41127 #dalton
+ sio:SIO_000221 obo:UO_0000221 #dalton
 }
 
 #LogP

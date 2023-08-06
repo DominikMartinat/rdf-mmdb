@@ -150,7 +150,7 @@
   ] ;
   rr:predicateObjecMap [
     rr:predicate sio:SIO_000221 ;
-    rr:objectmap [ rr:constant obo:NCIT_C41127 ]
+    rr:objectmap [ rr:constant obo:UO_0000221 ]
   ] .
 
 <#TriplesMap6>

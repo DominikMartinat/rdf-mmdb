@@ -64,20 +64,21 @@ mmdbtra:target{#uniprot IRI
 ## transporter endpoint
 ###################################
 mmdbtra:assay_substrate{
-  sio:SIO_000300 [repr:PositiveResult repr:NegativeResult]; #IF transporters.type = 1 repr:PositiveResult, IF transporters.type = 2 repr:NegativeResult
+  bao:BAO_0095007 [repr:PositiveResult repr:NegativeResult]; #IF transporters.type = 1 repr:PositiveResult, IF transporters.type = 2 repr:NegativeResult
   rdf:type mmdbvoc:SubstrateBindingAssay;
   bao:BAO_0000559 @mmdbtra:transporter_assay_measure_group
 }
 
 mmdbtra:assay_inhibitor{
-  sio:SIO_000300 [repr:PositiveResult repr:NegativeResult]; #IF transporters.type = 3 repr:PositiveResult, IF transporters.type = 4 repr:NegativeResult
+  bao:BAO_0095007 [repr:PositiveResult repr:NegativeResult]; #IF transporters.type = 3 repr:PositiveResult, IF transporters.type = 4 repr:NegativeResult
   rdf:type mmdbvoc:InhibitionAssay;
   bao:BAO_0000559 @mmdbtra:transporter_assay_measure_group
 }
 
 mmdbtra:assay_pkm{
-  sio:SIO_000300 xsd:double; #MySQL transporters.Km
+  bao:BAO_0002666 xsd:double; #MySQL transporters.Km
   rdf:type mmdbvoc:PKm;
+  bao:BAO_0000183 obo:UO_0000062;
   bao:BAO_0002176 @mmdbtra:interaction_pkm_stdev?; #has endpoint modifier
   bao:BAO_0000559 @mmdbtra:transporter_assay_measure_group
 }
@@ -85,13 +86,15 @@ mmdbtra:assay_pkm{
 mmdbtra:assay_pec50{
   bao:BAO_0002666 xsd:double; #MySQL transporters.EC50
   rdf:type  bao:BAO_0002583; #pEC50 endpoint type
+  bao:BAO_0000183 obo:UO_0000062;
   bao:BAO_0002176 @mmdbtra:interaction_pec50_stdev?; #has endpoint modifier
   bao:BAO_0000559 @mmdbtra:transporter_assay_measure_group
 }
 
 mmdbtra:assay_pki{
-  sio:SIO_000300 xsd:double; #MySQL transporters.Ki
-  rdf:type  bao:BAO_0190004; #pKi endpoint type
+  bao:BAO_0002666 xsd:double; #MySQL transporters.Ki
+  rdf:type  mmdbvoc:PKi; #pKi endpoint type
+  bao:BAO_0000183 obo:UO_0000062;
   bao:BAO_0002176 @mmdbtra:interaction_pec50_stdev?; #has endpoint modifier
   bao:BAO_0000559 @mmdbtra:transporter_assay_measure_group;
 }
@@ -99,6 +102,7 @@ mmdbtra:assay_pki{
 mmdbtra:assay_pic50{
   bao:BAO_0002666 xsd:double; #MySQL transporters.IC50
   rdf:type  bao:BAO_0000199; #pIC50 endpoint type
+  bao:BAO_0000183 obo:UO_0000062;
   bao:BAO_0002176 @mmdbtra:interaction_pec50_stdev?; #has endpoint modifier
   bao:BAO_0000559 @mmdbtra:transporter_assay_measure_group;
 }
