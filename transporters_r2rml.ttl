@@ -10,9 +10,9 @@
 ################################################
 <#TriplesMap1>
   rr:logicalTable [ rr:sqlQuerry """
-    SELECT tr.*, ta.uniprot_id,
-      (CASE WHEN LENGTH(tr.id_substance)<5 THEN LPAD(tr.id_substance,5,0) ELSE tr.id_substance END) padded_id_substance
-      FROM transporters AS tr, transporter_targets AS ta WHERE tr.id_target = ta.id
+    SELECT tr.*, ta.uniprot_id, subs.identifier
+      FROM transporters AS tr, transporter_targets AS ta, substances AS subs, transporter_datasets AS ds
+      WHERE tr.id_target = ta.id AND tr.id_substance = subs.id AND tr.id_dataset = ds.id AND ds.visibility = 1
   """] ;
   rr:subjectMap [
     rr:template "https://rdf.molmedb.upol.cz/transporter/tra{tr.id}" ;
@@ -20,7 +20,7 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0090012 ;
-    rr:objectMap [ rr:template "https://identifiers.org/molmedb/MM{padded_id_substance}" ]
+    rr:objectMap [ rr:template "https://identifiers.org/molmedb/{subs.identifier}" ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0090012;
@@ -28,11 +28,11 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000209;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/transporter/measure_group_tra{ta.id}" ]
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/transporter/measure_group_tra{tr.id}" ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate cito:citesAsDataSource ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/reference/ref{ta.id_reference}" ]
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/reference/ref{tr.id_reference}" ]
   ] .
 
 ################################################
@@ -40,15 +40,15 @@
 ################################################
 <#TriplesMap2>
   rr:logicalTable [ rr:sqlQuerry """
-    SELECT tr.*, ta.uniprot_id,
-      (CASE WHEN LENGTH(tr.id_substance)<5 THEN LPAD(tr.id_substance,5,0) ELSE tr.id_substance END) padded_id_substance,
+    SELECT tr.*, ta.uniprot_id, subs.identifier,
       (CASE WHEN tr.type = 1 OR tr.type = 2 THEN tr.id ELSE NULL END) substrate_id,
       (CASE WHEN tr.type = 3 OR tr.type = 4 THEN tr.id ELSE NULL END) inhibitor_id,
       (CASE WHEN tr.Km IS NULL THEN NULL ELSE tr.id END) Km_id,
       (CASE WHEN tr.EC50 IS NULL THEN NULL ELSE tr.id END) EC50_id,
       (CASE WHEN tr.Ki IS NULL THEN NULL ELSE tr.id END) Ki_id,
       (CASE WHEN tr.IC50 IS NULL THEN NULL ELSE tr.id END) IC50_id 
-FROM transporters AS tr, transporter_targets AS ta WHERE tr.id_target = ta.id
+      FROM transporters AS tr, transporter_targets AS ta, substances AS subs, transporter_datasets AS ds
+      WHERE tr.id_target = ta.id AND tr.id_substance = subs.id AND tr.id_dataset = ds.id AND ds.visibility = 1
   """ ] ;
   rr:subjectMap [
     rr:template "https://rdf.molmedb.upol.cz/transporter/measure_group_tra{tr.id}" ;
@@ -64,7 +64,7 @@ FROM transporters AS tr, transporter_targets AS ta WHERE tr.id_target = ta.id
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000208 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_pkm_tra{KM_id}" ]
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_pkm_tra{Km_id}" ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000208 ;
@@ -80,7 +80,7 @@ FROM transporters AS tr, transporter_targets AS ta WHERE tr.id_target = ta.id
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0090012 ;
-    rr:objectMap [ rr:template "https://identifiers.org/molmedb/MM{padded_id_substance}" ]
+    rr:objectMap [ rr:template "https://identifiers.org/molmedb/{identifier}" ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0090012 ;
@@ -118,11 +118,12 @@ FROM transporters AS tr, transporter_targets AS ta WHERE tr.id_target = ta.id
 ################################################
 <#TriplesMap4>
   rr:logicalTable [ rr:sqlQuerry """ 
-    SELECT transporters.*,
-      (CASE type
+    SELECT tr.*,
+      (CASE tr.type
       WHEN 1 THEN 'PositiveResult'
       WHEN 2 THEN 'NegativeResult'
-      END) res FROM transporters WHERE type = 1 OR type = 2
+      END) res FROM transporters AS tr, transporter_datasets AS ds
+      WHERE (tr.type = 1 OR tr.type = 2) AND tr.id_dataset = ds.id AND ds.visibility = 1
   """] ;
   rr:subjectMap [
     rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_substrate_tra{id}" ;
@@ -139,11 +140,12 @@ FROM transporters AS tr, transporter_targets AS ta WHERE tr.id_target = ta.id
 
 <#TriplesMap5>
   rr:logicalTable [ rr:sqlQuerry """ 
-    SELECT transporters.*,
-      (CASE type
+    SELECT tr.*,
+      (CASE tr.type
       WHEN 3 THEN 'PositiveResult'
       WHEN 4 THEN 'NegativeResult'
-      END) res FROM transporters WHERE type = 3 or type = 4
+      END) res FROM transporters AS tr, transporter_datasets AS ds
+      WHERE (tr.type = 3 OR tr.type = 4) AND tr.id_dataset = ds.id AND ds.visibility = 1
   """] ;
   rr:subjectMap [
     rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_inhibitor_tra{id}" ;
@@ -160,7 +162,9 @@ FROM transporters AS tr, transporter_targets AS ta WHERE tr.id_target = ta.id
 
 <#TriplesMap6>
   rr:logicalTable [ rr:sqlQuerry """
-    SELECT *, (CASE WHEN Km_acc IS NULL THEN NULL ELSE id END) stdev_id FROM transporters WHERE Km IS NOT NULL
+    SELECT tr.*, (CASE WHEN tr.Km_acc IS NULL THEN NULL ELSE tr.id END) stdev_id
+    FROM transporters AS tr, transporter_datasets AS ds WHERE
+    tr.Km IS NOT NULL AND tr.id_dataset = ds.id AND ds.visibility = 1
     """ ] ;
   rr:subjectMap [
     rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_pkm_tra{id}" ;
@@ -185,7 +189,9 @@ FROM transporters AS tr, transporter_targets AS ta WHERE tr.id_target = ta.id
 
 <#TriplesMap7>
   rr:logicalTable [ rr:sqlQuerry """
-    SELECT *, (CASE WHEN EC50_acc IS NULL THEN NULL ELSE id END) stdev_id FROM transporters WHERE EC50 IS NOT NULL
+    SELECT tr.*, (CASE WHEN tr.EC50_acc IS NULL THEN NULL ELSE tr.id END) stdev_id
+    FROM transporters AS tr, transporter_datasets AS ds WHERE
+    tr.EC50 IS NOT NULL AND tr.id_dataset = ds.id AND ds.visibility = 1
     """ ] ;
   rr:subjectMap [
     rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_pec50_tra{id}" ;
@@ -210,7 +216,9 @@ FROM transporters AS tr, transporter_targets AS ta WHERE tr.id_target = ta.id
 
 <#TriplesMap8>
   rr:logicalTable [ rr:sqlQuerry """
-    SELECT *, (CASE WHEN Ki_acc IS NULL THEN NULL ELSE id END) stdev_id FROM transporters WHERE Ki IS NOT NULL
+    SELECT tr.*, (CASE WHEN tr.Ki_acc IS NULL THEN NULL ELSE tr.id END) stdev_id
+    FROM transporters AS tr, transporter_datasets AS ds WHERE
+    tr.Ki IS NOT NULL AND tr.id_dataset = ds.id AND ds.visibility = 1
     """ ] ;
   rr:subjectMap [
     rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_pki_tra{id}" ;
@@ -235,7 +243,9 @@ FROM transporters AS tr, transporter_targets AS ta WHERE tr.id_target = ta.id
 
 <#TriplesMap9>
   rr:logicalTable [ rr:sqlQuerry """
-    SELECT *, (CASE WHEN IC50_acc IS NULL THEN NULL ELSE id END) stdev_id FROM transporters WHERE IC50 IS NOT NULL
+    SELECT tr.*, (CASE WHEN tr.IC50_acc IS NULL THEN NULL ELSE tr.id END) stdev_id
+    FROM transporters AS tr, transporter_datasets AS ds WHERE
+    tr.IC50 IS NOT NULL AND tr.id_dataset = ds.id AND ds.visibility = 1
     """ ] ;
   rr:subjectMap [
     rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_pic50_tra{id}" ;
@@ -262,18 +272,20 @@ FROM transporters AS tr, transporter_targets AS ta WHERE tr.id_target = ta.id
 ## transporter endpoints standard deviations
 ################################################
 <#TriplesMap10>
-  rr:logicalTable [ rr:sqlQuerry "SELECT * FROM transporters WHERE Km_acc IS NOT NULL" ] ;
-  rr:subjectMap [
-    rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_pkm_stdev_tra{id}" ;
-    rr:class bao:BAO_0002176
-  ] ;
+  rr:logicalTable [ rr:sqlQuerry """
+    SELECT tr.id, tr.Km_acc FROM transporters AS tr, transporter_datasets AS ds
+    WHERE tr.Km_acc IS NOT NULL AND tr.id_dataset = ds.id AND ds.visibility = 1
+    """ ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0095007 ;
     rr:objectMap [ rr:column "Km_acc" ]
   ] .
 
 <#TriplesMap11>
-  rr:logicalTable [ rr:sqlQuerry "SELECT * FROM transporters WHERE EC50_acc IS NOT NULL" ] ;
+  rr:logicalTable [ rr:sqlQuerry """
+    SELECT tr.id, tr.EC50_acc FROM transporters AS tr, transporter_datasets AS ds
+    WHERE tr.EC50_acc IS NOT NULL AND tr.id_dataset = ds.id AND ds.visibility = 1
+    """ ] ;
   rr:subjectMap [
     rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_pec50_stdev_tra{id}" ;
     rr:class bao:BAO_0002176
@@ -284,7 +296,10 @@ FROM transporters AS tr, transporter_targets AS ta WHERE tr.id_target = ta.id
   ] .
 
 <#TriplesMap12>
-  rr:logicalTable [ rr:sqlQuerry "SELECT * FROM transporters WHERE Ki_acc IS NOT NULL" ] ;
+  rr:logicalTable [ rr:sqlQuerry """
+    SELECT tr.id, tr.Ki_acc FROM transporters AS tr, transporter_datasets AS ds
+    WHERE tr.Ki_acc IS NOT NULL AND tr.id_dataset = ds.id AND ds.visibility = 1
+    """ ] ;
   rr:subjectMap [
     rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_pki_stdev_tra{id}" ;
     rr:class bao:BAO_0002176
@@ -295,7 +310,10 @@ FROM transporters AS tr, transporter_targets AS ta WHERE tr.id_target = ta.id
   ] .
 
 <#TriplesMap13>
-  rr:logicalTable [ rr:sqlQuerry "SELECT * FROM transporters WHERE IC50_acc IS NOT NULL" ] ;
+  rr:logicalTable [ rr:sqlQuerry """
+    SELECT tr.id, tr.IC50_acc FROM transporters AS tr, transporter_datasets AS ds
+    WHERE tr.IC50_acc IS NOT NULL AND tr.id_dataset = ds.id AND ds.visibility = 1
+    """ ] ;
   rr:subjectMap [
     rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_pic50_stdev_tra{id}" ;
     rr:class bao:BAO_0002176

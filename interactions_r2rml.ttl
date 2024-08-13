@@ -16,8 +16,9 @@
 ################################################
 <#TriplesMap1>
   rr:logicalTable [ rr:sqlQuerry """
-    SELECT *,
-      (CASE WHEN LENGTH(id_substance)<5 THEN LPAD(id_substance,5,0) ELSE id_substance END) padded_id_substance FROM interaction
+    SELECT inte.id, inte.id_membrane, inte.id_reference, subs.identifier
+      FROM interaction AS inte, substances AS subs, datasets AS ds
+      WHERE inte.id_substance = subs.id AND ds.visibility = 1 AND inte.id_dataset = ds.id
   """] ;
   rr:subjectMap [
     rr:template "https://rdf.molmedb.upol.cz/interaction/int{id}" ;
@@ -25,7 +26,7 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0090012 ;
-    rr:objectMap [ rr:template "https://identifiers.org/molmedb/MM{padded_id_substance}" ]
+    rr:objectMap [ rr:template "https://identifiers.org/molmedb/{identifier}" ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0090012 ;
@@ -45,21 +46,21 @@
 ################################################
 <#TriplesMap2>
   rr:logicalTable [ rr:sqlQuerry """
-    SELECT *,
-      (CASE WHEN LENGTH(id_substance)<5 THEN LPAD(id_substance,5,0) ELSE id_substance END) padded_id_substance,
-      (CASE WHEN LogK IS NULL THEN NULL ELSE id END) LogK_id,
-      (CASE WHEN LogPerm IS NULL THEN NULL ELSE id END) LogPerm_id,
-      (CASE WHEN Position IS NULL THEN NULL ELSE id END) Position_id,
-      (CASE WHEN Penetration IS NULL THEN NULL ELSE id END) Penetration_id,
-      (CASE WHEN Water IS NULL THEN NULL ELSE id END) Water_id,
-      (CASE WHEN theta IS NULL THEN NULL ELSE id END) theta_id,
-      (CASE WHEN abs_wl IS NULL THEN NULL ELSE id END) abs_wl_id,
-      (CASE WHEN fluo_wl IS NULL THEN NULL ELSE id END) fluo_wl_id,
-      (CASE WHEN QY IS NULL THEN NULL ELSE id END) QY_id,
-      (CASE WHEN lt IS NULL THEN NULL ELSE id END) lt_id,
-      (CASE WHEN temperature IS NULL THEN NULL ELSE id END) temperature_id,
-      (CASE WHEN charge IS NULL THEN NULL ELSE id END) charge_id FROM interaction
-
+    SELECT inte.id, inte.id_membrane, inte.id_method, inte.comment, subs.identifier as molecule,
+      (CASE WHEN inte.LogK IS NULL THEN NULL ELSE inte.id END) LogK_id,
+      (CASE WHEN inte.LogPerm IS NULL THEN NULL ELSE inte.id END) LogPerm_id,
+      (CASE WHEN inte.Position IS NULL THEN NULL ELSE inte.id END) Position_id,
+      (CASE WHEN inte.Penetration IS NULL THEN NULL ELSE inte.id END) Penetration_id,
+      (CASE WHEN inte.Water IS NULL THEN NULL ELSE inte.id END) Water_id,
+      (CASE WHEN inte.theta IS NULL THEN NULL ELSE inte.id END) theta_id,
+      (CASE WHEN inte.abs_wl IS NULL THEN NULL ELSE inte.id END) abs_wl_id,
+      (CASE WHEN inte.fluo_wl IS NULL THEN NULL ELSE inte.id END) fluo_wl_id,
+      (CASE WHEN inte.QY IS NULL THEN NULL ELSE inte.id END) QY_id,
+      (CASE WHEN inte.lt IS NULL THEN NULL ELSE inte.id END) lt_id,
+      (CASE WHEN inte.temperature IS NULL THEN NULL ELSE inte.id END) temperature_id,
+      (CASE WHEN inte.charge IS NULL THEN NULL ELSE inte.id END) charge_id 
+      FROM interaction AS inte, substances AS subs, datasets AS ds
+      WHERE inte.id_substance = subs.id AND inte.id_dataset = ds.id AND ds.visibility = 1
   """] ;
   rr:subjectMap [
     rr:template "https://rdf.molmedb.upol.cz/interaction/measure_group_int{id}" ;
@@ -111,7 +112,7 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0090012 ;
-    rr:objectMap [ rr:template "https://identifiers.org/molmedb/MM{padded_id_substance}" ]
+    rr:objectMap [ rr:template "https://identifiers.org/molmedb/{identifier}" ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0090012 ;
@@ -139,9 +140,9 @@
 ################################################
 <#TriplesMap3>
   rr:logicalTable [ rr:sqlQuerry """
-  SELECT id, name,
-    (CASE WHEN description = '' THEN NULL else description END) description,
-    (CASE WHEN `references` = '' THEN NULL else `references` END) ref FROM membranes
+    SELECT id, name,
+      (CASE WHEN description = '' THEN NULL else description END) description,
+      (CASE WHEN `references` = '' THEN NULL else `references` END) ref FROM membranes
   """ ] ;
   rr:subjectMap [
     rr:template "https://rdf.molmedb.upol.cz/interaction/membrane{id}" ;
@@ -160,14 +161,45 @@
     rr:objectMap [ rr:column "ref"; rr:datatype rdf:HTML ]
   ] .
 
+<#TriplesMap4>
+  rr:logicalTable [ rr:sqlQuerry """
+    SELECT mlink.id_membrane,
+    (CASE etl.id_enum_type
+	    WHEN 91 THEN 'mmdbvoc:SubstanceBasedMembraneModel'
+	    WHEN 92 THEN 'mmdbvoc:CellBasedMembraneModel'
+	    ELSE NULL END) structure_type,
+    (CASE etl.id_enum_type_parent
+     	WHEN 87 THEN 'mmdbvoc:GenericMembraneModel'
+     	WHEN 88 THEN 'mmdbvoc:IntestineMembraneModel'
+    	WHEN 89 THEN 'mmdbvoc:OralMembraneModel'
+    	WHEN 90 THEN 'mmdbvoc:SkinMembraneModel'
+ 	    WHEN 93 THEN 'mmdbvoc:BrainMembraneModel'
+ 	    WHEN 97 THEN 'mmdbvoc:EyeMembraneModel'
+ 	    WHEN 178 THEN 'mmdbvoc:CellMembraneModel'
+ 	    ELSE NULL END) anatomical_type
+    FROM membrane_enum_type_links AS mlink, enum_type_links AS etl
+    WHERE mlink.id_enum_type_link = etl.id
+  """ ] ;
+  rr:subjectMap [
+    rr:template "https://rdf.molmedb.upol.cz/interaction/membrane{id}" ;
+  ] ;
+    rr:predicateObjectMap [
+    rr:predicate rdf:type ;
+    rr:objectMap [ rr:column "structure_type" ]
+  ] ;
+    rr:predicateObjectMap [
+    rr:predicate rdf:type ;
+    rr:objectMap [ rr:column "anatomical_type" ]
+  ] .
+
 ################################################
 ## method
 ################################################
-<#TriplesMap4>
+<#TriplesMap5>
   rr:logicalTable [ rr:sqlQuerry """
-  SELECT id, name,
-    (CASE WHEN description = '' THEN NULL else description END) description,
-    (CASE WHEN `references` = '' THEN NULL else `references` END) ref FROM methods
+    SELECT id, name,
+      (CASE WHEN description = '' THEN NULL else description END) description,
+      (CASE WHEN `references` = '' THEN NULL else `references` END) ref FROM methods
   """ ] ;
   rr:subjectMap [
     rr:template "https://rdf.molmedb.upol.cz/interaction/method{id}" ;
@@ -186,18 +218,60 @@
     rr:objectMap [ rr:column "ref"; rr:datatype rdf:HTML ]
   ] .
 
+
+################################################
+## method type
+################################################
+<#TriplesMap6>
+  rr:logicalTable [ rr:sqlQuerry """
+    SELECT etl.id, mlink.id_method,
+    (CASE etl.id_enum_type_parent
+     	WHEN 22 THEN 'bao:BAO_0002202'
+     	WHEN 23 THEN 'bao:BAO_0002094'
+     	WHEN 24 THEN 'bao:BAO_0002301'
+     	ELSE NULL END) parent_type,
+    (CASE etl.id_enum_type
+     	WHEN 25 THEN 'mmdbvoc:WaterMembranePartitioningMethod'
+     	WHEN 28 THEN 'bao:BAO_0002317'
+     	WHEN 29 THEN 'bao:BAO_0002248'
+     	WHEN 30 THEN 'bao:BAO_0002305'
+     	WHEN 31 THEN 'mmdbvoc:AtomisticSimulation'
+     	WHEN 32 THEN 'mmdbvoc:UnitedAtomsSimulation'
+     	WHEN 33 THEN 'mmdbvoc:CoarseGrainedSimulation'
+     	WHEN 34 THEN 'mmdbvoc:HybridResolutionSimulation'
+     	WHEN 191 THEN 'mmdbvoc:MembranePositionMethod'
+     	WHEN 192 THEN 'mmdbvoc:MembranePermeabilityMethod'
+     	ELSE NULL END) child_type
+    FROM method_enum_type_links AS mlink, enum_type_links AS etl 
+    WHERE mlink.id_enum_type_link = etl.id
+  """ ] ;
+  rr:subjectMap [
+    rr:template "https://rdf.molmedb.upol.cz/interaction/method{id_method}" ;
+  ] ;
+    rr:predicateObjectMap [
+    rr:predicate rdf:type ;
+    rr:objectMap [ rr:column "parent_type" ]
+  ] ;
+    rr:predicateObjectMap [
+    rr:predicate rdf:type ;
+    rr:objectMap [ rr:column "child_type" ]
+  ] .
+
 ################################################
 ## experimental conditions
 ################################################
-<#TriplesMap5>
-  rr:logicalTable [ rr:sqlQuerry "SELECT * FROM interaction WHERE temperature IS NOT NULL" ] ;
+<#TriplesMap7>
+  rr:logicalTable [ rr:sqlQuerry """
+    SELECT inte.id, inte.temperature FROM interaction AS inte, datasets AS ds
+    WHERE inte.temperature IS NOT NULL and inte.id_dataset = ds.id AND ds.visibility = 1
+  """ ] ;
   rr:subjectMap [
     rr:template "https://rdf.molmedb.upol.cz/interaction/measure_group_temperature_int{id}" ;
     rr:class obo:PATO_0000146
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0095007 ;
-    rr:objectMap [ rr:column "temperature" ]
+    rr:objectMap [ rr:column "temperature"; rr:datatype xsd:double ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0002874 ;
@@ -205,11 +279,12 @@
   ] .
 
 #charges need to be standardized first - delete + symbols and whitespaces
-<#TriplesMap6>
+<#TriplesMap8>
   rr:logicalTable [ rr:sqlQuerry """
-  SELECT DISTINCT
-    REPLACE(REPLACE(charge,'+',''),', ',',') standardized_charge
-    FROM interaction WHERE charge IS NOT NULL
+    SELECT inte.id,
+      REPLACE(REPLACE(inte.charge,'+',''),', ',',') standardized_charge
+      FROM interaction AS inte, datasets AS ds
+      WHERE inte.charge IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
   """ ] ;
   rr:subjectMap [
     rr:template "https://rdf.molmedb.upol.cz/interaction/measure_group_mol_charge_int{id}" ;
@@ -223,9 +298,10 @@
 ################################################
 ## interaction endpoints
 ################################################
-<#TriplesMap7>
+<#TriplesMap9>
   rr:logicalTable [ rr:sqlQuerry """
-    SELECT *, (CASE WHEN LogK_acc IS NULL THEN NULL ELSE id END) stdev_id FROM interaction WHERE LogK IS NOT NULL
+    SELECT inte.id, inte.LogK, (CASE WHEN inte.LogK_acc IS NULL THEN NULL ELSE inte.id END) stdev_id
+    FROM interaction AS inte, datasets AS ds WHERE inte.LogK IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
     """ ] ;
   rr:subjectMap [
     rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_logk_int{id}" ;
@@ -244,9 +320,10 @@
     rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/measure_group_int{id}" ]
   ] .
 
-<TriplesMap8>
+<TriplesMap10>
   rr:logicalTable [ rr:sqlQuerry """
-    SELECT *, (CASE WHEN LogPerm_acc IS NULL THEN NULL ELSE id END) stdev_id FROM interaction WHERE LogPerm IS NOT NULL
+    SELECT inte.id, inte.LogPerm, (CASE WHEN inte.LogPerm_acc IS NULL THEN NULL ELSE inte.id END) stdev_id
+    FROM interaction AS inte, datasets AS ds WHERE inte.LogPerm IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
     """ ] ;
   rr:subjectMap [
     rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_logperm_int{id}" ;
@@ -269,9 +346,10 @@
     rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/measure_group_int{id}" ]
   ] .
 
-<#TriplesMap9>
+<#TriplesMap11>
   rr:logicalTable [ rr:sqlQuerry """
-    SELECT *, (CASE WHEN Position_acc IS NULL THEN NULL ELSE id END) stdev_id FROM interaction WHERE Position IS NOT NULL
+    SELECT inte.id, inte.Position, (CASE WHEN inte.Position_acc IS NULL THEN NULL ELSE inte.id END) stdev_id
+    FROM interaction AS inte, datasets AS ds WHERE inte.Position IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
     """ ] ;
   rr:subjectMap [
     rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_position_int{id}" ;
@@ -294,9 +372,10 @@
     rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/measure_group_int{id}" ]
   ] .
 
-<#TriplesMap10>
+<#TriplesMap12>
   rr:logicalTable [ rr:sqlQuerry """
-    SELECT *, (CASE WHEN Penetration_acc IS NULL THEN NULL ELSE id END) stdev_id FROM interaction WHERE Penetration IS NOT NULL
+    SELECT inte.id, inte.Penetration, (CASE WHEN inte.Penetration_acc IS NULL THEN NULL ELSE inte.id END) stdev_id
+    FROM interaction AS inte, datasets AS ds WHERE inte.Penetration IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
     """ ] ;
   rr:subjectMap [
     rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_penetration_int{id}" ;
@@ -319,9 +398,10 @@
     rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/measure_group_int{id}" ]
   ] .
 
-<#TriplesMap11>
+<#TriplesMap13>
   rr:logicalTable [ rr:sqlQuerry """
-    SELECT *, (CASE WHEN Water_acc IS NULL THEN NULL ELSE id END) stdev_id FROM interaction WHERE Water IS NOT NULL
+    SELECT inte.id, inte.Water, (CASE WHEN inte.Water_acc IS NULL THEN NULL ELSE inte.id END) stdev_id 
+    FROM interaction AS inte, datasets AS ds WHERE inte.Water IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
     """ ] ;
   rr:subjectMap [
     rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_water_int{id}" ;
@@ -344,9 +424,10 @@
     rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/measure_group_int{id}" ]
   ] .
 
-<#TriplesMap12>
+<#TriplesMap14>
   rr:logicalTable [ rr:sqlQuerry """
-    SELECT *, (CASE WHEN theta_acc IS NULL THEN NULL ELSE id END) stdev_id FROM interaction WHERE theta IS NOT NULL
+    SELECT inte.id, inte.theta, (CASE WHEN inte.theta_acc IS NULL THEN NULL ELSE inte.id END) stdev_id 
+    FROM interaction AS inte, datasets AS ds WHERE inte.theta IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
     """ ] ;
   rr:subjectMap [
     rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_theta_int{id}" ;
@@ -369,9 +450,10 @@
     rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/measure_group_int{id}" ]
   ] .
 
-<#TriplesMap13>
+<#TriplesMap15>
   rr:logicalTable [ rr:sqlQuerry """
-    SELECT *, (CASE WHEN abs_wl_acc IS NULL THEN NULL ELSE id END) stdev_id FROM interaction WHERE abs_wl IS NOT NULL
+    SELECT inte.id, inte.abs_wl, (CASE WHEN inte.abs_wl_acc IS NULL THEN NULL ELSE inte.id END) stdev_id
+    FROM interaction AS inte, datasets AS ds WHERE inte.abs_wl IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
     """ ] ;
   rr:subjectMap [
     rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_abs_wl_int{id}" ;
@@ -394,9 +476,10 @@
     rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/measure_group_int{id}" ]
   ] .
 
-<#TriplesMap14>
+<#TriplesMap16>
   rr:logicalTable [ rr:sqlQuerry """
-    SELECT *, (CASE WHEN fluo_wl_acc IS NULL THEN NULL ELSE id END) stdev_id FROM interaction WHERE fluo_wl IS NOT NULL
+    SELECT inte.id, inte.fluo_wl, (CASE WHEN inte.fluo_wl_acc IS NULL THEN NULL ELSE inte.id END) stdev_id
+    FROM interaction AS inte, datasets AS ds WHERE inte.fluo_wl IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
     """ ] ;
   rr:subjectMap [
     rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_fluo_wl_int{id}" ;
@@ -419,9 +502,10 @@
     rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/measure_group_int{id}" ]
   ] .
 
-<#TriplesMap15>
+<#TriplesMap17>
   rr:logicalTable [ rr:sqlQuerry """
-    SELECT *, (CASE WHEN QY_acc IS NULL THEN NULL ELSE id END) stdev_id FROM interaction WHERE QY IS NOT NULL
+    SELECT inte.id, inte.QY, (CASE WHEN inte.QY_acc IS NULL THEN NULL ELSE inte.id END) stdev_id
+    FROM interaction AS inte, datasets AS ds WHERE inte.QY IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
     """ ] ;
   rr:subjectMap [
     rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_qy_int{id}" ;
@@ -440,9 +524,10 @@
     rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/measure_group_int{id}" ]
   ] .
 
-<#TriplesMap16>
+<#TriplesMap18>
   rr:logicalTable [ rr:sqlQuerry """
-    SELECT *, (CASE WHEN lt_acc IS NULL THEN NULL ELSE id END) stdev_id FROM interaction WHERE lt IS NOT NULL
+    SELECT inte.id, inte.lt, (CASE WHEN inte.lt_acc IS NULL THEN NULL ELSE inte.id END) stdev_id
+    FROM interaction AS inte, datasets AS ds WHERE inte.lt IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
     """ ] ;
   rr:subjectMap [
     rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_lt_int{id}" ;
@@ -468,8 +553,11 @@
 ################################################
 ## endpoint strandard deviations
 ################################################
-<#TriplesMap17>
-  rr:logicalTable [ rr:sqlQuerry "SELECT * FROM interaction WHERE LogK_acc IS NOT NULL" ] ;
+<#TriplesMap19>
+  rr:logicalTable [ rr:sqlQuerry """
+    SELECT inte.id, inte.LogK_acc FROM interaction AS inte, datasets AS ds
+    WHERE inte.LogK_acc IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
+  """ ] ;
   rr:subjectMap [
     rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_logk_stdev_int{id}" ;
     rr:class bao:BAO_0002176
@@ -479,8 +567,11 @@
     rr:objectMap [ rr:column "LogK_acc" ]
   ] .
 
-<#TriplesMap18>
-  rr:logicalTable [ rr:sqlQuerry "SELECT * FROM interaction WHERE LogPerm_acc IS NOT NULL" ] ;
+<#TriplesMap20>
+  rr:logicalTable [ rr:sqlQuerry """
+    SELECT inte.id, inte.LogPerm_acc FROM interaction AS inte, datasets AS ds
+    WHERE inte.LogPerm_acc IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
+  """ ] ;
   rr:subjectMap [
     rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_logperm_stdev_int{id}" ;
     rr:class bao:BAO_0002176
@@ -490,8 +581,11 @@
     rr:objectMap [ rr:column "LogPerm_acc" ]
   ] .
 
-<#TriplesMap19>
-  rr:logicalTable [ rr:sqlQuerry "SELECT * FROM interaction WHERE Position_acc IS NOT NULL" ] ;
+<#TriplesMap21>
+  rr:logicalTable [ rr:sqlQuerry """
+    SELECT inte.id, inte.Position_acc FROM interaction AS inte, datasets AS ds
+    WHERE inte.Position_acc IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
+  """ ] ;
   rr:subjectMap [
     rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_position_stdev_int{id}" ;
     rr:class bao:BAO_0002176
@@ -501,8 +595,11 @@
     rr:objectMap [ rr:column "Position_acc" ]
   ] .
 
-<#TriplesMap20>
-  rr:logicalTable [ rr:sqlQuerry "SELECT * FROM interaction WHERE Penetration_acc IS NOT NULL" ] ;
+<#TriplesMap22>
+  rr:logicalTable [ rr:sqlQuerry """
+    SELECT inte.id, inte.Penetration_acc FROM interaction AS inte, datasets AS ds
+    WHERE inte.Penetration_acc IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
+  """ ] ;
   rr:subjectMap [
     rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_penetration_stdev_int{id}" ;
     rr:class bao:BAO_0002176
@@ -512,8 +609,11 @@
     rr:objectMap [ rr:column "Penetration_acc" ]
   ] .
 
-<#TriplesMap21>
-  rr:logicalTable [ rr:sqlQuerry "SELECT * FROM interaction WHERE Water_acc IS NOT NULL" ] ;
+<#TriplesMap23>
+  rr:logicalTable [ rr:sqlQuerry """
+    SELECT inte.id, inte.Water_acc FROM interaction AS inte, datasets AS ds
+    WHERE inte.Water_acc IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
+  """ ] ;
   rr:subjectMap [
     rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_water_stdev_int{id}" ;
     rr:class bao:BAO_0002176
@@ -523,8 +623,11 @@
     rr:objectMap [ rr:column "Water_acc" ]
   ] .
 
-<#TriplesMap22>
-  rr:logicalTable [ rr:sqlQuerry "SELECT * FROM interaction WHERE theta_acc IS NOT NULL" ] ;
+<#TriplesMap24>
+  rr:logicalTable [ rr:sqlQuerry """
+    SELECT inte.id, inte.theta_acc FROM interaction AS inte, datasets AS ds
+    WHERE inte.theta_acc IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
+  """ ] ;
   rr:subjectMap [
     rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_theta_stdev_int{id}" ;
     rr:class bao:BAO_0002176
@@ -534,8 +637,11 @@
     rr:objectMap [ rr:column "theta_acc" ]
   ] .
 
-<#TriplesMap23>
-  rr:logicalTable [ rr:sqlQuerry "SELECT * FROM interaction WHERE abs_wl_acc IS NOT NULL" ] ;
+<#TriplesMap25>
+  rr:logicalTable [ rr:sqlQuerry """
+    SELECT inte.id, inte.abs_wl_acc FROM interaction AS inte, datasets AS ds
+    WHERE inte.abs_wl_acc IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
+  """ ] ;
   rr:subjectMap [
     rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_abs_wl_stdev_int{id}" ;
     rr:class bao:BAO_0002176
@@ -545,8 +651,11 @@
     rr:objectMap [ rr:column "abs_wl_acc" ]
   ] .
 
-<#TriplesMap24>
-  rr:logicalTable [ rr:sqlQuerry "SELECT * FROM interaction WHERE fluo_wl_acc IS NOT NULL" ] ;
+<#TriplesMap26>
+  rr:logicalTable [ rr:sqlQuerry """
+    SELECT inte.id, inte.fluo_wl_acc FROM interaction AS inte, datasets AS ds
+    WHERE inte.fluo_wl_acc IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
+  """ ] ;
   rr:subjectMap [
     rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_fluo_wl_stdev_int{id}" ;
     rr:class bao:BAO_0002176
@@ -556,8 +665,11 @@
     rr:objectMap [ rr:column "fluo_wl_acc" ]
   ] .
 
-<#TriplesMap25>
-  rr:logicalTable [ rr:sqlQuerry "SELECT * FROM interaction WHERE QY_acc IS NOT NULL" ] ;
+<#TriplesMap27>
+  rr:logicalTable [ rr:sqlQuerry """
+    SELECT inte.id, inte.QY_acc FROM interaction AS inte, datasets AS ds
+    WHERE inte.QY_acc IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
+  """ ] ;
   rr:subjectMap [
     rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_qy_stdev_int{id}" ;
     rr:class bao:BAO_0002176
@@ -567,8 +679,11 @@
     rr:objectMap [ rr:column "QY_acc" ]
   ] .
 
-<#TriplesMap26>
-  rr:logicalTable [ rr:sqlQuerry "SELECT * FROM interaction WHERE lt_acc IS NOT NULL" ] ;
+<#TriplesMap28>
+  rr:logicalTable [ rr:sqlQuerry """
+    SELECT inte.id, inte.lt_acc FROM interaction AS inte, datasets AS ds
+    WHERE inte.lt_acc IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
+  """ ] ;
   rr:subjectMap [
     rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_lt_stdev_int{id}" ;
     rr:class bao:BAO_0002176
