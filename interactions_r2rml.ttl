@@ -240,7 +240,7 @@
      	WHEN 33 THEN 'mmdbvoc:CoarseGrainedSimulation'
      	WHEN 34 THEN 'mmdbvoc:HybridResolutionSimulation'
      	WHEN 191 THEN 'mmdbvoc:MembranePositionMethod'
-     	WHEN 192 THEN 'mmdbcox:MembranePermeabilityMethod'
+     	WHEN 192 THEN 'mmdbvoc:MembranePermeabilityMethod'
      	ELSE NULL END) child_type
     FROM method_enum_type_links AS mlink, enum_type_links AS etl 
     WHERE mlink.id_enum_type_link = etl.id
@@ -322,7 +322,7 @@
 
 <TriplesMap10>
   rr:logicalTable [ rr:sqlQuerry """
-    SELECT inte.id, inte.LogPerm, (CASE WHEN inte.LogPerm_acc IS NULL THEN NULL ELSE inte.id END) stdev_id 
+    SELECT inte.id, inte.LogPerm, (CASE WHEN inte.LogPerm_acc IS NULL THEN NULL ELSE inte.id END) stdev_id
     FROM interaction AS inte, datasets AS ds WHERE inte.LogPerm IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
     """ ] ;
   rr:subjectMap [
@@ -348,7 +348,7 @@
 
 <#TriplesMap11>
   rr:logicalTable [ rr:sqlQuerry """
-    SELECT inte.id, inte.Position, (CASE WHEN inte.Position_acc IS NULL THEN NULL ELSE inte.id END) stdev_id 
+    SELECT inte.id, inte.Position, (CASE WHEN inte.Position_acc IS NULL THEN NULL ELSE inte.id END) stdev_id
     FROM interaction AS inte, datasets AS ds WHERE inte.Position IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
     """ ] ;
   rr:subjectMap [
@@ -374,7 +374,7 @@
 
 <#TriplesMap12>
   rr:logicalTable [ rr:sqlQuerry """
-    SELECT inte.id, inte.Penetration, (CASE WHEN inte.Penetration_acc IS NULL THEN NULL ELSE inte.id END) stdev_id 
+    SELECT inte.id, inte.Penetration, (CASE WHEN inte.Penetration_acc IS NULL THEN NULL ELSE inte.id END) stdev_id
     FROM interaction AS inte, datasets AS ds WHERE inte.Penetration IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
     """ ] ;
   rr:subjectMap [
@@ -452,7 +452,7 @@
 
 <#TriplesMap15>
   rr:logicalTable [ rr:sqlQuerry """
-    SELECT inte.id, inte.abs_wl, (CASE WHEN inte.abs_wl_acc IS NULL THEN NULL ELSE inte.id END) stdev_id 
+    SELECT inte.id, inte.abs_wl, (CASE WHEN inte.abs_wl_acc IS NULL THEN NULL ELSE inte.id END) stdev_id
     FROM interaction AS inte, datasets AS ds WHERE inte.abs_wl IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
     """ ] ;
   rr:subjectMap [
@@ -478,7 +478,7 @@
 
 <#TriplesMap16>
   rr:logicalTable [ rr:sqlQuerry """
-    SELECT inte.id, inte.fluo_wl, (CASE WHEN inte.fluo_wl_acc IS NULL THEN NULL ELSE inte.id END) stdev_id 
+    SELECT inte.id, inte.fluo_wl, (CASE WHEN inte.fluo_wl_acc IS NULL THEN NULL ELSE inte.id END) stdev_id
     FROM interaction AS inte, datasets AS ds WHERE inte.fluo_wl IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
     """ ] ;
   rr:subjectMap [
@@ -504,7 +504,7 @@
 
 <#TriplesMap17>
   rr:logicalTable [ rr:sqlQuerry """
-    SELECT inte.id, inte.QY, (CASE WHEN inte.QY_acc IS NULL THEN NULL ELSE inte.id END) stdev_id 
+    SELECT inte.id, inte.QY, (CASE WHEN inte.QY_acc IS NULL THEN NULL ELSE inte.id END) stdev_id
     FROM interaction AS inte, datasets AS ds WHERE inte.QY IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
     """ ] ;
   rr:subjectMap [
@@ -526,7 +526,7 @@
 
 <#TriplesMap18>
   rr:logicalTable [ rr:sqlQuerry """
-    SELECT inte.id, inte.lt, (CASE WHEN inte.lt_acc IS NULL THEN NULL ELSE inte.id END) stdev_id 
+    SELECT inte.id, inte.lt, (CASE WHEN inte.lt_acc IS NULL THEN NULL ELSE inte.id END) stdev_id
     FROM interaction AS inte, datasets AS ds WHERE inte.lt IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
     """ ] ;
   rr:subjectMap [

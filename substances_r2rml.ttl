@@ -15,7 +15,7 @@
       (CASE WHEN LogP IS NULL THEN NULL ELSE identifier END) LogP_id FROM substances
   """ ] ;
   rr:subjectMap [
-    rr:template "https://identifiers.org/molmedb/{identifier}" ;###tady hodit proste identifier
+    rr:template "https://identifiers.org/molmedb/{identifier}" ;
     rr:class bao:BAO_0000076 ;
   ] ;
   rr:predicateObjectMap [

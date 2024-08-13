@@ -230,6 +230,7 @@
   </owl:Class>
 
   <owl:Class rdf:about="https://rdf.molmedb.upol.cz/vocabulary#MembranePermeabilityMethod">
+      <!--BAO_0000167 is membrane permeability assessment but it is as a subclass of viability measurement method, which is different-->
       <rdfs:subClassOf rdf:resource="https://rdf.molmedb.upol.cz/vocabulary#MembraneInteractionAssessmentMethod"/>
       <obo:IAO_0000115>Method measuring permeability of a molecule across a membrane.</obo:IAO_0000115>
       <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">membrane peremability measuring method</rdfs:label>
