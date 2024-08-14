@@ -1,0 +1,26 @@
+@prefix void: <http://rdfs.org/ns/void#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix rr: <http://www.w3.org/ns/r2rml#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+#generate timestamps for metadata
+
+<#TriplesMap1>
+  rr:logicalTable [ rr:sqlQuerry """
+    SELECT CURDATE() date;
+    """ ] ;
+  rr:subjectMap [
+    rr:constant "<https://rdf.molmedb.upol.cz> " ;
+    rr:class void:Dataset
+  ] ;
+    rr:predicateObjectMap [
+    rr:predicate dcterms:created ;
+    rr:objectMap [ rr:column "date" ;
+                   rr:datatype xsd:date ]
+  ] ;
+    rr:predicateObjectMap [
+    rr:predicate dcterms:issued ;
+    rr:objectMap [ rr:column "date" ;
+                   rr:datatype xsd:date ]
+  ] .
+

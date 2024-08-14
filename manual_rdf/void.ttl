@@ -1,0 +1,65 @@
+#manualy created part of metadata description
+
+@prefix void: <http://rdfs.org/ns/void#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix wv: <http://vocab.org/waiver/terms/norms> .
+
+<https://rdf.molmedb.upol.cz/void> rdf:type void:DatasetDescription ;
+    dcterms:title "A VoID Description of MolMeDB RDF Dataset" ;
+    dcterms:creator [ 
+                        rdf:type foaf:Organization ; 
+                        rdfs:label "Chemical Data Lab" ;
+                        foaf:mbox <molmedb@upol.cz>
+                    ] ;
+    foaf:primaryTopic <https://rdf.molmedb.upol.cz> .
+
+
+<https://rdf.molmedb.upol.cz> rdf:type void:Dataset ;
+    dcterms:title "MolMeDB RDF"^^xsd:string ;
+    dcterms:description "Translation of MolMeDB dataset to RDF format." ;
+
+    dcterms:creator [ 
+                        rdf:type foaf:Organization ; 
+                        rdfs:label "Chemical Data Lab" ;
+                        foaf:mbox <molmedb@upol.cz> 
+                    ] ;
+
+    dcterms:source [
+                        rdf:type dcterms:Dataset ;
+                        foaf:homepage <https://molmedb.upol.cz>
+                    ] ;
+    #dcterms:created mapping
+    #dcterms:issued mapping
+
+    dcterms:license <https://creativecommons.org/publicdomain/zero/1.0/> ;
+
+    dcterms:subject <http://dbpedia.org/resource/Transport_protein> ;
+    dcterms:subject <http://dbpedia.org/resource/Cell_membrane> ;
+    dcterms:subject <http://dbpedia.org/resource/Interactome> ;
+    dcterms:subject <http://dbpedia.org/resource/Small_molecule> ;
+    dcterms:subject <http://dbpedia.org/resource/Medication> ;
+    dcterms:subject <http://dbpedia.org/resource/Membrane_permeability> ;
+    dcterms:subject <http://dbpedia.org/resource/Biological_membrane> ;
+
+    void:feature <http://www.w3.org/ns/formats/N-Triples> ;
+    void:feature <http://www.w3.org/ns/formats/RDF_XML> ;
+    void:feature <http://www.w3.org/ns/formats/Turtle> ;
+    
+    void:sparqlEndpoint <https://idsm.elixir-czech.cz/sparql/endpoint/molmedb> ;
+    foaf:homepage <https://docs.molmedb.upol.cz/doc/rdf> ;
+
+    void:vocabulary <https://molmedb.upol.cz/api/rdf/vocabulary> ;
+    void:vocabulary <http://semanticscience.org/resource/> ;
+    void:vocabulary <http://www.bioassayontology.org/bao#> ;
+    void:vocabulary <http://purl.obolibrary.org/obo/> ;
+
+    #void:triples approximate number of triples in dataset when we have it
+
+    #void:dataDump link to dataset download
+
+    void:inDataset <https://rdf.molmedb.upol.cz/void> .
+
