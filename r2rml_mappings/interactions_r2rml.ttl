@@ -1,5 +1,6 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix sio: <http://semanticscience.org/resource/> .
 @prefix obo: <http://purl.obolibrary.org/obo/> .
 @prefix cito: <http://purl.org/spar/cito/> .
@@ -14,8 +15,8 @@
 ################################################
 ## interaction central node
 ################################################
-<#TriplesMap1>
-  rr:logicalTable [ rr:sqlQuerry """
+<Interactions#TriplesMap1>
+  rr:logicalTable [ rr:sqlQuery """
     SELECT inte.id, inte.id_membrane, inte.id_reference, subs.identifier
       FROM interaction AS inte, substances AS subs, datasets AS ds
       WHERE inte.id_substance = subs.id AND ds.visibility = 1 AND inte.id_dataset = ds.id
@@ -44,9 +45,9 @@
 ################################################
 ## interaction measure group
 ################################################
-<#TriplesMap2>
-  rr:logicalTable [ rr:sqlQuerry """
-    SELECT inte.id, inte.id_membrane, inte.id_method, inte.comment, subs.identifier as molecule,
+<Interactions#TriplesMap2>
+  rr:logicalTable [ rr:sqlQuery """
+    SELECT inte.id, inte.id_membrane, inte.id_method, inte.comment, subs.identifier as identifier,
       (CASE WHEN inte.LogK IS NULL THEN NULL ELSE inte.id END) LogK_id,
       (CASE WHEN inte.LogPerm IS NULL THEN NULL ELSE inte.id END) LogPerm_id,
       (CASE WHEN inte.Position IS NULL THEN NULL ELSE inte.id END) Position_id,
@@ -138,8 +139,8 @@
 ################################################
 ## membrane
 ################################################
-<#TriplesMap3>
-  rr:logicalTable [ rr:sqlQuerry """
+<Interactions#TriplesMap3>
+  rr:logicalTable [ rr:sqlQuery """
     SELECT id, name,
       (CASE WHEN description = '' THEN NULL else description END) description,
       (CASE WHEN `references` = '' THEN NULL else `references` END) ref FROM membranes
@@ -161,42 +162,42 @@
     rr:objectMap [ rr:column "ref"; rr:datatype rdf:HTML ]
   ] .
 
-<#TriplesMap4>
-  rr:logicalTable [ rr:sqlQuerry """
+<Interactions#TriplesMap4>
+  rr:logicalTable [ rr:sqlQuery """
     SELECT mlink.id_membrane,
     (CASE etl.id_enum_type
-	    WHEN 91 THEN 'mmdbvoc:SubstanceBasedMembraneModel'
-	    WHEN 92 THEN 'mmdbvoc:CellBasedMembraneModel'
+	    WHEN 91 THEN 'SubstanceBasedMembraneModel'
+	    WHEN 92 THEN 'CellBasedMembraneModel'
 	    ELSE NULL END) structure_type,
     (CASE etl.id_enum_type_parent
-     	WHEN 87 THEN 'mmdbvoc:GenericMembraneModel'
-     	WHEN 88 THEN 'mmdbvoc:IntestineMembraneModel'
-    	WHEN 89 THEN 'mmdbvoc:OralMembraneModel'
-    	WHEN 90 THEN 'mmdbvoc:SkinMembraneModel'
- 	    WHEN 93 THEN 'mmdbvoc:BrainMembraneModel'
- 	    WHEN 97 THEN 'mmdbvoc:EyeMembraneModel'
- 	    WHEN 178 THEN 'mmdbvoc:CellMembraneModel'
+     	WHEN 87 THEN 'GenericMembraneModel'
+     	WHEN 88 THEN 'IntestineMembraneModel'
+    	WHEN 89 THEN 'OralMembraneModel'
+    	WHEN 90 THEN 'SkinMembraneModel'
+ 	    WHEN 93 THEN 'BrainMembraneModel'
+ 	    WHEN 97 THEN 'EyeMembraneModel'
+ 	    WHEN 178 THEN 'CellMembraneModel'
  	    ELSE NULL END) anatomical_type
     FROM membrane_enum_type_links AS mlink, enum_type_links AS etl
     WHERE mlink.id_enum_type_link = etl.id
   """ ] ;
   rr:subjectMap [
-    rr:template "https://rdf.molmedb.upol.cz/interaction/membrane{id}" ;
+    rr:template "https://rdf.molmedb.upol.cz/interaction/membrane{id_membrane}" ;
   ] ;
     rr:predicateObjectMap [
     rr:predicate rdf:type ;
-    rr:objectMap [ rr:column "structure_type" ]
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/vocabulary#{structure_type}" ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate rdf:type ;
-    rr:objectMap [ rr:column "anatomical_type" ]
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/vocabulary#{anatomical_type}" ]
   ] .
 
 ################################################
 ## method
 ################################################
-<#TriplesMap5>
-  rr:logicalTable [ rr:sqlQuerry """
+<Interactions#TriplesMap5>
+  rr:logicalTable [ rr:sqlQuery """
     SELECT id, name,
       (CASE WHEN description = '' THEN NULL else description END) description,
       (CASE WHEN `references` = '' THEN NULL else `references` END) ref FROM methods
@@ -222,25 +223,25 @@
 ################################################
 ## method type
 ################################################
-<#TriplesMap6>
-  rr:logicalTable [ rr:sqlQuerry """
+<Interactions#TriplesMap6>
+  rr:logicalTable [ rr:sqlQuery """
     SELECT etl.id, mlink.id_method,
     (CASE etl.id_enum_type_parent
-     	WHEN 22 THEN 'bao:BAO_0002202'
-     	WHEN 23 THEN 'bao:BAO_0002094'
-     	WHEN 24 THEN 'bao:BAO_0002301'
+     	WHEN 22 THEN 'http://www.bioassayontology.org/bao#BAO_0002202'
+     	WHEN 23 THEN 'http://www.bioassayontology.org/bao#BAO_0002094'
+     	WHEN 24 THEN 'http://www.bioassayontology.org/bao#BAO_0002301'
      	ELSE NULL END) parent_type,
     (CASE etl.id_enum_type
-     	WHEN 25 THEN 'mmdbvoc:WaterMembranePartitioningMethod'
-     	WHEN 28 THEN 'bao:BAO_0002317'
-     	WHEN 29 THEN 'bao:BAO_0002248'
-     	WHEN 30 THEN 'bao:BAO_0002305'
-     	WHEN 31 THEN 'mmdbvoc:AtomisticSimulation'
-     	WHEN 32 THEN 'mmdbvoc:UnitedAtomsSimulation'
-     	WHEN 33 THEN 'mmdbvoc:CoarseGrainedSimulation'
-     	WHEN 34 THEN 'mmdbvoc:HybridResolutionSimulation'
-     	WHEN 191 THEN 'mmdbvoc:MembranePositionMethod'
-     	WHEN 192 THEN 'mmdbvoc:MembranePermeabilityMethod'
+     	WHEN 25 THEN 'https://rdf.molmedb.upol.cz/vocabulary#WaterMembranePartitioningMethod'
+     	WHEN 28 THEN 'http://www.bioassayontology.org/bao#BAO_0002317'
+     	WHEN 29 THEN 'http://www.bioassayontology.org/bao#BAO_0002248'
+     	WHEN 30 THEN 'http://www.bioassayontology.org/bao#BAO_0002305'
+     	WHEN 31 THEN 'https://rdf.molmedb.upol.cz/vocabulary#AtomisticSimulation'
+     	WHEN 32 THEN 'https://rdf.molmedb.upol.cz/vocabulary#UnitedAtomsSimulation'
+     	WHEN 33 THEN 'https://rdf.molmedb.upol.cz/vocabulary#CoarseGrainedSimulation'
+     	WHEN 34 THEN 'https://rdf.molmedb.upol.cz/vocabulary#HybridResolutionSimulation'
+     	WHEN 191 THEN 'https://rdf.molmedb.upol.cz/vocabulary#MembranePositionMethod'
+     	WHEN 192 THEN 'https://rdf.molmedb.upol.cz/vocabulary#MembranePermeabilityMethod'
      	ELSE NULL END) child_type
     FROM method_enum_type_links AS mlink, enum_type_links AS etl 
     WHERE mlink.id_enum_type_link = etl.id
@@ -250,18 +251,18 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate rdf:type ;
-    rr:objectMap [ rr:column "parent_type" ]
+    rr:objectMap [ rr:template "{parent_type}" ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate rdf:type ;
-    rr:objectMap [ rr:column "child_type" ]
+    rr:objectMap [ rr:template "{child_type}" ]
   ] .
 
 ################################################
 ## experimental conditions
 ################################################
-<#TriplesMap7>
-  rr:logicalTable [ rr:sqlQuerry """
+<Interactions#TriplesMap7>
+  rr:logicalTable [ rr:sqlQuery """
     SELECT inte.id, inte.temperature FROM interaction AS inte, datasets AS ds
     WHERE inte.temperature IS NOT NULL and inte.id_dataset = ds.id AND ds.visibility = 1
   """ ] ;
@@ -279,8 +280,8 @@
   ] .
 
 #charges need to be standardized first - delete + symbols and whitespaces
-<#TriplesMap8>
-  rr:logicalTable [ rr:sqlQuerry """
+<Interactions#TriplesMap8>
+  rr:logicalTable [ rr:sqlQuery """
     SELECT inte.id,
       REPLACE(REPLACE(inte.charge,'+',''),', ',',') standardized_charge
       FROM interaction AS inte, datasets AS ds
@@ -298,8 +299,8 @@
 ################################################
 ## interaction endpoints
 ################################################
-<#TriplesMap9>
-  rr:logicalTable [ rr:sqlQuerry """
+<Interactions#TriplesMap9>
+  rr:logicalTable [ rr:sqlQuery """
     SELECT inte.id, inte.LogK, (CASE WHEN inte.LogK_acc IS NULL THEN NULL ELSE inte.id END) stdev_id
     FROM interaction AS inte, datasets AS ds WHERE inte.LogK IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
     """ ] ;
@@ -321,7 +322,7 @@
   ] .
 
 <TriplesMap10>
-  rr:logicalTable [ rr:sqlQuerry """
+  rr:logicalTable [ rr:sqlQuery """
     SELECT inte.id, inte.LogPerm, (CASE WHEN inte.LogPerm_acc IS NULL THEN NULL ELSE inte.id END) stdev_id
     FROM interaction AS inte, datasets AS ds WHERE inte.LogPerm IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
     """ ] ;
@@ -346,8 +347,8 @@
     rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/measure_group_int{id}" ]
   ] .
 
-<#TriplesMap11>
-  rr:logicalTable [ rr:sqlQuerry """
+<Interactions#TriplesMap11>
+  rr:logicalTable [ rr:sqlQuery """
     SELECT inte.id, inte.Position, (CASE WHEN inte.Position_acc IS NULL THEN NULL ELSE inte.id END) stdev_id
     FROM interaction AS inte, datasets AS ds WHERE inte.Position IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
     """ ] ;
@@ -372,8 +373,8 @@
     rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/measure_group_int{id}" ]
   ] .
 
-<#TriplesMap12>
-  rr:logicalTable [ rr:sqlQuerry """
+<Interactions#TriplesMap12>
+  rr:logicalTable [ rr:sqlQuery """
     SELECT inte.id, inte.Penetration, (CASE WHEN inte.Penetration_acc IS NULL THEN NULL ELSE inte.id END) stdev_id
     FROM interaction AS inte, datasets AS ds WHERE inte.Penetration IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
     """ ] ;
@@ -398,8 +399,8 @@
     rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/measure_group_int{id}" ]
   ] .
 
-<#TriplesMap13>
-  rr:logicalTable [ rr:sqlQuerry """
+<Interactions#TriplesMap13>
+  rr:logicalTable [ rr:sqlQuery """
     SELECT inte.id, inte.Water, (CASE WHEN inte.Water_acc IS NULL THEN NULL ELSE inte.id END) stdev_id 
     FROM interaction AS inte, datasets AS ds WHERE inte.Water IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
     """ ] ;
@@ -424,8 +425,8 @@
     rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/measure_group_int{id}" ]
   ] .
 
-<#TriplesMap14>
-  rr:logicalTable [ rr:sqlQuerry """
+<Interactions#TriplesMap14>
+  rr:logicalTable [ rr:sqlQuery """
     SELECT inte.id, inte.theta, (CASE WHEN inte.theta_acc IS NULL THEN NULL ELSE inte.id END) stdev_id 
     FROM interaction AS inte, datasets AS ds WHERE inte.theta IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
     """ ] ;
@@ -450,8 +451,8 @@
     rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/measure_group_int{id}" ]
   ] .
 
-<#TriplesMap15>
-  rr:logicalTable [ rr:sqlQuerry """
+<Interactions#TriplesMap15>
+  rr:logicalTable [ rr:sqlQuery """
     SELECT inte.id, inte.abs_wl, (CASE WHEN inte.abs_wl_acc IS NULL THEN NULL ELSE inte.id END) stdev_id
     FROM interaction AS inte, datasets AS ds WHERE inte.abs_wl IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
     """ ] ;
@@ -476,8 +477,8 @@
     rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/measure_group_int{id}" ]
   ] .
 
-<#TriplesMap16>
-  rr:logicalTable [ rr:sqlQuerry """
+<Interactions#TriplesMap16>
+  rr:logicalTable [ rr:sqlQuery """
     SELECT inte.id, inte.fluo_wl, (CASE WHEN inte.fluo_wl_acc IS NULL THEN NULL ELSE inte.id END) stdev_id
     FROM interaction AS inte, datasets AS ds WHERE inte.fluo_wl IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
     """ ] ;
@@ -502,8 +503,8 @@
     rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/measure_group_int{id}" ]
   ] .
 
-<#TriplesMap17>
-  rr:logicalTable [ rr:sqlQuerry """
+<Interactions#TriplesMap17>
+  rr:logicalTable [ rr:sqlQuery """
     SELECT inte.id, inte.QY, (CASE WHEN inte.QY_acc IS NULL THEN NULL ELSE inte.id END) stdev_id
     FROM interaction AS inte, datasets AS ds WHERE inte.QY IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
     """ ] ;
@@ -524,8 +525,8 @@
     rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/measure_group_int{id}" ]
   ] .
 
-<#TriplesMap18>
-  rr:logicalTable [ rr:sqlQuerry """
+<Interactions#TriplesMap18>
+  rr:logicalTable [ rr:sqlQuery """
     SELECT inte.id, inte.lt, (CASE WHEN inte.lt_acc IS NULL THEN NULL ELSE inte.id END) stdev_id
     FROM interaction AS inte, datasets AS ds WHERE inte.lt IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
     """ ] ;
@@ -553,8 +554,8 @@
 ################################################
 ## endpoint strandard deviations
 ################################################
-<#TriplesMap19>
-  rr:logicalTable [ rr:sqlQuerry """
+<Interactions#TriplesMap19>
+  rr:logicalTable [ rr:sqlQuery """
     SELECT inte.id, inte.LogK_acc FROM interaction AS inte, datasets AS ds
     WHERE inte.LogK_acc IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
   """ ] ;
@@ -567,8 +568,8 @@
     rr:objectMap [ rr:column "LogK_acc" ]
   ] .
 
-<#TriplesMap20>
-  rr:logicalTable [ rr:sqlQuerry """
+<Interactions#TriplesMap20>
+  rr:logicalTable [ rr:sqlQuery """
     SELECT inte.id, inte.LogPerm_acc FROM interaction AS inte, datasets AS ds
     WHERE inte.LogPerm_acc IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
   """ ] ;
@@ -581,8 +582,8 @@
     rr:objectMap [ rr:column "LogPerm_acc" ]
   ] .
 
-<#TriplesMap21>
-  rr:logicalTable [ rr:sqlQuerry """
+<Interactions#TriplesMap21>
+  rr:logicalTable [ rr:sqlQuery """
     SELECT inte.id, inte.Position_acc FROM interaction AS inte, datasets AS ds
     WHERE inte.Position_acc IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
   """ ] ;
@@ -595,8 +596,8 @@
     rr:objectMap [ rr:column "Position_acc" ]
   ] .
 
-<#TriplesMap22>
-  rr:logicalTable [ rr:sqlQuerry """
+<Interactions#TriplesMap22>
+  rr:logicalTable [ rr:sqlQuery """
     SELECT inte.id, inte.Penetration_acc FROM interaction AS inte, datasets AS ds
     WHERE inte.Penetration_acc IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
   """ ] ;
@@ -609,8 +610,8 @@
     rr:objectMap [ rr:column "Penetration_acc" ]
   ] .
 
-<#TriplesMap23>
-  rr:logicalTable [ rr:sqlQuerry """
+<Interactions#TriplesMap23>
+  rr:logicalTable [ rr:sqlQuery """
     SELECT inte.id, inte.Water_acc FROM interaction AS inte, datasets AS ds
     WHERE inte.Water_acc IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
   """ ] ;
@@ -623,8 +624,8 @@
     rr:objectMap [ rr:column "Water_acc" ]
   ] .
 
-<#TriplesMap24>
-  rr:logicalTable [ rr:sqlQuerry """
+<Interactions#TriplesMap24>
+  rr:logicalTable [ rr:sqlQuery """
     SELECT inte.id, inte.theta_acc FROM interaction AS inte, datasets AS ds
     WHERE inte.theta_acc IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
   """ ] ;
@@ -634,11 +635,11 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0095007 ;
-    rr:objectMap [ rr:column "theta_acc" ]
+    rr:objectMap [ rr:column "theta_acc"; rr:datatype xsd:float ]
   ] .
 
-<#TriplesMap25>
-  rr:logicalTable [ rr:sqlQuerry """
+<Interactions#TriplesMap25>
+  rr:logicalTable [ rr:sqlQuery """
     SELECT inte.id, inte.abs_wl_acc FROM interaction AS inte, datasets AS ds
     WHERE inte.abs_wl_acc IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
   """ ] ;
@@ -648,11 +649,11 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0095007 ;
-    rr:objectMap [ rr:column "abs_wl_acc" ]
+    rr:objectMap [ rr:column "abs_wl_acc"; rr:datatype xsd:float ]
   ] .
 
-<#TriplesMap26>
-  rr:logicalTable [ rr:sqlQuerry """
+<Interactions#TriplesMap26>
+  rr:logicalTable [ rr:sqlQuery """
     SELECT inte.id, inte.fluo_wl_acc FROM interaction AS inte, datasets AS ds
     WHERE inte.fluo_wl_acc IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
   """ ] ;
@@ -662,11 +663,11 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0095007 ;
-    rr:objectMap [ rr:column "fluo_wl_acc" ]
+    rr:objectMap [ rr:column "fluo_wl_acc"; rr:datatype xsd:float ]
   ] .
 
-<#TriplesMap27>
-  rr:logicalTable [ rr:sqlQuerry """
+<Interactions#TriplesMap27>
+  rr:logicalTable [ rr:sqlQuery """
     SELECT inte.id, inte.QY_acc FROM interaction AS inte, datasets AS ds
     WHERE inte.QY_acc IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
   """ ] ;
@@ -676,11 +677,11 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0095007 ;
-    rr:objectMap [ rr:column "QY_acc" ]
+    rr:objectMap [ rr:column "QY_acc"; rr:datatype xsd:float ]
   ] .
 
-<#TriplesMap28>
-  rr:logicalTable [ rr:sqlQuerry """
+<Interactions#TriplesMap28>
+  rr:logicalTable [ rr:sqlQuery """
     SELECT inte.id, inte.lt_acc FROM interaction AS inte, datasets AS ds
     WHERE inte.lt_acc IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
   """ ] ;
@@ -690,5 +691,5 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0095007 ;
-    rr:objectMap [ rr:column "lt_acc" ]
+    rr:objectMap [ rr:column "lt_acc"; rr:datatype xsd:float ]
   ] .

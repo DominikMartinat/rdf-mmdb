@@ -7,8 +7,8 @@
 #databases have to be separated manually from other references now. That is not optimal.
 #database tripples are made manualy in different file.
 
-<#TriplesMap1>
-  rr:logicalTable [ rr:sqlQuerry """
+<References#TriplesMap1>
+  rr:logicalTable [ rr:sqlQuery """
     SELECT id, doi, citation, pmid FROM publications WHERE citation NOT IN ('in-house calculations','PUBCHEM', 'ChEMBL', 'IUPHAR', 'Metrabase')
     """ ] ;
   rr:subjectMap [
@@ -29,8 +29,8 @@
   ] .
 
 #which interactions - database included
-<#TriplesMap2>
-  rr:logicalTable [ rr:sqlQuerry """
+<References#TriplesMap2>
+  rr:logicalTable [ rr:sqlQuery """
     SELECT id, id_reference FROM interaction
   """] ;
   rr:subjectMap [
@@ -42,8 +42,8 @@
   ] .
 
 #which transproter measurements  - database included                  
-<#TriplesMap3>
-  rr:logicalTable [ rr:sqlQuerry """
+<References#TriplesMap3>
+  rr:logicalTable [ rr:sqlQuery """
     SELECT id, id_reference FROM transporters
   """] ;
   rr:subjectMap [
@@ -57,10 +57,10 @@
 
 
 
-<#TriplesMap4>
-  rr:logicalTable [ rr:sqlQuerry """
+<References#TriplesMap4>
+  rr:logicalTable [ rr:sqlQuery """
     SELECT subs.identifier, inte.id_reference FROM interaction AS inte, substances AS subs WHERE inte.id_substance = subs.id UNION
-    SELECT subs.identifier, tr.id_reference FROM transporters AS tr, substances AS subs WHERE tr.id_substance = subs.id LIMIT 100
+    SELECT subs.identifier, tr.id_reference FROM transporters AS tr, substances AS subs WHERE tr.id_substance = subs.id
   """] ;
   rr:subjectMap [
     rr:template "https://rdf.molmedb.upol.cz/reference/ref{id_reference}"
