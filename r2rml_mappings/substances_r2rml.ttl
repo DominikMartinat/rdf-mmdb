@@ -171,9 +171,9 @@
     rr:predicate sio:SIO_000300 ;
     rr:objectMap [ rr:column "MW" ]
   ] ;
-  rr:predicateObjecMap [
+  rr:predicateObjectMap [
     rr:predicate sio:SIO_000221 ;
-    rr:objectmap [ rr:constant obo:UO_0000221 ]
+    rr:objectMap [ rr:constant obo:UO_0000221 ]
   ] .
 
 <Substances#TriplesMap7>
