@@ -5,12 +5,12 @@
 
 #generate timestamps for metadata
 
-<#TriplesMap1>
-  rr:logicalTable [ rr:sqlQuerry """
+<Void#TriplesMap1>
+  rr:logicalTable [ rr:sqlQuery """
     SELECT CURDATE() date;
     """ ] ;
   rr:subjectMap [
-    rr:constant "<https://rdf.molmedb.upol.cz> " ;
+    rr:constant <https://rdf.molmedb.upol.cz> ;
     rr:class void:Dataset
   ] ;
     rr:predicateObjectMap [
