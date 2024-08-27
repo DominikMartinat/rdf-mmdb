@@ -278,7 +278,7 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0095007 ;
-    rr:objectMap [ rr:column "temperature"; rr:datatype xsd:double ]
+    rr:objectMap [ rr:column "temperature"; rr:datatype xsd:float ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0002874 ;
@@ -316,7 +316,7 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0095007 ;
-    rr:objectMap [ rr:column "LogK" ]
+    rr:objectMap [ rr:column "LogK"; rr:datatype xsd:float ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0002858 ;
@@ -338,7 +338,7 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0095007 ;
-    rr:objectMap [ rr:column "LogPerm" ]
+    rr:objectMap [ rr:column "LogPerm"; rr:datatype xsd:float ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0002874 ;
@@ -364,7 +364,7 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0095007 ;
-    rr:objectMap [ rr:column "Position" ]
+    rr:objectMap [ rr:column "Position"; rr:datatype xsd:float ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0002874 ;
@@ -390,7 +390,7 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0095007 ;
-    rr:objectMap [ rr:column "Penetration" ]
+    rr:objectMap [ rr:column "Penetration"; rr:datatype xsd:float ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0002874 ;
@@ -416,7 +416,7 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0095007 ;
-    rr:objectMap [ rr:column "Water" ]
+    rr:objectMap [ rr:column "Water"; rr:datatype xsd:float ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0002874 ;
@@ -442,7 +442,7 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0095007 ;
-    rr:objectMap [ rr:column "theta" ]
+    rr:objectMap [ rr:column "theta"; rr:datatype xsd:float ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0002874 ;
@@ -468,7 +468,7 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0095007 ;
-    rr:objectMap [ rr:column "abs_wl" ]
+    rr:objectMap [ rr:column "abs_wl"; rr:datatype xsd:float ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0002874 ;
@@ -494,7 +494,7 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0095007 ;
-    rr:objectMap [ rr:column "fluo_wl" ]
+    rr:objectMap [ rr:column "fluo_wl"; rr:datatype xsd:float ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0002874 ;
@@ -520,7 +520,7 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0095007 ;
-    rr:objectMap [ rr:column "QY" ]
+    rr:objectMap [ rr:column "QY"; rr:datatype xsd:float ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0002858 ;
@@ -542,7 +542,7 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0095007 ;
-    rr:objectMap [ rr:column "lt" ]
+    rr:objectMap [ rr:column "lt"; rr:datatype xsd:float ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0002874 ;
@@ -571,7 +571,7 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0095007 ;
-    rr:objectMap [ rr:column "LogK_acc" ]
+    rr:objectMap [ rr:column "LogK_acc"; rr:datatype xsd:float ]
   ] .
 
 <Interactions#TriplesMap20>
@@ -585,7 +585,7 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0095007 ;
-    rr:objectMap [ rr:column "LogPerm_acc" ]
+    rr:objectMap [ rr:column "LogPerm_acc"; rr:datatype xsd:float ]
   ] .
 
 <Interactions#TriplesMap21>
@@ -599,7 +599,7 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0095007 ;
-    rr:objectMap [ rr:column "Position_acc" ]
+    rr:objectMap [ rr:column "Position_acc"; rr:datatype xsd:float ]
   ] .
 
 <Interactions#TriplesMap22>
@@ -613,7 +613,7 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0095007 ;
-    rr:objectMap [ rr:column "Penetration_acc" ]
+    rr:objectMap [ rr:column "Penetration_acc"; rr:datatype xsd:float ]
   ] .
 
 <Interactions#TriplesMap23>
@@ -627,7 +627,7 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0095007 ;
-    rr:objectMap [ rr:column "Water_acc" ]
+    rr:objectMap [ rr:column "Water_acc"; rr:datatype xsd:float ]
   ] .
 
 <Interactions#TriplesMap24>

@@ -169,7 +169,7 @@
   ] ;
   rr:predicateObjectMap [
     rr:predicate sio:SIO_000300 ;
-    rr:objectMap [ rr:column "MW" ]
+    rr:objectMap [ rr:column "MW"; rr:datatype xsd:float ]
   ] ;
   rr:predicateObjectMap [
     rr:predicate sio:SIO_000221 ;
@@ -186,7 +186,7 @@
   ];
   rr:predicateObjectMap [
     rr:predicate sio:SIO_000300 ;
-    rr:objectMap [ rr:column "LogP" ]
+    rr:objectMap [ rr:column "LogP"; rr:datatype xsd:float ]
   ] .
 
 ################################################
