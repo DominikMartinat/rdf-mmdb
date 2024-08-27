@@ -227,22 +227,24 @@
   rr:logicalTable [ rr:sqlQuery """
     SELECT etl.id, mlink.id_method,
     (CASE etl.id_enum_type_parent
-     	WHEN 22 THEN 'http://www.bioassayontology.org/bao#BAO_0002202'
-     	WHEN 23 THEN 'http://www.bioassayontology.org/bao#BAO_0002094'
-     	WHEN 24 THEN 'http://www.bioassayontology.org/bao#BAO_0002301'
+     	WHEN 22 THEN 'BAO_0002202'
+     	WHEN 23 THEN 'BAO_0002094'
+     	WHEN 24 THEN 'BAO_0002301'
      	ELSE NULL END) parent_type,
     (CASE etl.id_enum_type
-     	WHEN 25 THEN 'https://rdf.molmedb.upol.cz/vocabulary#WaterMembranePartitioningMethod'
-     	WHEN 28 THEN 'http://www.bioassayontology.org/bao#BAO_0002317'
-     	WHEN 29 THEN 'http://www.bioassayontology.org/bao#BAO_0002248'
-     	WHEN 30 THEN 'http://www.bioassayontology.org/bao#BAO_0002305'
-     	WHEN 31 THEN 'https://rdf.molmedb.upol.cz/vocabulary#AtomisticSimulation'
-     	WHEN 32 THEN 'https://rdf.molmedb.upol.cz/vocabulary#UnitedAtomsSimulation'
-     	WHEN 33 THEN 'https://rdf.molmedb.upol.cz/vocabulary#CoarseGrainedSimulation'
-     	WHEN 34 THEN 'https://rdf.molmedb.upol.cz/vocabulary#HybridResolutionSimulation'
-     	WHEN 191 THEN 'https://rdf.molmedb.upol.cz/vocabulary#MembranePositionMethod'
-     	WHEN 192 THEN 'https://rdf.molmedb.upol.cz/vocabulary#MembranePermeabilityMethod'
-     	ELSE NULL END) child_type
+     	WHEN 28 THEN 'BAO_0002317'
+     	WHEN 29 THEN 'BAO_0002248'
+     	WHEN 30 THEN 'BAO_0002305'
+     	ELSE NULL END) child_type,
+    (CASE etl.id_enum_type
+     	WHEN 25 THEN 'WaterMembranePartitioningMethod'
+     	WHEN 31 THEN 'AtomisticSimulation'
+     	WHEN 32 THEN 'UnitedAtomsSimulation'
+     	WHEN 33 THEN 'CoarseGrainedSimulation'
+     	WHEN 34 THEN 'HybridResolutionSimulation'
+     	WHEN 191 THEN 'MembranePositionMethod'
+     	WHEN 192 THEN 'MembranePermeabilityMethod'
+     	ELSE NULL END) child_type_voc
     FROM method_enum_type_links AS mlink, enum_type_links AS etl 
     WHERE mlink.id_enum_type_link = etl.id
   """ ] ;
@@ -251,11 +253,15 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate rdf:type ;
-    rr:objectMap [ rr:template "{parent_type}" ]
+    rr:objectMap [ rr:template "http://www.bioassayontology.org/bao#{parent_type}" ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate rdf:type ;
-    rr:objectMap [ rr:template "{child_type}" ]
+    rr:objectMap [ rr:template "http://www.bioassayontology.org/bao#{child_type}" ]
+  ] ;
+    rr:predicateObjectMap [
+    rr:predicate rdf:type ;
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/vocabulary#{child_type_voc}" ]
   ] .
 
 ################################################
