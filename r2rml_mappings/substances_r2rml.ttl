@@ -45,19 +45,19 @@
       (CASE WHEN vi.identifier = 6 THEN subs.identifier ELSE NULL END) chebi_id,
       (CASE WHEN vi.identifier = 7 THEN subs.identifier ELSE NULL END) pdb_id,
       (CASE WHEN vi.identifier = 8 THEN subs.identifier ELSE NULL END) chembl_id,
-      (CASE WHEN vi.identifier = 4 THEN vi.value ELSE NULL END) pubchem,
-      (CASE WHEN vi.identifier = 6 THEN vi.value ELSE NULL END) chebi,
+      (CASE WHEN vi.identifier = 4 THEN trim(vi.value) ELSE NULL END) pubchem,
+      (CASE WHEN vi.identifier = 6 THEN replace(vi.value,'CHEBI:','') ELSE NULL END) chebi,
       (CASE WHEN vi.identifier = 7 THEN vi.value ELSE NULL END) pdb,
-      (CASE WHEN vi.identifier = 8 THEN vi.value ELSE NULL END) chembl
+      (CASE WHEN vi.identifier = 8 THEN replace(concat('CHEMBL', upper(vi.value)), 'CHEMBLCHEMBL', 'CHEMBL') ELSE NULL END) chembl
       FROM validator_identifiers AS vi, substances AS subs 
-      WHERE vi.state = 1 AND vi.active = 1 AND vi.id_substance = subs.id
+      WHERE vi.state = 1 AND vi.active = 1 AND vi.id_substance = subs.id AND NOT (vi.identifier = 6 AND vi.value like 'CHEMBL%');
   """] ;
   rr:subjectMap [
     rr:template "https://identifiers.org/molmedb/{identifier}" ;
   ] ;
   rr:predicateObjectMap [
     rr:predicate rdfs:label ;
-    rr:objectMap [ rr:column "molname" ] ;
+    rr:objectMap [ rr:column "molname";  rr:datatype xsd:string ] ;
   ] ;
   rr:predicateObjectMap [
     rr:predicate sio:SIO_000008 ;
@@ -194,7 +194,7 @@
 ################################################
 <Substances#TriplesMap8>
   rr:logicalTable [ rr:sqlQuery """
-    SELECT vi.id, subs.identifier, vi.value
+    SELECT vi.id, subs.identifier, trim(vi.value) AS value
       FROM validator_identifiers AS vi, substances AS subs 
       WHERE vi.state = 1 AND vi.active = 1 AND vi.id_substance = subs.id AND vi.identifier = 4
   """ ] ;
@@ -204,7 +204,7 @@
   ] ;
   rr:predicateObjectMap [
     rr:predicate sio:SIO_000300 ;
-    rr:objectMap [ rr:column "value" ]
+    rr:objectMap [ rr:column "value"; rr:datatype xsd:string ]
   ] .
 
 <Substances#TriplesMap9>
@@ -224,9 +224,9 @@
 
 <Substances#TriplesMap10>
   rr:logicalTable [ rr:sqlQuery """
-    SELECT vi.id, subs.identifier, vi.value
+    SELECT vi.id, subs.identifier, replace(vi.value,'CHEBI:','') AS value
       FROM validator_identifiers AS vi, substances AS subs 
-      WHERE vi.state = 1 AND vi.active = 1 AND vi.id_substance = subs.id AND vi.identifier = 6
+      WHERE vi.state = 1 AND vi.active = 1 AND vi.id_substance = subs.id AND vi.identifier = 6 AND vi.value not like 'CHEMBL%'
   """ ] ;
   rr:subjectMap [
     rr:template "https://rdf.molmedb.upol.cz/substance/{identifier}_chebi" ;
@@ -234,7 +234,7 @@
   ] ;
   rr:predicateObjectMap [
     rr:predicate sio:SIO_000300 ;
-    rr:objectMap [ rr:column "value" ]
+    rr:objectMap [ rr:column "value"; rr:datatype xsd:string ]
   ] .
 
 <Substances#TriplesMap11>
@@ -254,7 +254,7 @@
 
 <Substances#TriplesMap12>
   rr:logicalTable [ rr:sqlQuery """
-    SELECT vi.id, subs.identifier, vi.value
+    SELECT vi.id, subs.identifier, replace(concat('CHEMBL', upper(vi.value)), 'CHEMBLCHEMBL', 'CHEMBL') AS value
       FROM validator_identifiers AS vi, substances AS subs 
       WHERE vi.state = 1 AND vi.active = 1 AND vi.id_substance = subs.id AND vi.identifier = 8
   """ ] ;
@@ -264,7 +264,7 @@
   ] ;
   rr:predicateObjectMap [
     rr:predicate sio:SIO_000300 ;
-    rr:objectMap [ rr:column "value" ]
+    rr:objectMap [ rr:column "value"; rr:datatype xsd:string ]
   ] .
 
 <Substances#TriplesMap13>
