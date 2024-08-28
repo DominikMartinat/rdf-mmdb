@@ -227,22 +227,24 @@
   rr:logicalTable [ rr:sqlQuery """
     SELECT etl.id, mlink.id_method,
     (CASE etl.id_enum_type_parent
-     	WHEN 22 THEN 'http://www.bioassayontology.org/bao#BAO_0002202'
-     	WHEN 23 THEN 'http://www.bioassayontology.org/bao#BAO_0002094'
-     	WHEN 24 THEN 'http://www.bioassayontology.org/bao#BAO_0002301'
+     	WHEN 22 THEN 'BAO_0002202'
+     	WHEN 23 THEN 'BAO_0002094'
+     	WHEN 24 THEN 'BAO_0002301'
      	ELSE NULL END) parent_type,
     (CASE etl.id_enum_type
-     	WHEN 25 THEN 'https://rdf.molmedb.upol.cz/vocabulary#WaterMembranePartitioningMethod'
-     	WHEN 28 THEN 'http://www.bioassayontology.org/bao#BAO_0002317'
-     	WHEN 29 THEN 'http://www.bioassayontology.org/bao#BAO_0002248'
-     	WHEN 30 THEN 'http://www.bioassayontology.org/bao#BAO_0002305'
-     	WHEN 31 THEN 'https://rdf.molmedb.upol.cz/vocabulary#AtomisticSimulation'
-     	WHEN 32 THEN 'https://rdf.molmedb.upol.cz/vocabulary#UnitedAtomsSimulation'
-     	WHEN 33 THEN 'https://rdf.molmedb.upol.cz/vocabulary#CoarseGrainedSimulation'
-     	WHEN 34 THEN 'https://rdf.molmedb.upol.cz/vocabulary#HybridResolutionSimulation'
-     	WHEN 191 THEN 'https://rdf.molmedb.upol.cz/vocabulary#MembranePositionMethod'
-     	WHEN 192 THEN 'https://rdf.molmedb.upol.cz/vocabulary#MembranePermeabilityMethod'
-     	ELSE NULL END) child_type
+     	WHEN 28 THEN 'BAO_0002317'
+     	WHEN 29 THEN 'BAO_0002248'
+     	WHEN 30 THEN 'BAO_0002305'
+     	ELSE NULL END) child_type,
+    (CASE etl.id_enum_type
+     	WHEN 25 THEN 'WaterMembranePartitioningMethod'
+     	WHEN 31 THEN 'AtomisticSimulation'
+     	WHEN 32 THEN 'UnitedAtomsSimulation'
+     	WHEN 33 THEN 'CoarseGrainedSimulation'
+     	WHEN 34 THEN 'HybridResolutionSimulation'
+     	WHEN 191 THEN 'MembranePositionMethod'
+     	WHEN 192 THEN 'MembranePermeabilityMethod'
+     	ELSE NULL END) child_type_voc
     FROM method_enum_type_links AS mlink, enum_type_links AS etl 
     WHERE mlink.id_enum_type_link = etl.id
   """ ] ;
@@ -251,11 +253,15 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate rdf:type ;
-    rr:objectMap [ rr:template "{parent_type}" ]
+    rr:objectMap [ rr:template "http://www.bioassayontology.org/bao#{parent_type}" ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate rdf:type ;
-    rr:objectMap [ rr:template "{child_type}" ]
+    rr:objectMap [ rr:template "http://www.bioassayontology.org/bao#{child_type}" ]
+  ] ;
+    rr:predicateObjectMap [
+    rr:predicate rdf:type ;
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/vocabulary#{child_type_voc}" ]
   ] .
 
 ################################################
@@ -272,7 +278,7 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0095007 ;
-    rr:objectMap [ rr:column "temperature"; rr:datatype xsd:double ]
+    rr:objectMap [ rr:column "temperature"; rr:datatype xsd:float ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0002874 ;
@@ -310,7 +316,7 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0095007 ;
-    rr:objectMap [ rr:column "LogK" ]
+    rr:objectMap [ rr:column "LogK"; rr:datatype xsd:float ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0002858 ;
@@ -332,7 +338,7 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0095007 ;
-    rr:objectMap [ rr:column "LogPerm" ]
+    rr:objectMap [ rr:column "LogPerm"; rr:datatype xsd:float ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0002874 ;
@@ -358,7 +364,7 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0095007 ;
-    rr:objectMap [ rr:column "Position" ]
+    rr:objectMap [ rr:column "Position"; rr:datatype xsd:float ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0002874 ;
@@ -384,7 +390,7 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0095007 ;
-    rr:objectMap [ rr:column "Penetration" ]
+    rr:objectMap [ rr:column "Penetration"; rr:datatype xsd:float ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0002874 ;
@@ -410,7 +416,7 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0095007 ;
-    rr:objectMap [ rr:column "Water" ]
+    rr:objectMap [ rr:column "Water"; rr:datatype xsd:float ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0002874 ;
@@ -436,7 +442,7 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0095007 ;
-    rr:objectMap [ rr:column "theta" ]
+    rr:objectMap [ rr:column "theta"; rr:datatype xsd:float ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0002874 ;
@@ -462,7 +468,7 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0095007 ;
-    rr:objectMap [ rr:column "abs_wl" ]
+    rr:objectMap [ rr:column "abs_wl"; rr:datatype xsd:float ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0002874 ;
@@ -488,7 +494,7 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0095007 ;
-    rr:objectMap [ rr:column "fluo_wl" ]
+    rr:objectMap [ rr:column "fluo_wl"; rr:datatype xsd:float ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0002874 ;
@@ -514,7 +520,7 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0095007 ;
-    rr:objectMap [ rr:column "QY" ]
+    rr:objectMap [ rr:column "QY"; rr:datatype xsd:float ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0002858 ;
@@ -536,7 +542,7 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0095007 ;
-    rr:objectMap [ rr:column "lt" ]
+    rr:objectMap [ rr:column "lt"; rr:datatype xsd:float ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0002874 ;
@@ -565,7 +571,7 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0095007 ;
-    rr:objectMap [ rr:column "LogK_acc" ]
+    rr:objectMap [ rr:column "LogK_acc"; rr:datatype xsd:float ]
   ] .
 
 <Interactions#TriplesMap20>
@@ -579,7 +585,7 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0095007 ;
-    rr:objectMap [ rr:column "LogPerm_acc" ]
+    rr:objectMap [ rr:column "LogPerm_acc"; rr:datatype xsd:float ]
   ] .
 
 <Interactions#TriplesMap21>
@@ -593,7 +599,7 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0095007 ;
-    rr:objectMap [ rr:column "Position_acc" ]
+    rr:objectMap [ rr:column "Position_acc"; rr:datatype xsd:float ]
   ] .
 
 <Interactions#TriplesMap22>
@@ -607,7 +613,7 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0095007 ;
-    rr:objectMap [ rr:column "Penetration_acc" ]
+    rr:objectMap [ rr:column "Penetration_acc"; rr:datatype xsd:float ]
   ] .
 
 <Interactions#TriplesMap23>
@@ -621,7 +627,7 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0095007 ;
-    rr:objectMap [ rr:column "Water_acc" ]
+    rr:objectMap [ rr:column "Water_acc"; rr:datatype xsd:float ]
   ] .
 
 <Interactions#TriplesMap24>
