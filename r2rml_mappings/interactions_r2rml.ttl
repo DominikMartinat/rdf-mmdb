@@ -17,7 +17,7 @@
 ################################################
 <Interactions#TriplesMap1>
   rr:logicalTable [ rr:sqlQuery """
-    SELECT inte.id, inte.id_membrane, inte.id_reference, subs.identifier
+    SELECT inte.id, inte.id_membrane, ds.id_publication, subs.identifier
       FROM interaction AS inte, substances AS subs, datasets AS ds
       WHERE inte.id_substance = subs.id AND ds.visibility = 1 AND inte.id_dataset = ds.id
   """] ;
@@ -39,7 +39,7 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate cito:citesAsDataSource ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/reference/ref{id_reference}"  ]
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/reference/ref{id_publication}"  ]
   ] .
 
 ################################################
@@ -167,7 +167,7 @@
     SELECT mlink.id_membrane,
     (CASE etl.id_enum_type
 	    WHEN 91 THEN 'SubstanceBasedMembraneModel'
-	    WHEN 92 THEN 'CellBasedMembraneModel'
+	    WHEN 92 THEN 'BiologyBasedMembraneModel'
 	    ELSE NULL END) structure_type,
     (CASE etl.id_enum_type_parent
      	WHEN 87 THEN 'GenericMembraneModel'

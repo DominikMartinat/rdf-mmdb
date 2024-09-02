@@ -9,9 +9,10 @@
 ################################################
 ## transporter interaction cenral node
 ################################################
+#when queried for assay molecule AND transporter, query takes too long even with limit, works ok separated
 <Transportes#TriplesMap1>
   rr:logicalTable [ rr:sqlQuery """
-    SELECT tr.*, ta.uniprot_id COLLATE utf8mb3_general_ci AS uniprot_id, subs.identifier
+    SELECT tr.*, ta.uniprot_id COLLATE utf8mb3_general_ci AS uniprot_id, subs.identifier, ds.id_reference AS id_publication
       FROM transporters AS tr, transporter_targets AS ta, substances AS subs, transporter_datasets AS ds
       WHERE tr.id_target = ta.id AND tr.id_substance = subs.id AND tr.id_dataset = ds.id AND ds.visibility = 1
   """] ;
@@ -24,21 +25,22 @@
     rr:objectMap [ rr:template "https://identifiers.org/molmedb/{identifier}" ]
   ] ;
     rr:predicateObjectMap [
-    rr:predicate bao:BAO_0090012;
+    rr:predicate bao:BAO_0090012 ;
     rr:objectMap [ rr:template "http://purl.uniprot.org/uniprot/{uniprot_id}" ]
   ] ;
     rr:predicateObjectMap [
-    rr:predicate bao:BAO_0000209;
+    rr:predicate bao:BAO_0000209 ;
     rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/transporter/measure_group_tra{id}" ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate cito:citesAsDataSource ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/reference/ref{id_reference}" ]
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/reference/ref{id_publication}" ]
   ] .
 
 ################################################
 ## transporter interaction measure group
 ################################################
+#same as above + also comment when connected to transporter assay
 <Transportes#TriplesMap2>
   rr:logicalTable [ rr:sqlQuery """
     SELECT tr.*, ta.uniprot_id COLLATE utf8mb3_general_ci AS uniprot_id, subs.identifier,
@@ -121,6 +123,10 @@
 ################################################
 ## transporter endpoints
 ################################################
+#inhibitor and substrate are totaly wrong
+#find way to say mol is_inhibitor/substrate prot and it_is_said_by assay/measure_group/endpointX
+#maybe ommit from this version completely
+#not even result of assay, but endpoint value interpretation
 <Transportes#TriplesMap4>
   rr:logicalTable [ rr:sqlQuery """
     SELECT tr.*,

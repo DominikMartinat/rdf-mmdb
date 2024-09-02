@@ -13,7 +13,7 @@
     dcterms:creator [ 
                         rdf:type foaf:Organization ; 
                         rdfs:label "Chemical Data Lab" ;
-                        foaf:mbox <molmedb@upol.cz>
+                        foaf:mbox <mailto:molmedb@upol.cz>
                     ] ;
     foaf:primaryTopic <https://rdf.molmedb.upol.cz> .
 
@@ -25,7 +25,7 @@
     dcterms:creator [ 
                         rdf:type foaf:Organization ; 
                         rdfs:label "Chemical Data Lab" ;
-                        foaf:mbox <molmedb@upol.cz> 
+                        foaf:mbox <mailto:molmedb@upol.cz> 
                     ] ;
 
     dcterms:source [

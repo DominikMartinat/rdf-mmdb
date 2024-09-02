@@ -10,8 +10,7 @@
     SELECT CURDATE() date;
     """ ] ;
   rr:subjectMap [
-    rr:constant <https://rdf.molmedb.upol.cz> ;
-    rr:class void:Dataset
+    rr:constant <https://rdf.molmedb.upol.cz>
   ] ;
     rr:predicateObjectMap [
     rr:predicate dcterms:created ;

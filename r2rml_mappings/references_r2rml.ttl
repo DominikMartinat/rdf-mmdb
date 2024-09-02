@@ -31,10 +31,12 @@
 #which interactions - database included
 <References#TriplesMap2>
   rr:logicalTable [ rr:sqlQuery """
-    SELECT id, id_reference FROM interaction
+    SELECT inte.id, ds.id_publication
+    FROM interaction AS inte, datasets AS ds
+    WHERE ds.visibility = 1 AND inte.id_dataset = ds.id
   """] ;
   rr:subjectMap [
-    rr:template "https://rdf.molmedb.upol.cz/reference/ref{id_reference}"
+    rr:template "https://rdf.molmedb.upol.cz/reference/ref{id_publication}"
   ] ;
     rr:predicateObjectMap [
     rr:predicate cito:isCitedAsDataSourceBy ;
@@ -44,7 +46,9 @@
 #which transproter measurements  - database included                  
 <References#TriplesMap3>
   rr:logicalTable [ rr:sqlQuery """
-    SELECT id, id_reference FROM transporters
+    SELECT tr.id, ds.id_reference
+    FROM transporters AS tr, transporter_datasets AS ds
+    WHERE ds.visibility = 1 AND tr.id_dataset = ds.id
   """] ;
   rr:subjectMap [
     rr:template "https://rdf.molmedb.upol.cz/reference/ref{id_reference}"
@@ -54,18 +58,51 @@
     rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/transporter/tra{id}"]
   ] .
 
-
-
-
+#which substances - database included
 <References#TriplesMap4>
   rr:logicalTable [ rr:sqlQuery """
-    SELECT subs.identifier, inte.id_reference FROM interaction AS inte, substances AS subs WHERE inte.id_substance = subs.id UNION
-    SELECT subs.identifier, tr.id_reference FROM transporters AS tr, substances AS subs WHERE tr.id_substance = subs.id
+    SELECT DISTINCT subs.identifier, ds.id_publication
+    FROM interaction AS inte, substances AS subs, datasets AS ds
+    WHERE inte.id_substance = subs.id AND ds.visibility = 1 AND inte.id_dataset = ds.id
+    UNION
+    SELECT DISTINCT subs.identifier, ds.id_reference AS id_publication
+    FROM transporters AS tr, substances AS subs, transporter_datasets AS ds
+    WHERE tr.id_substance = subs.id AND ds.visibility = 1 AND tr.id_dataset = ds.id
+  """] ;
+  rr:subjectMap [
+    rr:template "https://rdf.molmedb.upol.cz/reference/ref{id_publication}"
+  ] ;
+    rr:predicateObjectMap [
+    rr:predicate dcterms:subject ;
+    rr:objectMap [ rr:template "https://identifiers.org/molmedb/{identifier}" ]
+  ] .
+
+#which membranes - database included
+<References#TriplesMap5>
+  rr:logicalTable [ rr:sqlQuery """
+    SELECT DISTINCT inte.id_membrane, ds.id_publication
+    FROM interaction AS inte, datasets AS ds
+    WHERE ds.visibility = 1 AND inte.id_dataset = ds.id
+  """] ;
+  rr:subjectMap [
+    rr:template "https://rdf.molmedb.upol.cz/reference/ref{id_publication}"
+  ] ;
+    rr:predicateObjectMap [
+    rr:predicate dcterms:subject ;
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/membrane{id_membrane}" ]
+  ] .
+
+#which transporters - database included
+<References#TriplesMap6>
+  rr:logicalTable [ rr:sqlQuery """
+    SELECT DISTINCT tt.uniprot_id COLLATE utf8mb3_general_ci AS uniprot_id, ds.id_reference
+    FROM transporters AS tr, transporter_targets AS tt, transporter_datasets AS ds
+    WHERE tr.id_target = tt.id AND ds.visibility = 1 AND tr.id_dataset = ds.id
   """] ;
   rr:subjectMap [
     rr:template "https://rdf.molmedb.upol.cz/reference/ref{id_reference}"
   ] ;
     rr:predicateObjectMap [
     rr:predicate dcterms:subject ;
-    rr:objectMap [ rr:template "https://identifiers.org/molmedb/{identifier}" ]
+    rr:objectMap [ rr:template "http://purl.uniprot.org/uniprot/{uniprot_id}" ]
   ] .
