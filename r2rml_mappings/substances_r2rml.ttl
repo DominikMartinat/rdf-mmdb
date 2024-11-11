@@ -274,6 +274,6 @@
     rr:class sio:CHEMINF_000571
   ] ;
   rr:predicateObjectMap [
-    rr:predicate sio:SIO_000300;
+    rr:predicate sio:SIO_000300 ;
     rr:objectMap [ rr:column "identifier" ]
   ] .
