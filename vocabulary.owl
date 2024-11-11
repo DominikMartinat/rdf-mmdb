@@ -31,6 +31,26 @@
     <!-- 
     ///////////////////////////////////////////////////////////////////////////////////////
     //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- https://rdf.molmedb.upol.cz/vocabulary#hasStDev -->
+
+    <DatatypeProperty rdf:about="https://rdf.molmedb.upol.cz/vocabulary#hasStDev">
+        <obo:IAO_0000115>Standard deviation of a measurement result.</obo:IAO_0000115>
+        <rdfs:label>has standard deviation</rdfs:label>
+    </DatatypeProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
     // Classes
     //
     ///////////////////////////////////////////////////////////////////////////////////////
@@ -229,7 +249,7 @@
     <Class rdf:about="https://rdf.molmedb.upol.cz/vocabulary#AbsorbtionWavelength">
         <rdfs:subClassOf rdf:resource="http://www.bioassayontology.org/bao#BAO_0002118"/>
         <obo:IAO_0000115>Peak absorbtion wavelength.</obo:IAO_0000115>
-        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">peak absrobtion wavelength</rdfs:label>
+        <rdfs:label>peak absrobtion wavelength</rdfs:label>
     </Class>
     
 
@@ -239,7 +259,7 @@
     <Class rdf:about="https://rdf.molmedb.upol.cz/vocabulary#AtomisticSimulation">
         <rdfs:subClassOf rdf:resource="https://rdf.molmedb.upol.cz/vocabulary#SimulationByResolution"/>
         <obo:IAO_0000115>Simulation where every atom of simulated system is explicitly represented.</obo:IAO_0000115>
-        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">atomistic simulation</rdfs:label>
+        <rdfs:label>atomistic simulation</rdfs:label>
     </Class>
     
 
@@ -248,8 +268,8 @@
 
     <Class rdf:about="https://rdf.molmedb.upol.cz/vocabulary#BiologyBasedMembraneModel">
         <rdfs:subClassOf rdf:resource="https://rdf.molmedb.upol.cz/vocabulary#MembraneModel"/>
-        <obo:IAO_0000115>Model of a membrane based on biological entities like tissue or cells (e.g. CACO).</obo:IAO_0000115>
-        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">biology based membrane model</rdfs:label>
+        <obo:IAO_0000115>Model of a membrane based on biological entities like tissue or cell lines (e.g. CACO).</obo:IAO_0000115>
+        <rdfs:label>biology based membrane model</rdfs:label>
     </Class>
     
 
@@ -259,7 +279,7 @@
     <Class rdf:about="https://rdf.molmedb.upol.cz/vocabulary#BrainMembraneModel">
         <rdfs:subClassOf rdf:resource="https://rdf.molmedb.upol.cz/vocabulary#MembraneModelByLocation"/>
         <obo:IAO_0000115>Model of a membrane located in brain tissue.</obo:IAO_0000115>
-        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">brain membrane model</rdfs:label>
+        <rdfs:label>brain membrane model</rdfs:label>
     </Class>
     
 
@@ -269,7 +289,7 @@
     <Class rdf:about="https://rdf.molmedb.upol.cz/vocabulary#CellMembraneModel">
         <rdfs:subClassOf rdf:resource="https://rdf.molmedb.upol.cz/vocabulary#MembraneModelByLocation"/>
         <obo:IAO_0000115>Model of a cell membrane.</obo:IAO_0000115>
-        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">cell membrane model</rdfs:label>
+        <rdfs:label>cell membrane model</rdfs:label>
     </Class>
     
 
@@ -294,7 +314,7 @@
     <Class rdf:about="https://rdf.molmedb.upol.cz/vocabulary#CoarseGrainedSimulation">
         <rdfs:subClassOf rdf:resource="https://rdf.molmedb.upol.cz/vocabulary#SimulationByResolution"/>
         <obo:IAO_0000115>Simulation where groups of multiple atoms of simulated system are represented as one entity.</obo:IAO_0000115>
-        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">coarse grained simulation</rdfs:label>
+        <rdfs:label>coarse grained simulation</rdfs:label>
     </Class>
     
 
@@ -304,7 +324,7 @@
     <Class rdf:about="https://rdf.molmedb.upol.cz/vocabulary#ContactAngle">
         <rdfs:subClassOf rdf:resource="http://www.bioassayontology.org/bao#BAO_0080028"/>
         <obo:IAO_0000115>Contact angle in membrane.</obo:IAO_0000115>
-        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">contact angle</rdfs:label>
+        <rdfs:label>contact angle</rdfs:label>
     </Class>
     
 
@@ -314,7 +334,7 @@
     <Class rdf:about="https://rdf.molmedb.upol.cz/vocabulary#DepthOfMinima">
         <rdfs:subClassOf rdf:resource="http://www.bioassayontology.org/bao#BAO_0002118"/>
         <obo:IAO_0000115>A depth of minima within membrane.</obo:IAO_0000115>
-        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">depth of minima</rdfs:label>
+        <rdfs:label>depth of minima</rdfs:label>
     </Class>
     
 
@@ -324,7 +344,7 @@
     <Class rdf:about="https://rdf.molmedb.upol.cz/vocabulary#EyeMembraneModel">
         <rdfs:subClassOf rdf:resource="https://rdf.molmedb.upol.cz/vocabulary#MembraneModelByLocation"/>
         <obo:IAO_0000115>Model of a membrane located in eye tissue.</obo:IAO_0000115>
-        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">eye membrane model</rdfs:label>
+        <rdfs:label>eye membrane model</rdfs:label>
     </Class>
     
 
@@ -334,7 +354,7 @@
     <Class rdf:about="https://rdf.molmedb.upol.cz/vocabulary#FluorescenceLifetime">
         <rdfs:subClassOf rdf:resource="http://www.bioassayontology.org/bao#BAO_0002114"/>
         <obo:IAO_0000115>The time a fluorophore spends in the excited state before emitting a photon and returning to the ground state.</obo:IAO_0000115>
-        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">fluorescence lifetime</rdfs:label>
+        <rdfs:label>fluorescence lifetime</rdfs:label>
     </Class>
     
 
@@ -344,7 +364,7 @@
     <Class rdf:about="https://rdf.molmedb.upol.cz/vocabulary#FluorescenceWavelength">
         <rdfs:subClassOf rdf:resource="http://www.bioassayontology.org/bao#BAO_0002118"/>
         <obo:IAO_0000115>Peak fluorescence wavelength.</obo:IAO_0000115>
-        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">peak fluorescence wavelength</rdfs:label>
+        <rdfs:label>peak fluorescence wavelength</rdfs:label>
     </Class>
     
 
@@ -355,7 +375,7 @@
         <rdfs:subClassOf rdf:resource="https://rdf.molmedb.upol.cz/vocabulary#MembraneModel"/>
         <disjointWith rdf:resource="https://rdf.molmedb.upol.cz/vocabulary#MembraneModelByLocation"/>
         <obo:IAO_0000115>Model of a membrane without specified anatomical location.</obo:IAO_0000115>
-        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">generic membrane model</rdfs:label>
+        <rdfs:label>generic membrane model</rdfs:label>
     </Class>
     
 
@@ -365,7 +385,7 @@
     <Class rdf:about="https://rdf.molmedb.upol.cz/vocabulary#HybridResolutionSimulation">
         <rdfs:subClassOf rdf:resource="https://rdf.molmedb.upol.cz/vocabulary#SimulationByResolution"/>
         <obo:IAO_0000115>Simulationusing multiple levels of granularity for representation of atoms in a simulated system.</obo:IAO_0000115>
-        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">hybrid resolution simulation</rdfs:label>
+        <rdfs:label>hybrid resolution simulation</rdfs:label>
     </Class>
     
 
@@ -375,7 +395,7 @@
     <Class rdf:about="https://rdf.molmedb.upol.cz/vocabulary#InhibitionAssay">
         <rdfs:subClassOf rdf:resource="http://www.bioassayontology.org/bao#BAO_0080024"/>
         <obo:IAO_0000115>Result of the assay whether the measured entity acts as inhibitor of the target enzyme.</obo:IAO_0000115>
-        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">inhibition assay</rdfs:label>
+        <rdfs:label>inhibition assay</rdfs:label>
     </Class>
     
 
@@ -385,7 +405,7 @@
     <Class rdf:about="https://rdf.molmedb.upol.cz/vocabulary#IntestineMembraneModel">
         <rdfs:subClassOf rdf:resource="https://rdf.molmedb.upol.cz/vocabulary#MembraneModelByLocation"/>
         <obo:IAO_0000115>Model of a membrane located in intestine tissue.</obo:IAO_0000115>
-        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">intestine membrane model</rdfs:label>
+        <rdfs:label>intestine membrane model</rdfs:label>
     </Class>
     
 
@@ -410,7 +430,7 @@
     <Class rdf:about="https://rdf.molmedb.upol.cz/vocabulary#LogK">
         <rdfs:subClassOf rdf:resource="http://www.bioassayontology.org/bao#BAO_0002128"/>
         <obo:IAO_0000115>Logarithm of partition coefficient membrane/water.</obo:IAO_0000115>
-        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">LogK</rdfs:label>
+        <rdfs:label>LogK</rdfs:label>
     </Class>
     
 
@@ -420,7 +440,7 @@
     <Class rdf:about="https://rdf.molmedb.upol.cz/vocabulary#LogPerm">
         <rdfs:subClassOf rdf:resource="http://www.bioassayontology.org/bao#BAO_0002808"/>
         <obo:IAO_0000115>Logarithm of membrane permeability.</obo:IAO_0000115>
-        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">LogPerm</rdfs:label>
+        <rdfs:label>LogPerm</rdfs:label>
     </Class>
     
 
@@ -430,7 +450,7 @@
     <Class rdf:about="https://rdf.molmedb.upol.cz/vocabulary#MembraneInteractionAssessmentMethod">
         <rdfs:subClassOf rdf:resource="http://www.bioassayontology.org/bao#BAO_0002202"/>
         <obo:IAO_0000115>Experimental method for quantification of interaction between molecule and membrane (e.g. peremability, partition etc.).</obo:IAO_0000115>
-        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">membrane interaction assessment method</rdfs:label>
+        <rdfs:label>membrane interaction assessment method</rdfs:label>
     </Class>
     
 
@@ -440,7 +460,7 @@
     <Class rdf:about="https://rdf.molmedb.upol.cz/vocabulary#MembraneModel">
         <rdfs:subClassOf rdf:resource="http://www.bioassayontology.org/bao#BAO_0003114"/>
         <obo:IAO_0000115>Model of biological membrane used in experimental and computational assays of interactions of molecular entities with membranes. Contains biological membranes, lipid membrane models, nonlipid membrane models (eg. octanol) etc.</obo:IAO_0000115>
-        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">membrane model</rdfs:label>
+        <rdfs:label>membrane model</rdfs:label>
     </Class>
     
 
@@ -450,7 +470,7 @@
     <Class rdf:about="https://rdf.molmedb.upol.cz/vocabulary#MembraneModelByLocation">
         <rdfs:subClassOf rdf:resource="https://rdf.molmedb.upol.cz/vocabulary#MembraneModel"/>
         <obo:IAO_0000115>Cathegory of membrane model according to where are approximated membranes located anatomically. It can be bound to tissue or cells.</obo:IAO_0000115>
-        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">membrane model by location</rdfs:label>
+        <rdfs:label>membrane model by location</rdfs:label>
     </Class>
     
 
@@ -460,7 +480,7 @@
     <Class rdf:about="https://rdf.molmedb.upol.cz/vocabulary#MembranePermeabilityMethod">
         <rdfs:subClassOf rdf:resource="https://rdf.molmedb.upol.cz/vocabulary#MembraneInteractionAssessmentMethod"/>
         <obo:IAO_0000115>Method measuring permeability of a molecule across a membrane.</obo:IAO_0000115>
-        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">membrane peremability measuring method</rdfs:label>
+        <rdfs:label>membrane peremability measuring method</rdfs:label>
     </Class>
     
 
@@ -470,7 +490,7 @@
     <Class rdf:about="https://rdf.molmedb.upol.cz/vocabulary#MembranePositionMethod">
         <rdfs:subClassOf rdf:resource="https://rdf.molmedb.upol.cz/vocabulary#MembraneInteractionAssessmentMethod"/>
         <obo:IAO_0000115>Method measuring distance of stable position of molecule from the centre of a membrane.</obo:IAO_0000115>
-        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">position measuring method</rdfs:label>
+        <rdfs:label>position measuring method</rdfs:label>
     </Class>
     
 
@@ -480,7 +500,7 @@
     <Class rdf:about="https://rdf.molmedb.upol.cz/vocabulary#OralMembraneModel">
         <rdfs:subClassOf rdf:resource="https://rdf.molmedb.upol.cz/vocabulary#MembraneModelByLocation"/>
         <obo:IAO_0000115>Model of a membrane located in mouth tissue.</obo:IAO_0000115>
-        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">oral membrane model</rdfs:label>
+        <rdfs:label>oral membrane model</rdfs:label>
     </Class>
     
 
@@ -490,7 +510,7 @@
     <Class rdf:about="https://rdf.molmedb.upol.cz/vocabulary#PKi">
         <rdfs:subClassOf rdf:resource="http://www.bioassayontology.org/bao#BAO_0000192"/>
         <obo:IAO_0000115>pKi is -log Ki, where Kmi is  the equilibrium inhibitor dissociation constant, the concentration of the competing inhibitor that results in binding to half the enzymes sites at equilibrium in the absence of substrate or other competitors.</obo:IAO_0000115>
-        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">pKi</rdfs:label>
+        <rdfs:label>pKi</rdfs:label>
     </Class>
     
 
@@ -500,7 +520,7 @@
     <Class rdf:about="https://rdf.molmedb.upol.cz/vocabulary#PKm">
         <rdfs:subClassOf rdf:resource="http://www.bioassayontology.org/bao#BAO_0000477"/>
         <obo:IAO_0000115>pKm is -log Km, where Km is the concentration of substrate at ½ Vmax, according to the Henri-Michaelis-Menten kinetic model.</obo:IAO_0000115>
-        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">pKm</rdfs:label>
+        <rdfs:label>pKm</rdfs:label>
     </Class>
     
 
@@ -510,7 +530,7 @@
     <Class rdf:about="https://rdf.molmedb.upol.cz/vocabulary#PenetrationBarrier">
         <rdfs:subClassOf rdf:resource="http://www.bioassayontology.org/bao#BAO_0002118"/>
         <obo:IAO_0000115>Penetration barrier (maximum - minimum).</obo:IAO_0000115>
-        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">penetration barrier</rdfs:label>
+        <rdfs:label>penetration barrier</rdfs:label>
     </Class>
     
 
@@ -520,7 +540,7 @@
     <Class rdf:about="https://rdf.molmedb.upol.cz/vocabulary#PositionOfMinima">
         <rdfs:subClassOf rdf:resource="http://www.bioassayontology.org/bao#BAO_0002118"/>
         <obo:IAO_0000115>Position of minima along the membrane normal from the membrane center.</obo:IAO_0000115>
-        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">position of minima</rdfs:label>
+        <rdfs:label>position of minima</rdfs:label>
     </Class>
     
 
@@ -530,7 +550,7 @@
     <Class rdf:about="https://rdf.molmedb.upol.cz/vocabulary#QuantumYield">
         <rdfs:subClassOf rdf:resource="http://www.bioassayontology.org/bao#BAO_0000179"/>
         <obo:IAO_0000115>Number of times a specific event occurs per photon absorbed by the system.</obo:IAO_0000115>
-        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">quantum yield</rdfs:label>
+        <rdfs:label>quantum yield</rdfs:label>
     </Class>
     
 
@@ -540,7 +560,7 @@
     <Class rdf:about="https://rdf.molmedb.upol.cz/vocabulary#SimulationByResolution">
         <rdfs:subClassOf rdf:resource="http://www.bioassayontology.org/bao#BAO_0002301"/>
         <obo:IAO_0000115>Granularity level at which is simulated system modelled (e.g. atomistic, coarse grained etc.).</obo:IAO_0000115>
-        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">computer simulation method by resolution</rdfs:label>
+        <rdfs:label>computer simulation method by resolution</rdfs:label>
     </Class>
     
 
@@ -550,7 +570,7 @@
     <Class rdf:about="https://rdf.molmedb.upol.cz/vocabulary#SkinMembraneModel">
         <rdfs:subClassOf rdf:resource="https://rdf.molmedb.upol.cz/vocabulary#MembraneModelByLocation"/>
         <obo:IAO_0000115>Model of a membrane located in skin tissue.</obo:IAO_0000115>
-        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">skin membrane model</rdfs:label>
+        <rdfs:label>skin membrane model</rdfs:label>
     </Class>
     
 
@@ -560,7 +580,7 @@
     <Class rdf:about="https://rdf.molmedb.upol.cz/vocabulary#SubstanceBasedMembraneModel">
         <rdfs:subClassOf rdf:resource="https://rdf.molmedb.upol.cz/vocabulary#MembraneModel"/>
         <obo:IAO_0000115>Model of a membrane based on chemical substances mimic biological membranes (e.g. 1-octanol).</obo:IAO_0000115>
-        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">substance based membrane model</rdfs:label>
+        <rdfs:label>substance based membrane model</rdfs:label>
     </Class>
     
 
@@ -570,7 +590,7 @@
     <Class rdf:about="https://rdf.molmedb.upol.cz/vocabulary#SubstrateBindingAssay">
         <rdfs:subClassOf rdf:resource="http://www.bioassayontology.org/bao#BAO_0080024"/>
         <obo:IAO_0000115>Result of the assay whether the measured entity acts as substrate of the target enzyme.</obo:IAO_0000115>
-        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">substrate assay</rdfs:label>
+        <rdfs:label>substrate assay</rdfs:label>
     </Class>
     
 
@@ -580,7 +600,7 @@
     <Class rdf:about="https://rdf.molmedb.upol.cz/vocabulary#UnitedAtomsSimulation">
         <rdfs:subClassOf rdf:resource="https://rdf.molmedb.upol.cz/vocabulary#SimulationByResolution"/>
         <obo:IAO_0000115>Simulation where every atom of simulated system, except hydrogen, is represented.</obo:IAO_0000115>
-        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">united atoms simulation</rdfs:label>
+        <rdfs:label>united atoms simulation</rdfs:label>
     </Class>
     
 
@@ -590,7 +610,7 @@
     <Class rdf:about="https://rdf.molmedb.upol.cz/vocabulary#WaterMembranePartitioningMethod">
         <rdfs:subClassOf rdf:resource="https://rdf.molmedb.upol.cz/vocabulary#MembraneInteractionAssessmentMethod"/>
         <obo:IAO_0000115>Method measuring partitioning of molecules between water and membrane.</obo:IAO_0000115>
-        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">water/membrane partition measuring method</rdfs:label>
+        <rdfs:label>water/membrane partition measuring method</rdfs:label>
     </Class>
     
 
@@ -628,15 +648,15 @@
 
     <rdf:Description rdf:about="https://rdf.molmedb.upol.cz/vocabulary#CmS">
         <obo:IAO_0000115>Centimeter per second. A derived unit of speed/velocity equivalent to 0.01 meter of distance traveled per 1 second.</obo:IAO_0000115>
-        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">cm/s</rdfs:label>
+        <rdfs:label>cm/s</rdfs:label>
     </rdf:Description>
     <rdf:Description rdf:about="https://rdf.molmedb.upol.cz/vocabulary#KcalMol">
         <obo:IAO_0000115>A derived unit of molar thermodynamic energy defined as the energy equal to 1000 calories in one mole of substance.</obo:IAO_0000115>
-        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">kcal/mol</rdfs:label>
+        <rdfs:label>kcal/mol</rdfs:label>
     </rdf:Description>
 </rdf:RDF>
 
 
 
-<!-- Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi -->
+<!-- Generated by the OWL API (version 4.5.29.2024-05-13T12:11:03Z) https://github.com/owlcs/owlapi -->
 
