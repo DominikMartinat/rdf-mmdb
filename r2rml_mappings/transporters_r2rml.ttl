@@ -67,19 +67,19 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000208 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_pkm_tra{Km_id}" ]
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_pKm_tra{Km_id}" ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000208 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_pec50_tra{EC50_id}" ]
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_pEC50_tra{EC50_id}" ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000208 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_pki_tra{Ki_id}" ]
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_pKi_tra{Ki_id}" ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000208 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_pic50_tra{IC50_id}" ]
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_pIC50_tra{IC50_id}" ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0090012 ;
@@ -178,7 +178,7 @@
     tr.Km IS NOT NULL AND tr.id_dataset = ds.id AND ds.visibility = 1
     """ ] ;
   rr:subjectMap [
-    rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_pkm_tra{id}" ;
+    rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_pKm_tra{id}" ;
     rr:class mmdbvoc:PKm ;
   ] ;
     rr:predicateObjectMap [
@@ -191,7 +191,7 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0002858 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_pkm_stdev_tra{stdev_id}" ]
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_pKm_stdev_tra{stdev_id}" ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000559 ;
@@ -205,7 +205,7 @@
     tr.EC50 IS NOT NULL AND tr.id_dataset = ds.id AND ds.visibility = 1
     """ ] ;
   rr:subjectMap [
-    rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_pec50_tra{id}" ;
+    rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_pEC50_tra{id}" ;
     rr:class bao:BAO_0002583
   ] ;
     rr:predicateObjectMap [
@@ -218,7 +218,7 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0002858 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_pec50_stdev_tra{stdev_id}" ]
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_pEC50_stdev_tra{stdev_id}" ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000559 ;
@@ -232,7 +232,7 @@
     tr.Ki IS NOT NULL AND tr.id_dataset = ds.id AND ds.visibility = 1
     """ ] ;
   rr:subjectMap [
-    rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_pki_tra{id}" ;
+    rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_pKi_tra{id}" ;
     rr:class mmdbvoc:PKi
   ] ;
     rr:predicateObjectMap [
@@ -245,7 +245,7 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0002858 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_pki_stdev_tra{stdev_id}" ]
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_pKi_stdev_tra{stdev_id}" ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000559 ;
@@ -259,7 +259,7 @@
     tr.IC50 IS NOT NULL AND tr.id_dataset = ds.id AND ds.visibility = 1
     """ ] ;
   rr:subjectMap [
-    rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_pic50_tra{id}" ;
+    rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_pIC50_tra{id}" ;
     rr:class bao:BAO_0000199
   ] ;
     rr:predicateObjectMap [
@@ -272,7 +272,7 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0002858 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_pic50_stdev_tra{stdev_id}" ]
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_pIC50_stdev_tra{stdev_id}" ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000559 ;
@@ -288,7 +288,7 @@
     WHERE tr.Km_acc IS NOT NULL AND tr.id_dataset = ds.id AND ds.visibility = 1
     """ ] ;
   rr:subjectMap [
-    rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_pkm_stdev_tra{id}" ;
+    rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_pKm_stdev_tra{id}" ;
     rr:class bao:BAO_0002176
   ] ;
     rr:predicateObjectMap [
@@ -302,7 +302,7 @@
     WHERE tr.EC50_acc IS NOT NULL AND tr.id_dataset = ds.id AND ds.visibility = 1
     """ ] ;
   rr:subjectMap [
-    rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_pec50_stdev_tra{id}" ;
+    rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_pEC50_stdev_tra{id}" ;
     rr:class bao:BAO_0002176
   ] ;
     rr:predicateObjectMap [
@@ -316,7 +316,7 @@
     WHERE tr.Ki_acc IS NOT NULL AND tr.id_dataset = ds.id AND ds.visibility = 1
     """ ] ;
   rr:subjectMap [
-    rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_pki_stdev_tra{id}" ;
+    rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_pKi_stdev_tra{id}" ;
     rr:class bao:BAO_0002176
   ] ;
     rr:predicateObjectMap [
@@ -330,7 +330,7 @@
     WHERE tr.IC50_acc IS NOT NULL AND tr.id_dataset = ds.id AND ds.visibility = 1
     """ ] ;
   rr:subjectMap [
-    rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_pic50_stdev_tra{id}" ;
+    rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_pIC50_stdev_tra{id}" ;
     rr:class bao:BAO_0002176
   ] ;
     rr:predicateObjectMap [

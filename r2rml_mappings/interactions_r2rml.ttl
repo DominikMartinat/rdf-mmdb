@@ -73,11 +73,11 @@
   ] ;  
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000208 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_logk_int{LogK_id}" ]
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_LogK_int{LogK_id}" ]
   ] ; 
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000208 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_logperm_int{LogPerm_id}" ]
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_LogPerm_int{LogPerm_id}" ]
   ] ; 
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000208 ;
@@ -311,7 +311,7 @@
     FROM interaction AS inte, datasets AS ds WHERE inte.LogK IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
     """ ] ;
   rr:subjectMap [
-    rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_logk_int{id}" ;
+    rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_LogK_int{id}" ;
     rr:class mmdbvoc:LogK
   ] ;
     rr:predicateObjectMap [
@@ -320,7 +320,7 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0002858 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_logk_stdev_int{stdev_id}" ]
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_LogK_stdev_int{stdev_id}" ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000559 ;
@@ -333,7 +333,7 @@
     FROM interaction AS inte, datasets AS ds WHERE inte.LogPerm IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
     """ ] ;
   rr:subjectMap [
-    rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_logperm_int{id}" ;
+    rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_LogPerm_int{id}" ;
     rr:class mmdbvoc:LogPerm
   ] ;
     rr:predicateObjectMap [
@@ -346,7 +346,7 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0002858 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_logperm_stdev_int{stdev_id}" ]
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_LogPerm_stdev_int{stdev_id}" ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000559 ;
@@ -566,7 +566,7 @@
     WHERE inte.LogK_acc IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
   """ ] ;
   rr:subjectMap [
-    rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_logk_stdev_int{id}" ;
+    rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_LogK_stdev_int{id}" ;
     rr:class bao:BAO_0002176
   ] ;
     rr:predicateObjectMap [
@@ -580,7 +580,7 @@
     WHERE inte.LogPerm_acc IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
   """ ] ;
   rr:subjectMap [
-    rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_logperm_stdev_int{id}" ;
+    rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_LogPerm_stdev_int{id}" ;
     rr:class bao:BAO_0002176
   ] ;
     rr:predicateObjectMap [

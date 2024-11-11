@@ -61,11 +61,11 @@
   ] ;
   rr:predicateObjectMap [
     rr:predicate sio:SIO_000008 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/substance/{SMILES_id}_smiles" ]
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/substance/{SMILES_id}_SMILES" ]
   ] ;
   rr:predicateObjectMap [
     rr:predicate sio:SIO_000008 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/substance/{inchikey_id}_inchikey" ]
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/substance/{inchikey_id}_InChIKey" ]
   ] ;
   rr:predicateObjectMap [
     rr:predicate sio:SIO_000008 ;
@@ -136,7 +136,7 @@
       WHERE vi.state = 1 AND vi.active = 1 AND vi.id_substance = subs.id AND vi.identifier = 2
   """ ] ;
   rr:subjectMap [
-    rr:template "https://rdf.molmedb.upol.cz/substance/{identifier}_smiles" ;
+    rr:template "https://rdf.molmedb.upol.cz/substance/{identifier}_SMILES" ;
     rr:class sio:CHEMINF_000018 ;
   ] ;
   rr:predicateObjectMap [
@@ -151,7 +151,7 @@
       WHERE vi.state = 1 AND vi.active = 1 AND vi.id_substance = subs.id AND vi.identifier = 3
   """ ] ;
   rr:subjectMap [
-    rr:template "https://rdf.molmedb.upol.cz/substance/{identifier}_inchikey" ;
+    rr:template "https://rdf.molmedb.upol.cz/substance/{identifier}_InChIKey" ;
     rr:class sio:CHEMINF_000059
   ] ;
   rr:predicateObjectMap [
