@@ -204,7 +204,7 @@
     rr:objectMap [ rr:column "Km"; rr:datatype xsd:float ]
   ] ;
     rr:predicateObjectMap [
-    rr:predicate bao:BAO_0000183 ;
+    rr:predicate sio:SIO_000221 ;
     rr:objectMap [ rr:constant obo:UO_0000062 ]
   ] ;
     rr:predicateObjectMap [
@@ -231,7 +231,7 @@
     rr:objectMap [ rr:column "EC50"; rr:datatype xsd:float ]
   ] ;
     rr:predicateObjectMap [
-    rr:predicate bao:BAO_0000183 ;
+    rr:predicate sio:SIO_000221 ;
     rr:objectMap [ rr:constant obo:UO_0000062 ]
   ] ;
     rr:predicateObjectMap [
@@ -258,7 +258,7 @@
     rr:objectMap [ rr:column "Ki"; rr:datatype xsd:float ]
   ] ;
     rr:predicateObjectMap [
-    rr:predicate bao:BAO_0000183 ;
+    rr:predicate sio:SIO_000221 ;
     rr:objectMap [ rr:constant obo:UO_0000062 ]
   ] ;
     rr:predicateObjectMap [
@@ -285,7 +285,7 @@
     rr:objectMap [ rr:column "IC50"; rr:datatype xsd:float ]
   ] ;
     rr:predicateObjectMap [
-    rr:predicate bao:BAO_0000183 ;
+    rr:predicate sio:SIO_000221 ;
     rr:objectMap [ rr:constant obo:UO_0000062 ]
   ] ;
     rr:predicateObjectMap [
