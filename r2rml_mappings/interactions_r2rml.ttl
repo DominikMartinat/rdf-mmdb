@@ -281,7 +281,7 @@
     rr:objectMap [ rr:column "temperature"; rr:datatype xsd:float ]
   ] ;
     rr:predicateObjectMap [
-    rr:predicate bao:BAO_0002874 ;
+    rr:predicate sio:SIO_000221 ;
     rr:objectMap [ rr:constant obo:UO_0000027 ]
   ] .
 
@@ -341,7 +341,7 @@
     rr:objectMap [ rr:column "LogPerm"; rr:datatype xsd:float ]
   ] ;
     rr:predicateObjectMap [
-    rr:predicate bao:BAO_0002874 ;
+    rr:predicate sio:SIO_000221 ;
     rr:objectMap [ rr:constant mmdbvoc:CmS ]
   ] ;
     rr:predicateObjectMap [
@@ -367,7 +367,7 @@
     rr:objectMap [ rr:column "Position"; rr:datatype xsd:float ]
   ] ;
     rr:predicateObjectMap [
-    rr:predicate bao:BAO_0002874 ;
+    rr:predicate sio:SIO_000221 ;
     rr:objectMap [ rr:constant obo:UO_0000018 ]
   ] ;
     rr:predicateObjectMap [
@@ -393,7 +393,7 @@
     rr:objectMap [ rr:column "Penetration"; rr:datatype xsd:float ]
   ] ;
     rr:predicateObjectMap [
-    rr:predicate bao:BAO_0002874 ;
+    rr:predicate sio:SIO_000221 ;
     rr:objectMap [ rr:constant mmdbvoc:KcalMol ]
   ] ;
     rr:predicateObjectMap [
@@ -419,7 +419,7 @@
     rr:objectMap [ rr:column "Water"; rr:datatype xsd:float ]
   ] ;
     rr:predicateObjectMap [
-    rr:predicate bao:BAO_0002874 ;
+    rr:predicate sio:SIO_000221 ;
     rr:objectMap [ rr:constant mmdbvoc:KcalMol ]
   ] ;
     rr:predicateObjectMap [
@@ -445,7 +445,7 @@
     rr:objectMap [ rr:column "theta"; rr:datatype xsd:float ]
   ] ;
     rr:predicateObjectMap [
-    rr:predicate bao:BAO_0002874 ;
+    rr:predicate sio:SIO_000221 ;
     rr:objectMap [ rr:constant obo:UO_0000185 ]
   ] ;
     rr:predicateObjectMap [
@@ -471,7 +471,7 @@
     rr:objectMap [ rr:column "abs_wl"; rr:datatype xsd:float ]
   ] ;
     rr:predicateObjectMap [
-    rr:predicate bao:BAO_0002874 ;
+    rr:predicate sio:SIO_000221 ;
     rr:objectMap [ rr:constant obo:UO_0000018 ]
   ] ;
     rr:predicateObjectMap [
@@ -497,7 +497,7 @@
     rr:objectMap [ rr:column "fluo_wl"; rr:datatype xsd:float ]
   ] ;
     rr:predicateObjectMap [
-    rr:predicate bao:BAO_0002874 ;
+    rr:predicate sio:SIO_000221 ;
     rr:objectMap [ rr:constant obo:UO_0000018 ]
   ] ;
     rr:predicateObjectMap [
@@ -545,7 +545,7 @@
     rr:objectMap [ rr:column "lt"; rr:datatype xsd:float ]
   ] ;
     rr:predicateObjectMap [
-    rr:predicate bao:BAO_0002874 ;
+    rr:predicate sio:SIO_000221 ;
     rr:objectMap [ rr:constant obo:UO_0000150 ]
   ] ;
     rr:predicateObjectMap [
