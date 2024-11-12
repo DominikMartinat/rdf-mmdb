@@ -200,7 +200,7 @@
     rr:class mmdbvoc:PKm ;
   ] ;
     rr:predicateObjectMap [
-    rr:predicate bao:BAO_0002666 ;
+    rr:predicate sio:SIO_000300 ;
     rr:objectMap [ rr:column "Km"; rr:datatype xsd:float ]
   ] ;
     rr:predicateObjectMap [
@@ -227,7 +227,7 @@
     rr:class bao:BAO_0002583
   ] ;
     rr:predicateObjectMap [
-    rr:predicate bao:BAO_0002666 ;
+    rr:predicate sio:SIO_000300 ;
     rr:objectMap [ rr:column "EC50"; rr:datatype xsd:float ]
   ] ;
     rr:predicateObjectMap [
@@ -254,7 +254,7 @@
     rr:class mmdbvoc:PKi
   ] ;
     rr:predicateObjectMap [
-    rr:predicate bao:BAO_0002666 ;
+    rr:predicate sio:SIO_000300 ;
     rr:objectMap [ rr:column "Ki"; rr:datatype xsd:float ]
   ] ;
     rr:predicateObjectMap [
@@ -281,7 +281,7 @@
     rr:class bao:BAO_0000199
   ] ;
     rr:predicateObjectMap [
-    rr:predicate bao:BAO_0002666 ;
+    rr:predicate sio:SIO_000300 ;
     rr:objectMap [ rr:column "IC50"; rr:datatype xsd:float ]
   ] ;
     rr:predicateObjectMap [
