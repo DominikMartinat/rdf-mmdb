@@ -95,14 +95,14 @@
 #which transporters - database included
 <References#TriplesMap6>
   rr:logicalTable [ rr:sqlQuery """
-    SELECT DISTINCT tt.uniprot_id COLLATE utf8mb3_general_ci AS uniprot_id, ds.id_reference
+    SELECT DISTINCT tr.id_target, ds.id_reference
     FROM transporters AS tr, transporter_targets AS tt, transporter_datasets AS ds
-    WHERE tr.id_target = tt.id AND ds.visibility = 1 AND tr.id_dataset = ds.id
+    WHERE ds.visibility = 1 AND tr.id_dataset = ds.id
   """] ;
   rr:subjectMap [
     rr:template "https://rdf.molmedb.upol.cz/reference/ref{id_reference}"
   ] ;
     rr:predicateObjectMap [
     rr:predicate dcterms:subject ;
-    rr:objectMap [ rr:template "http://purl.uniprot.org/uniprot/{uniprot_id}" ]
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/transporter/target{id_target}" ]
   ] .
