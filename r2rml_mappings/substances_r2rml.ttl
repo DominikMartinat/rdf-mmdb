@@ -28,7 +28,7 @@
   ] ;
   rr:predicateObjectMap [
     rr:predicate sio:SIO_000008 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/substance/{identifier}_mmdbid" ]
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/substance/{identifier}_MolMeDB" ]
   ] .
 
 ################################################
@@ -69,23 +69,23 @@
   ] ;
   rr:predicateObjectMap [
     rr:predicate sio:SIO_000008 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/substance/{pubchem_id}_pubchem" ]
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/substance/{pubchem_id}_PubChemCID" ]
   ] ;
   rr:predicateObjectMap [
     rr:predicate sio:SIO_000008 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/substance/{drugbank_id}_drugbank" ]
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/substance/{drugbank_id}_DrugBank" ]
   ] ;
   rr:predicateObjectMap [
     rr:predicate sio:SIO_000008 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/substance/{chebi_id}_chebi" ]
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/substance/{chebi_id}_ChEBI" ]
   ] ;
   rr:predicateObjectMap [
     rr:predicate sio:SIO_000008 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/substance/{pdb_id}_pdb" ]
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/substance/{pdb_id}_PDB" ]
   ] ;
   rr:predicateObjectMap [
     rr:predicate sio:SIO_000008 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/substance/{chembl_id}_chembl" ]
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/substance/{chembl_id}_ChEMBL" ]
   ] ;
   rr:predicateObjectMap [
     rr:predicate skos:exactMatch ;
@@ -199,7 +199,7 @@
       WHERE vi.state = 1 AND vi.active = 1 AND vi.id_substance = subs.id AND vi.identifier = 4
   """ ] ;
   rr:subjectMap [
-    rr:template "https://rdf.molmedb.upol.cz/substance/{identifier}_pubchem" ;
+    rr:template "https://rdf.molmedb.upol.cz/substance/{identifier}_PubChemCID" ;
     rr:class sio:CHEMINF_000140 ;
   ] ;
   rr:predicateObjectMap [
@@ -214,7 +214,7 @@
       WHERE vi.state = 1 AND vi.active = 1 AND vi.id_substance = subs.id AND vi.identifier = 5
   """ ] ;
   rr:subjectMap [
-    rr:template "https://rdf.molmedb.upol.cz/substance/{identifier}_drugbank" ;
+    rr:template "https://rdf.molmedb.upol.cz/substance/{identifier}_DrugBank" ;
     rr:class sio:CHEMINF_000406
   ] ;
   rr:predicateObjectMap [
@@ -229,7 +229,7 @@
       WHERE vi.state = 1 AND vi.active = 1 AND vi.id_substance = subs.id AND vi.identifier = 6 AND vi.value not like 'CHEMBL%'
   """ ] ;
   rr:subjectMap [
-    rr:template "https://rdf.molmedb.upol.cz/substance/{identifier}_chebi" ;
+    rr:template "https://rdf.molmedb.upol.cz/substance/{identifier}_ChEBI" ;
     rr:class sio:CHEMINF_000407
   ] ;
   rr:predicateObjectMap [
@@ -244,7 +244,7 @@
       WHERE vi.state = 1 AND vi.active = 1 AND vi.id_substance = subs.id AND vi.identifier = 7
   """ ] ;
   rr:subjectMap [
-    rr:template "https://rdf.molmedb.upol.cz/substance/{identifier}_pdb" ;
+    rr:template "https://rdf.molmedb.upol.cz/substance/{identifier}_PDB" ;
     rr:class sio:CHEMINF_000572
   ] ;
   rr:predicateObjectMap [
@@ -259,7 +259,7 @@
       WHERE vi.state = 1 AND vi.active = 1 AND vi.id_substance = subs.id AND vi.identifier = 8
   """ ] ;
   rr:subjectMap [
-    rr:template "https://rdf.molmedb.upol.cz/substance/{identifier}_chembl" ;
+    rr:template "https://rdf.molmedb.upol.cz/substance/{identifier}_ChEMBL" ;
     rr:class sio:CHEMINF_000412
   ] ;
   rr:predicateObjectMap [
@@ -270,7 +270,7 @@
 <Substances#TriplesMap13>
   rr:logicalTable [ rr:sqlQuery "SELECT id, identifier FROM substances" ] ;
   rr:subjectMap [
-    rr:template "https://rdf.molmedb.upol.cz/substance/{identifier}_mmdbid" ;
+    rr:template "https://rdf.molmedb.upol.cz/substance/{identifier}_MolMeDB" ;
     rr:class sio:CHEMINF_000571
   ] ;
   rr:predicateObjectMap [

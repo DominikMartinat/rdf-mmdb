@@ -124,7 +124,7 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate  sio:SIO_000008 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/transporter/target{id}_uniprot"]
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/transporter/target{id}_UniProt"]
   ] .
 
 <Transportes#TriplesMap4>
@@ -134,7 +134,7 @@
   """
   ] ;
   rr:subjectMap [
-    rr:template "https://rdf.molmedb.upol.cz/transporter/target{id}_uniprot" ;
+    rr:template "https://rdf.molmedb.upol.cz/transporter/target{id}_UniProt" ;
     rr:class edam:data_2291
   ] ;
     rr:predicateObjectMap [
