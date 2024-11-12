@@ -277,7 +277,7 @@
     rr:class efo:EFO_0001702
   ] ;
     rr:predicateObjectMap [
-    rr:predicate bao:BAO_0095007 ;
+    rr:predicate sio:SIO_000300 ;
     rr:objectMap [ rr:column "temperature"; rr:datatype xsd:float ]
   ] ;
     rr:predicateObjectMap [
@@ -298,7 +298,7 @@
     rr:class sio:CHEMINF_000120
   ] ;
     rr:predicateObjectMap [
-    rr:predicate bao:BAO_0095007 ;
+    rr:predicate sio:SIO_000300 ;
     rr:objectMap [ rr:column "standardized_charge" ]
   ] .
 
@@ -315,7 +315,7 @@
     rr:class mmdbvoc:LogK
   ] ;
     rr:predicateObjectMap [
-    rr:predicate bao:BAO_0095007 ;
+    rr:predicate sio:SIO_000300 ;
     rr:objectMap [ rr:column "LogK"; rr:datatype xsd:float ]
   ] ;
     rr:predicateObjectMap [
@@ -337,7 +337,7 @@
     rr:class mmdbvoc:LogPerm
   ] ;
     rr:predicateObjectMap [
-    rr:predicate bao:BAO_0095007 ;
+    rr:predicate sio:SIO_000300 ;
     rr:objectMap [ rr:column "LogPerm"; rr:datatype xsd:float ]
   ] ;
     rr:predicateObjectMap [
@@ -363,7 +363,7 @@
     rr:class mmdbvoc:PositionOfMinima
   ] ;
     rr:predicateObjectMap [
-    rr:predicate bao:BAO_0095007 ;
+    rr:predicate sio:SIO_000300 ;
     rr:objectMap [ rr:column "Position"; rr:datatype xsd:float ]
   ] ;
     rr:predicateObjectMap [
@@ -389,7 +389,7 @@
     rr:class mmdbvoc:PenetrationBarrier
   ] ;
     rr:predicateObjectMap [
-    rr:predicate bao:BAO_0095007 ;
+    rr:predicate sio:SIO_000300 ;
     rr:objectMap [ rr:column "Penetration"; rr:datatype xsd:float ]
   ] ;
     rr:predicateObjectMap [
@@ -415,7 +415,7 @@
     rr:class mmdbvoc:DepthOfMinima
   ] ;
     rr:predicateObjectMap [
-    rr:predicate bao:BAO_0095007 ;
+    rr:predicate sio:SIO_000300 ;
     rr:objectMap [ rr:column "Water"; rr:datatype xsd:float ]
   ] ;
     rr:predicateObjectMap [
@@ -441,7 +441,7 @@
     rr:class mmdbvoc:ContactAngle
   ] ;
     rr:predicateObjectMap [
-    rr:predicate bao:BAO_0095007 ;
+    rr:predicate sio:SIO_000300 ;
     rr:objectMap [ rr:column "theta"; rr:datatype xsd:float ]
   ] ;
     rr:predicateObjectMap [
@@ -467,7 +467,7 @@
     rr:class mmdbvoc:AbsorbtionWavelength
   ] ;
     rr:predicateObjectMap [
-    rr:predicate bao:BAO_0095007 ;
+    rr:predicate sio:SIO_000300 ;
     rr:objectMap [ rr:column "abs_wl"; rr:datatype xsd:float ]
   ] ;
     rr:predicateObjectMap [
@@ -493,7 +493,7 @@
     rr:class mmdbvoc:FluorescenceWavelength
   ] ;
     rr:predicateObjectMap [
-    rr:predicate bao:BAO_0095007 ;
+    rr:predicate sio:SIO_000300 ;
     rr:objectMap [ rr:column "fluo_wl"; rr:datatype xsd:float ]
   ] ;
     rr:predicateObjectMap [
@@ -519,7 +519,7 @@
     rr:class mmdbvoc:QuantumYield
   ] ;
     rr:predicateObjectMap [
-    rr:predicate bao:BAO_0095007 ;
+    rr:predicate sio:SIO_000300 ;
     rr:objectMap [ rr:column "QY"; rr:datatype xsd:float ]
   ] ;
     rr:predicateObjectMap [
@@ -541,7 +541,7 @@
     rr:class mmdbvoc:FluorescenceLifetime
   ] ;
     rr:predicateObjectMap [
-    rr:predicate bao:BAO_0095007 ;
+    rr:predicate sio:SIO_000300 ;
     rr:objectMap [ rr:column "lt"; rr:datatype xsd:float ]
   ] ;
     rr:predicateObjectMap [
@@ -570,7 +570,7 @@
     rr:class bao:BAO_0002176
   ] ;
     rr:predicateObjectMap [
-    rr:predicate bao:BAO_0095007 ;
+    rr:predicate sio:SIO_000300 ;
     rr:objectMap [ rr:column "LogK_acc"; rr:datatype xsd:float ]
   ] .
 
@@ -584,7 +584,7 @@
     rr:class bao:BAO_0002176
   ] ;
     rr:predicateObjectMap [
-    rr:predicate bao:BAO_0095007 ;
+    rr:predicate sio:SIO_000300 ;
     rr:objectMap [ rr:column "LogPerm_acc"; rr:datatype xsd:float ]
   ] .
 
@@ -598,7 +598,7 @@
     rr:class bao:BAO_0002176
   ] ;
     rr:predicateObjectMap [
-    rr:predicate bao:BAO_0095007 ;
+    rr:predicate sio:SIO_000300 ;
     rr:objectMap [ rr:column "Position_acc"; rr:datatype xsd:float ]
   ] .
 
@@ -612,7 +612,7 @@
     rr:class bao:BAO_0002176
   ] ;
     rr:predicateObjectMap [
-    rr:predicate bao:BAO_0095007 ;
+    rr:predicate sio:SIO_000300 ;
     rr:objectMap [ rr:column "Penetration_acc"; rr:datatype xsd:float ]
   ] .
 
@@ -626,7 +626,7 @@
     rr:class bao:BAO_0002176
   ] ;
     rr:predicateObjectMap [
-    rr:predicate bao:BAO_0095007 ;
+    rr:predicate sio:SIO_000300 ;
     rr:objectMap [ rr:column "Water_acc"; rr:datatype xsd:float ]
   ] .
 
@@ -640,7 +640,7 @@
     rr:class bao:BAO_0002176
   ] ;
     rr:predicateObjectMap [
-    rr:predicate bao:BAO_0095007 ;
+    rr:predicate sio:SIO_000300 ;
     rr:objectMap [ rr:column "theta_acc"; rr:datatype xsd:float ]
   ] .
 
@@ -654,7 +654,7 @@
     rr:class bao:BAO_0002176
   ] ;
     rr:predicateObjectMap [
-    rr:predicate bao:BAO_0095007 ;
+    rr:predicate sio:SIO_000300 ;
     rr:objectMap [ rr:column "abs_wl_acc"; rr:datatype xsd:float ]
   ] .
 
@@ -668,7 +668,7 @@
     rr:class bao:BAO_0002176
   ] ;
     rr:predicateObjectMap [
-    rr:predicate bao:BAO_0095007 ;
+    rr:predicate sio:SIO_000300 ;
     rr:objectMap [ rr:column "fluo_wl_acc"; rr:datatype xsd:float ]
   ] .
 
@@ -682,7 +682,7 @@
     rr:class bao:BAO_0002176
   ] ;
     rr:predicateObjectMap [
-    rr:predicate bao:BAO_0095007 ;
+    rr:predicate sio:SIO_000300 ;
     rr:objectMap [ rr:column "QY_acc"; rr:datatype xsd:float ]
   ] .
 
@@ -696,6 +696,6 @@
     rr:class bao:BAO_0002176
   ] ;
     rr:predicateObjectMap [
-    rr:predicate bao:BAO_0095007 ;
+    rr:predicate sio:SIO_000300 ;
     rr:objectMap [ rr:column "lt_acc"; rr:datatype xsd:float ]
   ] .
