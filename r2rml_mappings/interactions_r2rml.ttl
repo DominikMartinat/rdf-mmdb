@@ -10,7 +10,7 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix rr: <http://www.w3.org/ns/r2rml#> .
 @prefix mmdbvoc: <https://rdf.molmedb.upol.cz/vocabulary#> .
-
+@predix efo: <http://www.ebi.ac.uk/efo/> .
 
 ################################################
 ## interaction central node
@@ -274,7 +274,7 @@
   """ ] ;
   rr:subjectMap [
     rr:template "https://rdf.molmedb.upol.cz/interaction/measure_group_temperature_int{id}" ;
-    rr:class obo:PATO_0000146
+    rr:class efo:EFO_0001702
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0095007 ;
