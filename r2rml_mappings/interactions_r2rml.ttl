@@ -3,7 +3,6 @@
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix sio: <http://semanticscience.org/resource/> .
 @prefix obo: <http://purl.obolibrary.org/obo/> .
-@prefix cito: <http://purl.org/spar/cito/> .
 @prefix bao: <http://www.bioassayontology.org/bao#> .
 @prefix repr: <https://w3id.org/reproduceme#> .
 @prefix dc: <http://purl.org/dc/elements/1.1/> .
@@ -17,7 +16,7 @@
 ################################################
 <Interactions#TriplesMap1>
   rr:logicalTable [ rr:sqlQuery """
-    SELECT inte.id, inte.id_membrane, ds.id_publication, subs.identifier
+    SELECT inte.id, inte.id_membrane, inte.id_reference, ds.id_publication, subs.identifier
       FROM interaction AS inte, substances AS subs, datasets AS ds
       WHERE inte.id_substance = subs.id AND ds.visibility = 1 AND inte.id_dataset = ds.id
   """] ;
@@ -38,8 +37,12 @@
     rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/measure_group_int{id}"  ]
   ] ;
     rr:predicateObjectMap [
-    rr:predicate cito:citesAsDataSource ;
+    rr:predicate dcterms:source ;
     rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/reference/ref{id_publication}"  ]
+  ] ;
+    rr:predicateObjectMap [
+    rr:predicate dcterms:references ;
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/reference/ref{id_reference}"  ]
   ] .
 
 ################################################
