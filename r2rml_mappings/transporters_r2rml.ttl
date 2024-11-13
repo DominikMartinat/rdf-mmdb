@@ -15,7 +15,7 @@
 #when queried for assay molecule AND transporter, query takes too long even with limit, works ok separated
 <Transportes#TriplesMap1>
   rr:logicalTable [ rr:sqlQuery """
-    SELECT tr.*, subs.identifier, ds.id_reference AS id_publication
+    SELECT tr.id, tr.id_target, subs.identifier, ds.id_reference AS id_publication
       FROM transporters AS tr, substances AS subs, transporter_datasets AS ds
       WHERE tr.id_substance = subs.id AND tr.id_dataset = ds.id AND ds.visibility = 1
   """] ;
@@ -46,7 +46,7 @@
 #same as above + also comment when connected to transporter assay
 <Transportes#TriplesMap2>
   rr:logicalTable [ rr:sqlQuery """
-    SELECT tr.*, subs.identifier,
+    SELECT tr.id, tr.id_target, tr.note, subs.identifier,
       (CASE WHEN tr.type = 1 OR tr.type = 2 THEN tr.id ELSE NULL END) substrate_id,
       (CASE WHEN tr.type = 3 OR tr.type = 4 THEN tr.id ELSE NULL END) inhibitor_id,
       (CASE WHEN tr.Km IS NULL THEN NULL ELSE tr.id END) Km_id,
