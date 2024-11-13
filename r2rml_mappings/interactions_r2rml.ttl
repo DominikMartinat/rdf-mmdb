@@ -10,7 +10,7 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix rr: <http://www.w3.org/ns/r2rml#> .
 @prefix mmdbvoc: <https://rdf.molmedb.upol.cz/vocabulary#> .
-@predix efo: <http://www.ebi.ac.uk/efo/> .
+@prefix efo: <http://www.ebi.ac.uk/efo/> .
 
 ################################################
 ## interaction central node
@@ -305,9 +305,10 @@
 ################################################
 ## interaction endpoints
 ################################################
+#query a stdev mmdbvoc:hasStDev cislo
 <Interactions#TriplesMap9>
   rr:logicalTable [ rr:sqlQuery """
-    SELECT inte.id, inte.LogK, (CASE WHEN inte.LogK_acc IS NULL THEN NULL ELSE inte.id END) stdev_id
+    SELECT inte.id, inte.LogK, inte.LogK_acc
     FROM interaction AS inte, datasets AS ds WHERE inte.LogK IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
     """ ] ;
   rr:subjectMap [
@@ -319,8 +320,8 @@
     rr:objectMap [ rr:column "LogK"; rr:datatype xsd:float ]
   ] ;
     rr:predicateObjectMap [
-    rr:predicate bao:BAO_0002858 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_LogK_stdev_int{stdev_id}" ]
+    rr:predicate mmdbvoc:hasStDev ;
+    rr:objectMap [rr:column "LogK_acc"; rr:datatype xsd:float  ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000559 ;
@@ -329,7 +330,7 @@
 
 <TriplesMap10>
   rr:logicalTable [ rr:sqlQuery """
-    SELECT inte.id, inte.LogPerm, (CASE WHEN inte.LogPerm_acc IS NULL THEN NULL ELSE inte.id END) stdev_id
+    SELECT inte.id, inte.LogPerm, inte.LogPerm_acc
     FROM interaction AS inte, datasets AS ds WHERE inte.LogPerm IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
     """ ] ;
   rr:subjectMap [
@@ -345,8 +346,8 @@
     rr:objectMap [ rr:constant mmdbvoc:CmS ]
   ] ;
     rr:predicateObjectMap [
-    rr:predicate bao:BAO_0002858 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_LogPerm_stdev_int{stdev_id}" ]
+    rr:predicate mmdbvoc:hasStDev ;
+    rr:objectMap [rr:column "LogPerm_acc"; rr:datatype xsd:float  ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000559 ;
@@ -355,7 +356,7 @@
 
 <Interactions#TriplesMap11>
   rr:logicalTable [ rr:sqlQuery """
-    SELECT inte.id, inte.Position, (CASE WHEN inte.Position_acc IS NULL THEN NULL ELSE inte.id END) stdev_id
+    SELECT inte.id, inte.Position, inte.Position_acc
     FROM interaction AS inte, datasets AS ds WHERE inte.Position IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
     """ ] ;
   rr:subjectMap [
@@ -371,8 +372,8 @@
     rr:objectMap [ rr:constant obo:UO_0000018 ]
   ] ;
     rr:predicateObjectMap [
-    rr:predicate bao:BAO_0002858 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_position_stdev_int{stdev_id}" ]
+    rr:predicate mmdbvoc:hasStDev ;
+    rr:objectMap [rr:column "Position_acc"; rr:datatype xsd:float  ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000559 ;
@@ -381,7 +382,7 @@
 
 <Interactions#TriplesMap12>
   rr:logicalTable [ rr:sqlQuery """
-    SELECT inte.id, inte.Penetration, (CASE WHEN inte.Penetration_acc IS NULL THEN NULL ELSE inte.id END) stdev_id
+    SELECT inte.id, inte.Penetration, inte.Penetration_acc
     FROM interaction AS inte, datasets AS ds WHERE inte.Penetration IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
     """ ] ;
   rr:subjectMap [
@@ -397,8 +398,8 @@
     rr:objectMap [ rr:constant mmdbvoc:KcalMol ]
   ] ;
     rr:predicateObjectMap [
-    rr:predicate bao:BAO_0002858 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_penetration_stdev_int{stdev_id}" ]
+    rr:predicate mmdbvoc:hasStDev ;
+    rr:objectMap [rr:column "Penetration_acc"; rr:datatype xsd:float  ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000559 ;
@@ -407,7 +408,7 @@
 
 <Interactions#TriplesMap13>
   rr:logicalTable [ rr:sqlQuery """
-    SELECT inte.id, inte.Water, (CASE WHEN inte.Water_acc IS NULL THEN NULL ELSE inte.id END) stdev_id 
+    SELECT inte.id, inte.Water, inte.Water_acc
     FROM interaction AS inte, datasets AS ds WHERE inte.Water IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
     """ ] ;
   rr:subjectMap [
@@ -423,8 +424,8 @@
     rr:objectMap [ rr:constant mmdbvoc:KcalMol ]
   ] ;
     rr:predicateObjectMap [
-    rr:predicate bao:BAO_0002858 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_water_stdev_int{stdev_id}" ]
+    rr:predicate mmdbvoc:hasStDev ;
+    rr:objectMap [rr:column "Water_acc"; rr:datatype xsd:float  ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000559 ;
@@ -433,7 +434,7 @@
 
 <Interactions#TriplesMap14>
   rr:logicalTable [ rr:sqlQuery """
-    SELECT inte.id, inte.theta, (CASE WHEN inte.theta_acc IS NULL THEN NULL ELSE inte.id END) stdev_id 
+    SELECT inte.id, inte.theta, inte.theta_acc
     FROM interaction AS inte, datasets AS ds WHERE inte.theta IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
     """ ] ;
   rr:subjectMap [
@@ -449,8 +450,8 @@
     rr:objectMap [ rr:constant obo:UO_0000185 ]
   ] ;
     rr:predicateObjectMap [
-    rr:predicate bao:BAO_0002858 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_theta_stdev_int{stdev_id}" ]
+    rr:predicate mmdbvoc:hasStDev ;
+    rr:objectMap [rr:column "theta_acc"; rr:datatype xsd:float  ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000559 ;
@@ -459,7 +460,7 @@
 
 <Interactions#TriplesMap15>
   rr:logicalTable [ rr:sqlQuery """
-    SELECT inte.id, inte.abs_wl, (CASE WHEN inte.abs_wl_acc IS NULL THEN NULL ELSE inte.id END) stdev_id
+    SELECT inte.id, inte.abs_wl, inte.abs_wl_acc
     FROM interaction AS inte, datasets AS ds WHERE inte.abs_wl IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
     """ ] ;
   rr:subjectMap [
@@ -475,8 +476,8 @@
     rr:objectMap [ rr:constant obo:UO_0000018 ]
   ] ;
     rr:predicateObjectMap [
-    rr:predicate bao:BAO_0002858 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_abs_wl_stdev_int{stdev_id}" ]
+    rr:predicate mmdbvoc:hasStDev ;
+    rr:objectMap [rr:column "abs_wl_acc"; rr:datatype xsd:float  ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000559 ;
@@ -485,7 +486,7 @@
 
 <Interactions#TriplesMap16>
   rr:logicalTable [ rr:sqlQuery """
-    SELECT inte.id, inte.fluo_wl, (CASE WHEN inte.fluo_wl_acc IS NULL THEN NULL ELSE inte.id END) stdev_id
+    SELECT inte.id, inte.fluo_wl, inte.fluo_wl_acc
     FROM interaction AS inte, datasets AS ds WHERE inte.fluo_wl IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
     """ ] ;
   rr:subjectMap [
@@ -501,8 +502,8 @@
     rr:objectMap [ rr:constant obo:UO_0000018 ]
   ] ;
     rr:predicateObjectMap [
-    rr:predicate bao:BAO_0002858 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_fluo_wl_stdev_int{stdev_id}" ]
+    rr:predicate mmdbvoc:hasStDev ;
+    rr:objectMap [rr:column "fluo_wl_acc"; rr:datatype xsd:float  ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000559 ;
@@ -511,7 +512,7 @@
 
 <Interactions#TriplesMap17>
   rr:logicalTable [ rr:sqlQuery """
-    SELECT inte.id, inte.QY, (CASE WHEN inte.QY_acc IS NULL THEN NULL ELSE inte.id END) stdev_id
+    SELECT inte.id, inte.QY, inte.QY_acc
     FROM interaction AS inte, datasets AS ds WHERE inte.QY IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
     """ ] ;
   rr:subjectMap [
@@ -523,8 +524,8 @@
     rr:objectMap [ rr:column "QY"; rr:datatype xsd:float ]
   ] ;
     rr:predicateObjectMap [
-    rr:predicate bao:BAO_0002858 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_qy_stdev_int{stdev_id}" ]
+    rr:predicate mmdbvoc:hasStDev ;
+    rr:objectMap [rr:column "QY_acc"; rr:datatype xsd:float  ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000559 ;
@@ -533,7 +534,7 @@
 
 <Interactions#TriplesMap18>
   rr:logicalTable [ rr:sqlQuery """
-    SELECT inte.id, inte.lt, (CASE WHEN inte.lt_acc IS NULL THEN NULL ELSE inte.id END) stdev_id
+    SELECT inte.id, inte.lt, inte.lt_acc
     FROM interaction AS inte, datasets AS ds WHERE inte.lt IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
     """ ] ;
   rr:subjectMap [
@@ -549,153 +550,10 @@
     rr:objectMap [ rr:constant obo:UO_0000150 ]
   ] ;
     rr:predicateObjectMap [
-    rr:predicate bao:BAO_0002858 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_lt_stdev_int{stdev_id}" ]
+    rr:predicate mmdbvoc:hasStDev ;
+    rr:objectMap [rr:column "lt_acc"; rr:datatype xsd:float  ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000559 ;
     rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/measure_group_int{id}" ]
-  ] .
-
-################################################
-## endpoint strandard deviations
-################################################
-<Interactions#TriplesMap19>
-  rr:logicalTable [ rr:sqlQuery """
-    SELECT inte.id, inte.LogK_acc FROM interaction AS inte, datasets AS ds
-    WHERE inte.LogK_acc IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
-  """ ] ;
-  rr:subjectMap [
-    rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_LogK_stdev_int{id}" ;
-    rr:class bao:BAO_0002176
-  ] ;
-    rr:predicateObjectMap [
-    rr:predicate sio:SIO_000300 ;
-    rr:objectMap [ rr:column "LogK_acc"; rr:datatype xsd:float ]
-  ] .
-
-<Interactions#TriplesMap20>
-  rr:logicalTable [ rr:sqlQuery """
-    SELECT inte.id, inte.LogPerm_acc FROM interaction AS inte, datasets AS ds
-    WHERE inte.LogPerm_acc IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
-  """ ] ;
-  rr:subjectMap [
-    rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_LogPerm_stdev_int{id}" ;
-    rr:class bao:BAO_0002176
-  ] ;
-    rr:predicateObjectMap [
-    rr:predicate sio:SIO_000300 ;
-    rr:objectMap [ rr:column "LogPerm_acc"; rr:datatype xsd:float ]
-  ] .
-
-<Interactions#TriplesMap21>
-  rr:logicalTable [ rr:sqlQuery """
-    SELECT inte.id, inte.Position_acc FROM interaction AS inte, datasets AS ds
-    WHERE inte.Position_acc IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
-  """ ] ;
-  rr:subjectMap [
-    rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_position_stdev_int{id}" ;
-    rr:class bao:BAO_0002176
-  ] ;
-    rr:predicateObjectMap [
-    rr:predicate sio:SIO_000300 ;
-    rr:objectMap [ rr:column "Position_acc"; rr:datatype xsd:float ]
-  ] .
-
-<Interactions#TriplesMap22>
-  rr:logicalTable [ rr:sqlQuery """
-    SELECT inte.id, inte.Penetration_acc FROM interaction AS inte, datasets AS ds
-    WHERE inte.Penetration_acc IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
-  """ ] ;
-  rr:subjectMap [
-    rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_penetration_stdev_int{id}" ;
-    rr:class bao:BAO_0002176
-  ] ;
-    rr:predicateObjectMap [
-    rr:predicate sio:SIO_000300 ;
-    rr:objectMap [ rr:column "Penetration_acc"; rr:datatype xsd:float ]
-  ] .
-
-<Interactions#TriplesMap23>
-  rr:logicalTable [ rr:sqlQuery """
-    SELECT inte.id, inte.Water_acc FROM interaction AS inte, datasets AS ds
-    WHERE inte.Water_acc IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
-  """ ] ;
-  rr:subjectMap [
-    rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_water_stdev_int{id}" ;
-    rr:class bao:BAO_0002176
-  ] ;
-    rr:predicateObjectMap [
-    rr:predicate sio:SIO_000300 ;
-    rr:objectMap [ rr:column "Water_acc"; rr:datatype xsd:float ]
-  ] .
-
-<Interactions#TriplesMap24>
-  rr:logicalTable [ rr:sqlQuery """
-    SELECT inte.id, inte.theta_acc FROM interaction AS inte, datasets AS ds
-    WHERE inte.theta_acc IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
-  """ ] ;
-  rr:subjectMap [
-    rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_theta_stdev_int{id}" ;
-    rr:class bao:BAO_0002176
-  ] ;
-    rr:predicateObjectMap [
-    rr:predicate sio:SIO_000300 ;
-    rr:objectMap [ rr:column "theta_acc"; rr:datatype xsd:float ]
-  ] .
-
-<Interactions#TriplesMap25>
-  rr:logicalTable [ rr:sqlQuery """
-    SELECT inte.id, inte.abs_wl_acc FROM interaction AS inte, datasets AS ds
-    WHERE inte.abs_wl_acc IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
-  """ ] ;
-  rr:subjectMap [
-    rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_abs_wl_stdev_int{id}" ;
-    rr:class bao:BAO_0002176
-  ] ;
-    rr:predicateObjectMap [
-    rr:predicate sio:SIO_000300 ;
-    rr:objectMap [ rr:column "abs_wl_acc"; rr:datatype xsd:float ]
-  ] .
-
-<Interactions#TriplesMap26>
-  rr:logicalTable [ rr:sqlQuery """
-    SELECT inte.id, inte.fluo_wl_acc FROM interaction AS inte, datasets AS ds
-    WHERE inte.fluo_wl_acc IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
-  """ ] ;
-  rr:subjectMap [
-    rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_fluo_wl_stdev_int{id}" ;
-    rr:class bao:BAO_0002176
-  ] ;
-    rr:predicateObjectMap [
-    rr:predicate sio:SIO_000300 ;
-    rr:objectMap [ rr:column "fluo_wl_acc"; rr:datatype xsd:float ]
-  ] .
-
-<Interactions#TriplesMap27>
-  rr:logicalTable [ rr:sqlQuery """
-    SELECT inte.id, inte.QY_acc FROM interaction AS inte, datasets AS ds
-    WHERE inte.QY_acc IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
-  """ ] ;
-  rr:subjectMap [
-    rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_qy_stdev_int{id}" ;
-    rr:class bao:BAO_0002176
-  ] ;
-    rr:predicateObjectMap [
-    rr:predicate sio:SIO_000300 ;
-    rr:objectMap [ rr:column "QY_acc"; rr:datatype xsd:float ]
-  ] .
-
-<Interactions#TriplesMap28>
-  rr:logicalTable [ rr:sqlQuery """
-    SELECT inte.id, inte.lt_acc FROM interaction AS inte, datasets AS ds
-    WHERE inte.lt_acc IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
-  """ ] ;
-  rr:subjectMap [
-    rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_lt_stdev_int{id}" ;
-    rr:class bao:BAO_0002176
-  ] ;
-    rr:predicateObjectMap [
-    rr:predicate sio:SIO_000300 ;
-    rr:objectMap [ rr:column "lt_acc"; rr:datatype xsd:float ]
   ] .

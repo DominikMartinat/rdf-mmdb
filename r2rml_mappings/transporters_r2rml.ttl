@@ -147,7 +147,7 @@
 ################################################
 <Transportes#TriplesMap5>
   rr:logicalTable [ rr:sqlQuery """
-    SELECT tr.*,
+    SELECT tr.id,
       (CASE tr.type
       WHEN 1 THEN 'PositiveResult'
       WHEN 2 THEN 'NegativeResult'
@@ -169,7 +169,7 @@
 
 <Transportes#TriplesMap6>
   rr:logicalTable [ rr:sqlQuery """
-    SELECT tr.*,
+    SELECT tr.id,
       (CASE tr.type
       WHEN 3 THEN 'PositiveResult'
       WHEN 4 THEN 'NegativeResult'
@@ -191,7 +191,7 @@
 
 <Transportes#TriplesMap7>
   rr:logicalTable [ rr:sqlQuery """
-    SELECT tr.*, (CASE WHEN tr.Km_acc IS NULL THEN NULL ELSE tr.id END) stdev_id
+    SELECT tr.id, tr.Km, tr.Km_acc
     FROM transporters AS tr, transporter_datasets AS ds WHERE
     tr.Km IS NOT NULL AND tr.id_dataset = ds.id AND ds.visibility = 1
     """ ] ;
@@ -208,8 +208,8 @@
     rr:objectMap [ rr:constant obo:UO_0000062 ]
   ] ;
     rr:predicateObjectMap [
-    rr:predicate bao:BAO_0002858 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_pKm_stdev_tra{stdev_id}" ]
+    rr:predicate mmdbvoc:hasStDev ;
+    rr:objectMap [rr:column "Km_acc"; rr:datatype xsd:float  ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000559 ;
@@ -218,7 +218,7 @@
 
 <Transportes#TriplesMap8>
   rr:logicalTable [ rr:sqlQuery """
-    SELECT tr.*, (CASE WHEN tr.EC50_acc IS NULL THEN NULL ELSE tr.id END) stdev_id
+    SELECT tr.id, tr.EC50, tr.EC50_acc
     FROM transporters AS tr, transporter_datasets AS ds WHERE
     tr.EC50 IS NOT NULL AND tr.id_dataset = ds.id AND ds.visibility = 1
     """ ] ;
@@ -235,8 +235,8 @@
     rr:objectMap [ rr:constant obo:UO_0000062 ]
   ] ;
     rr:predicateObjectMap [
-    rr:predicate bao:BAO_0002858 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_pEC50_stdev_tra{stdev_id}" ]
+    rr:predicate mmdbvoc:hasStDev ;
+    rr:objectMap [rr:column "EC50_acc"; rr:datatype xsd:float  ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000559 ;
@@ -245,7 +245,7 @@
 
 <Transportes#TriplesMap9>
   rr:logicalTable [ rr:sqlQuery """
-    SELECT tr.*, (CASE WHEN tr.Ki_acc IS NULL THEN NULL ELSE tr.id END) stdev_id
+    SELECT tr.id, tr.Ki, tr.Ki_acc
     FROM transporters AS tr, transporter_datasets AS ds WHERE
     tr.Ki IS NOT NULL AND tr.id_dataset = ds.id AND ds.visibility = 1
     """ ] ;
@@ -262,8 +262,8 @@
     rr:objectMap [ rr:constant obo:UO_0000062 ]
   ] ;
     rr:predicateObjectMap [
-    rr:predicate bao:BAO_0002858 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_pKi_stdev_tra{stdev_id}" ]
+    rr:predicate mmdbvoc:hasStDev ;
+    rr:objectMap [rr:column "Ki_acc"; rr:datatype xsd:float  ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000559 ;
@@ -272,7 +272,7 @@
 
 <Transportes#TriplesMap10>
   rr:logicalTable [ rr:sqlQuery """
-    SELECT tr.*, (CASE WHEN tr.IC50_acc IS NULL THEN NULL ELSE tr.id END) stdev_id
+    SELECT tr.id, tr.IC50, tr.IC50_acc
     FROM transporters AS tr, transporter_datasets AS ds WHERE
     tr.IC50 IS NOT NULL AND tr.id_dataset = ds.id AND ds.visibility = 1
     """ ] ;
@@ -289,69 +289,10 @@
     rr:objectMap [ rr:constant obo:UO_0000062 ]
   ] ;
     rr:predicateObjectMap [
-    rr:predicate bao:BAO_0002858 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_pIC50_stdev_tra{stdev_id}" ]
+    rr:predicate mmdbvoc:hasStDev ;
+    rr:objectMap [rr:column "IC50_acc"; rr:datatype xsd:float  ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000559 ;
     rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/transporter/measure_group_tra{id}" ]
-  ] .
-
-################################################
-## transporter endpoints standard deviations
-################################################
-<Transportes#TriplesMap11>
-  rr:logicalTable [ rr:sqlQuery """
-    SELECT tr.id, tr.Km_acc FROM transporters AS tr, transporter_datasets AS ds
-    WHERE tr.Km_acc IS NOT NULL AND tr.id_dataset = ds.id AND ds.visibility = 1
-    """ ] ;
-  rr:subjectMap [
-    rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_pKm_stdev_tra{id}" ;
-    rr:class bao:BAO_0002176
-  ] ;
-    rr:predicateObjectMap [
-    rr:predicate sio:SIO_000300 ;
-    rr:objectMap [ rr:column "Km_acc"; rr:datatype xsd:float ]
-  ] .
-
-<Transportes#TriplesMap12>
-  rr:logicalTable [ rr:sqlQuery """
-    SELECT tr.id, tr.EC50_acc FROM transporters AS tr, transporter_datasets AS ds
-    WHERE tr.EC50_acc IS NOT NULL AND tr.id_dataset = ds.id AND ds.visibility = 1
-    """ ] ;
-  rr:subjectMap [
-    rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_pEC50_stdev_tra{id}" ;
-    rr:class bao:BAO_0002176
-  ] ;
-    rr:predicateObjectMap [
-    rr:predicate sio:SIO_000300 ;
-    rr:objectMap [ rr:column "EC50_acc"; rr:datatype xsd:float ]
-  ] .
-
-<Transportes#TriplesMap13>
-  rr:logicalTable [ rr:sqlQuery """
-    SELECT tr.id, tr.Ki_acc FROM transporters AS tr, transporter_datasets AS ds
-    WHERE tr.Ki_acc IS NOT NULL AND tr.id_dataset = ds.id AND ds.visibility = 1
-    """ ] ;
-  rr:subjectMap [
-    rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_pKi_stdev_tra{id}" ;
-    rr:class bao:BAO_0002176
-  ] ;
-    rr:predicateObjectMap [
-    rr:predicate sio:SIO_000300 ;
-    rr:objectMap [ rr:column "Ki_acc"; rr:datatype xsd:float ]
-  ] .
-
-<Transportes#TriplesMap14>
-  rr:logicalTable [ rr:sqlQuery """
-    SELECT tr.id, tr.IC50_acc FROM transporters AS tr, transporter_datasets AS ds
-    WHERE tr.IC50_acc IS NOT NULL AND tr.id_dataset = ds.id AND ds.visibility = 1
-    """ ] ;
-  rr:subjectMap [
-    rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_pIC50_stdev_tra{id}" ;
-    rr:class bao:BAO_0002176
-  ] ;
-    rr:predicateObjectMap [
-    rr:predicate sio:SIO_000300 ;
-    rr:objectMap [ rr:column "IC50_acc"; rr:datatype xsd:float ]
   ] .
