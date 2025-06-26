@@ -24,7 +24,7 @@
   ] ;
   rr:predicateObjectMap [
     rr:predicate sio:SIO_000008 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/substance/{LogP_id}_logp" ]
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/substance/{LogP_id}_LogP" ]
   ] ;
   rr:predicateObjectMap [
     rr:predicate sio:SIO_000008 ;
@@ -181,7 +181,7 @@
     SELECT id, identifier, LogP FROM substances WHERE LogP IS NOT NULL
   """ ] ;
   rr:subjectMap [
-    rr:template "https://rdf.molmedb.upol.cz/substance/{identifier}_logp" ;
+    rr:template "https://rdf.molmedb.upol.cz/substance/{identifier}_LogP" ;
     rr:class sio:CHEMINF_000251 ;
   ];
   rr:predicateObjectMap [
