@@ -468,7 +468,7 @@
     """ ] ;
   rr:subjectMap [
     rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_abs_wl_int{id}" ;
-    rr:class mmdbvoc:AbsorbtionWavelength
+    rr:class mmdbvoc:AbsorptionWavelength
   ] ;
     rr:predicateObjectMap [
     rr:predicate sio:SIO_000300 ;

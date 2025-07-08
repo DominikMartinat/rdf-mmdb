@@ -270,9 +270,9 @@
     
 
 
-    <!-- https://rdf.molmedb.upol.cz/vocabulary#AbsorbtionWavelength -->
+    <!-- https://rdf.molmedb.upol.cz/vocabulary#AbsorptionWavelength -->
 
-    <owl:Class rdf:about="https://rdf.molmedb.upol.cz/vocabulary#AbsorbtionWavelength">
+    <owl:Class rdf:about="https://rdf.molmedb.upol.cz/vocabulary#AbsorptionWavelength">
         <rdfs:subClassOf rdf:resource="http://www.bioassayontology.org/bao#BAO_0002118"/>
         <obo:IAO_0000115>Wavelenght of light which has highest absorbance in the measured system.</obo:IAO_0000115>
         <rdfs:label>peak absrobtion wavelength</rdfs:label>
