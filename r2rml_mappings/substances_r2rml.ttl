@@ -20,7 +20,7 @@
   ] ;
   rr:predicateObjectMap [
     rr:predicate sio:SIO_000008 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/substance/{MW_id}_molecular_weight" ]
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/substance/{MW_id}_Molecular_Weight" ]
   ] ;
   rr:predicateObjectMap [
     rr:predicate sio:SIO_000008 ;
@@ -164,7 +164,7 @@
     SELECT id, identifier, MW FROM substances WHERE MW IS NOT NULL
   """ ] ;
   rr:subjectMap [
-    rr:template "https://rdf.molmedb.upol.cz/substance/{identifier}_molecular_weight" ;
+    rr:template "https://rdf.molmedb.upol.cz/substance/{identifier}_Molecular_Weight" ;
     rr:class sio:CHEMINF_000216
   ] ;
   rr:predicateObjectMap [
