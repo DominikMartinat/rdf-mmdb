@@ -119,20 +119,11 @@
     
 
 
-    <!-- http://www.bioassayontology.org/bao#BAO_0000192 -->
+    <!-- http://www.bioassayontology.org/bao#BAO_0000487 -->
 
-    <owl:Class rdf:about="http://www.bioassayontology.org/bao#BAO_0000192">
+    <owl:Class rdf:about="http://www.bioassayontology.org/bao#BAO_0000487">
         <rdfs:subClassOf rdf:resource="http://www.bioassayontology.org/bao#BAO_0000179"/>
-        <rdfs:label>Ki</rdfs:label>
-    </owl:Class>
-    
-
-
-    <!-- http://www.bioassayontology.org/bao#BAO_0000477 -->
-
-    <owl:Class rdf:about="http://www.bioassayontology.org/bao#BAO_0000477">
-        <rdfs:subClassOf rdf:resource="http://www.bioassayontology.org/bao#BAO_0000179"/>
-        <rdfs:label>km</rdfs:label>
+        <rdfs:label>enzyme kinetic constant</rdfs:label>
     </owl:Class>
     
 
@@ -238,7 +229,6 @@
     <!-- http://www.bioassayontology.org/bao#BAO_0002808 -->
 
     <owl:Class rdf:about="http://www.bioassayontology.org/bao#BAO_0002808">
-        <rdfs:subClassOf rdf:resource="http://www.bioassayontology.org/bao#BAO_0002128"/>
         <rdfs:label>permeability</rdfs:label>
     </owl:Class>
     
@@ -273,7 +263,7 @@
     <!-- https://rdf.molmedb.upol.cz/vocabulary#AbsorptionWavelength -->
 
     <owl:Class rdf:about="https://rdf.molmedb.upol.cz/vocabulary#AbsorptionWavelength">
-        <rdfs:subClassOf rdf:resource="http://www.bioassayontology.org/bao#BAO_0002118"/>
+        <rdfs:subClassOf rdf:resource="http://www.bioassayontology.org/bao#BAO_0000179"/>
         <obo:IAO_0000115>Wavelength of light which has highest absorbance in the measured system.</obo:IAO_0000115>
         <rdfs:label>peak absroption wavelength</rdfs:label>
     </owl:Class>
@@ -390,7 +380,7 @@
     <!-- https://rdf.molmedb.upol.cz/vocabulary#FluorescenceWavelength -->
 
     <owl:Class rdf:about="https://rdf.molmedb.upol.cz/vocabulary#FluorescenceWavelength">
-        <rdfs:subClassOf rdf:resource="http://www.bioassayontology.org/bao#BAO_0002118"/>
+        <rdfs:subClassOf rdf:resource="http://www.bioassayontology.org/bao#BAO_0000179"/>
         <obo:IAO_0000115>Wavelength of the light where the signal reaches its highest intensity.</obo:IAO_0000115>
         <rdfs:label>peak fluorescence wavelength</rdfs:label>
     </owl:Class>
@@ -456,8 +446,8 @@
     <!-- https://rdf.molmedb.upol.cz/vocabulary#LogK -->
 
     <owl:Class rdf:about="https://rdf.molmedb.upol.cz/vocabulary#LogK">
-        <rdfs:subClassOf rdf:resource="http://www.bioassayontology.org/bao#BAO_0002128"/>
-        <obo:IAO_0000115>Logarithm of partition coefficient membrane/water.</obo:IAO_0000115>
+        <rdfs:subClassOf rdf:resource="http://www.bioassayontology.org/bao#BAO_0000179"/>
+        <obo:IAO_0000115>Logarithm of partition coefficient.</obo:IAO_0000115>
         <rdfs:label>LogK</rdfs:label>
     </owl:Class>
     
@@ -466,7 +456,7 @@
     <!-- https://rdf.molmedb.upol.cz/vocabulary#LogPerm -->
 
     <owl:Class rdf:about="https://rdf.molmedb.upol.cz/vocabulary#LogPerm">
-        <rdfs:subClassOf rdf:resource="http://www.bioassayontology.org/bao#BAO_0002808"/>
+        <rdfs:subClassOf rdf:resource="http://www.bioassayontology.org/bao#BAO_0002128"/>
         <obo:IAO_0000115>Logarithm of membrane permeability.</obo:IAO_0000115>
         <rdfs:label>LogPerm</rdfs:label>
     </owl:Class>
@@ -533,20 +523,10 @@
     
 
 
-    <!-- https://rdf.molmedb.upol.cz/vocabulary#PKi -->
-
-    <owl:Class rdf:about="https://rdf.molmedb.upol.cz/vocabulary#PKi">
-        <rdfs:subClassOf rdf:resource="http://www.bioassayontology.org/bao#BAO_0000192"/>
-        <obo:IAO_0000115>pKi is -log Ki, where Kmi is  the equilibrium inhibitor dissociation constant, the concentration of the competing inhibitor that results in binding to half the enzyme sites at equilibrium in the absence of substrate or other competitors.</obo:IAO_0000115>
-        <rdfs:label>pKi</rdfs:label>
-    </owl:Class>
-    
-
-
     <!-- https://rdf.molmedb.upol.cz/vocabulary#PKm -->
 
     <owl:Class rdf:about="https://rdf.molmedb.upol.cz/vocabulary#PKm">
-        <rdfs:subClassOf rdf:resource="http://www.bioassayontology.org/bao#BAO_0000477"/>
+        <rdfs:subClassOf rdf:resource="http://www.bioassayontology.org/bao#BAO_0000487"/>
         <obo:IAO_0000115>pKm is -log Km, where Km is the concentration of substrate at ½ Vmax, according to the Henri-Michaelis-Menten kinetic model.</obo:IAO_0000115>
         <rdfs:label>pKm</rdfs:label>
     </owl:Class>

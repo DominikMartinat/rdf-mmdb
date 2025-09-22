@@ -254,7 +254,7 @@
     """ ] ;
   rr:subjectMap [
     rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_pKi_tra{id}" ;
-    rr:class mmdbvoc:PKi
+    rr:class bao:BAO_0190004
   ] ;
     rr:predicateObjectMap [
     rr:predicate sio:SIO_000300 ;
