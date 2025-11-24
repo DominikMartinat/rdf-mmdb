@@ -14,9 +14,9 @@
 ################################################
 <Transportes#TriplesMap1>
   rr:logicalTable [ rr:sqlQuery """
-    SELECT tr.id, tr.id_target, tr.id_reference, subs.identifier, ds.id_reference AS id_publication
-      FROM transporters AS tr, substances AS subs, transporter_datasets AS ds
-      WHERE tr.id_substance = subs.id AND tr.id_dataset = ds.id AND ds.visibility = 1
+    SELECT i.id, s.identifier, i.protein_id, i.publication_id, m.publication_id AS secondary_publication
+      FROM interactions_active AS i, structures AS s, model_has_publications AS m
+      WHERE i.structure_id = s.id AND m.model_id = i.dataset_id AND m.model_type = 'App\\Models\\Dataset'
   """] ;
   rr:subjectMap [
     rr:template "https://rdf.molmedb.upol.cz/transporter/tra{id}" ;
@@ -28,7 +28,7 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0090012 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/transporter/target{id_target}" ]
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/transporter/target{protein_id}" ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000209 ;
@@ -36,17 +36,17 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate dcterms:source ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/reference/ref{id_publication}"  ]
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/reference/ref{secondary_publication}"  ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate dcterms:references ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/reference/ref{id_reference}" ]
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/reference/ref{publication_id}" ]
   ] .
 
 ################################################
 ## transporter interaction measure group
 ################################################
-#same as above + also comment when connected to transporter assay
+# add separate pammings for inhibitor/substrate - maybe as some type or category
 <Transportes#TriplesMap2>
   rr:logicalTable [ rr:sqlQuery """
     SELECT tr.id, tr.id_target, tr.note, subs.identifier,
@@ -59,18 +59,29 @@
       FROM transporters AS tr, substances AS subs, transporter_datasets AS ds
       WHERE tr.id_substance = subs.id AND tr.id_dataset = ds.id AND ds.visibility = 1
   """ ] ;
+<Transportes#TriplesMap2>
+  rr:logicalTable [ rr:sqlQuery """
+    SELECT i.id, s.identifier, i.protein_id, i.note,
+      CASE WHEN i.km IS NULL THEN NULL ELSE i.id END Km_id,
+      CASE WHEN i.ec50 IS NULL THEN NULL ELSE i.id END EC50_id,
+      CASE WHEN i.ki IS NULL THEN NULL ELSE i.id END Ki_id,
+      CASE WHEN i.ic50 IS NULL THEN NULL ELSE i.id END IC50_id 
+      FROM interactions_active AS i, structures as s
+      WHERE i.structure_id = s.id
+  """ ] ;  
   rr:subjectMap [
     rr:template "https://rdf.molmedb.upol.cz/transporter/measure_group_tra{id}" ;
     rr:class bao:BAO_0000040 ;
   ] ;
-    rr:predicateObjectMap [
-    rr:predicate  bao:BAO_0000208 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_substrate_tra{substrate_id}" ]
-  ] ;
-    rr:predicateObjectMap [
-    rr:predicate  bao:BAO_0000208 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_inhibitor_tra{inhibitor_id}" ]
-  ] ;
+  # will have to do something else for substrate/inhibitor
+  #   rr:predicateObjectMap [
+  #   rr:predicate  bao:BAO_0000208 ;
+  #   rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_substrate_tra{substrate_id}" ]
+  # ] ;
+  #   rr:predicateObjectMap [
+  #   rr:predicate  bao:BAO_0000208 ;
+  #   rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_inhibitor_tra{inhibitor_id}" ]
+  # ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000208 ;
     rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_pKm_tra{Km_id}" ]
@@ -93,7 +104,7 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0090012 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/transporter/target{id_target}" ]
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/transporter/target{protein_id}" ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000426 ;
@@ -107,6 +118,7 @@
 ################################################
 ## transporter proteins
 ################################################
+# rework bit later
 <Transportes#TriplesMap3>
   rr:logicalTable [ rr:sqlQuery """
       SELECT id, uniprot_id COLLATE utf8mb3_general_ci AS uniprot_id, name COLLATE utf8mb3_general_ci AS name
@@ -148,55 +160,57 @@
 ################################################
 ## transporter endpoints
 ################################################
-<Transportes#TriplesMap5>
-  rr:logicalTable [ rr:sqlQuery """
-    SELECT tr.id,
-      (CASE tr.type
-      WHEN 1 THEN 'PositiveResult'
-      WHEN 2 THEN 'NegativeResult'
-      END) res FROM transporters AS tr, transporter_datasets AS ds
-      WHERE (tr.type = 1 OR tr.type = 2) AND tr.id_dataset = ds.id AND ds.visibility = 1
-  """] ;
-  rr:subjectMap [
-    rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_substrate_tra{id}" ;
-    rr:class mmdbvoc:SubstrateBindingAssay ;
-  ] ;
-    rr:predicateObjectMap [
-    rr:predicate sio:SIO_000300 ;
-    rr:objectMap [ rr:template "https://w3id.org/reproduceme#{res}" ]
-  ] ;
-    rr:predicateObjectMap [
-    rr:predicate bao:BAO_0000559 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/transporter/measure_group_tra{id}" ]
-  ] .
+#rework inhibitor/substrate later
 
-<Transportes#TriplesMap6>
-  rr:logicalTable [ rr:sqlQuery """
-    SELECT tr.id,
-      (CASE tr.type
-      WHEN 3 THEN 'PositiveResult'
-      WHEN 4 THEN 'NegativeResult'
-      END) res FROM transporters AS tr, transporter_datasets AS ds
-      WHERE (tr.type = 3 OR tr.type = 4) AND tr.id_dataset = ds.id AND ds.visibility = 1
-  """] ;
-  rr:subjectMap [
-    rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_inhibitor_tra{id}" ;
-    rr:class mmdbvoc:InhibitionAssay
-  ] ;
-    rr:predicateObjectMap [
-    rr:predicate sio:SIO_000300 ;
-    rr:objectMap [ rr:template "https://w3id.org/reproduceme#{res}" ]
-  ] ;
-    rr:predicateObjectMap [
-    rr:predicate bao:BAO_0000559 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/transporter/measure_group_tra{id}" ]
-  ] .
+# <Transportes#TriplesMap5>
+#   rr:logicalTable [ rr:sqlQuery """
+#     SELECT tr.id,
+#       (CASE tr.type
+#       WHEN 1 THEN 'PositiveResult'
+#       WHEN 2 THEN 'NegativeResult'
+#       END) res FROM transporters AS tr, transporter_datasets AS ds
+#       WHERE (tr.type = 1 OR tr.type = 2) AND tr.id_dataset = ds.id AND ds.visibility = 1
+#   """] ;
+#   rr:subjectMap [
+#     rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_substrate_tra{id}" ;
+#     rr:class mmdbvoc:SubstrateBindingAssay ;
+#   ] ;
+#     rr:predicateObjectMap [
+#     rr:predicate sio:SIO_000300 ;
+#     rr:objectMap [ rr:template "https://w3id.org/reproduceme#{res}" ]
+#   ] ;
+#     rr:predicateObjectMap [
+#     rr:predicate bao:BAO_0000559 ;
+#     rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/transporter/measure_group_tra{id}" ]
+#   ] .
+
+# <Transportes#TriplesMap6>
+#   rr:logicalTable [ rr:sqlQuery """
+#     SELECT tr.id,
+#       (CASE tr.type
+#       WHEN 3 THEN 'PositiveResult'
+#       WHEN 4 THEN 'NegativeResult'
+#       END) res FROM transporters AS tr, transporter_datasets AS ds
+#       WHERE (tr.type = 3 OR tr.type = 4) AND tr.id_dataset = ds.id AND ds.visibility = 1
+#   """] ;
+#   rr:subjectMap [
+#     rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_inhibitor_tra{id}" ;
+#     rr:class mmdbvoc:InhibitionAssay
+#   ] ;
+#     rr:predicateObjectMap [
+#     rr:predicate sio:SIO_000300 ;
+#     rr:objectMap [ rr:template "https://w3id.org/reproduceme#{res}" ]
+#   ] ;
+#     rr:predicateObjectMap [
+#     rr:predicate bao:BAO_0000559 ;
+#     rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/transporter/measure_group_tra{id}" ]
+#   ] .
 
 <Transportes#TriplesMap7>
   rr:logicalTable [ rr:sqlQuery """
-    SELECT tr.id, tr.Km, tr.Km_acc
-    FROM transporters AS tr, transporter_datasets AS ds WHERE
-    tr.Km IS NOT NULL AND tr.id_dataset = ds.id AND ds.visibility = 1
+    SELECT id, km, km_accuracy
+      FROM interactions_active
+      WHERE km IS NOT NULL
     """ ] ;
   rr:subjectMap [
     rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_pKm_tra{id}" ;
@@ -204,7 +218,7 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate sio:SIO_000300 ;
-    rr:objectMap [ rr:column "Km"; rr:datatype xsd:float ]
+    rr:objectMap [ rr:column "km"; rr:datatype xsd:float ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate sio:SIO_000221 ;
@@ -212,7 +226,7 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate mmdbvoc:hasStDev ;
-    rr:objectMap [rr:column "Km_acc"; rr:datatype xsd:float  ]
+    rr:objectMap [rr:column "km_accuracy"; rr:datatype xsd:float  ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000559 ;
@@ -221,9 +235,9 @@
 
 <Transportes#TriplesMap8>
   rr:logicalTable [ rr:sqlQuery """
-    SELECT tr.id, tr.EC50, tr.EC50_acc
-    FROM transporters AS tr, transporter_datasets AS ds WHERE
-    tr.EC50 IS NOT NULL AND tr.id_dataset = ds.id AND ds.visibility = 1
+    SELECT id, ec50, ec50_accuracy
+      FROM interactions_active
+      WHERE ec50 IS NOT NULL
     """ ] ;
   rr:subjectMap [
     rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_pEC50_tra{id}" ;
@@ -231,7 +245,7 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate sio:SIO_000300 ;
-    rr:objectMap [ rr:column "EC50"; rr:datatype xsd:float ]
+    rr:objectMap [ rr:column "ec50"; rr:datatype xsd:float ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate sio:SIO_000221 ;
@@ -239,7 +253,7 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate mmdbvoc:hasStDev ;
-    rr:objectMap [rr:column "EC50_acc"; rr:datatype xsd:float  ]
+    rr:objectMap [rr:column "ec50_accuracy"; rr:datatype xsd:float  ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000559 ;
@@ -248,9 +262,9 @@
 
 <Transportes#TriplesMap9>
   rr:logicalTable [ rr:sqlQuery """
-    SELECT tr.id, tr.Ki, tr.Ki_acc
-    FROM transporters AS tr, transporter_datasets AS ds WHERE
-    tr.Ki IS NOT NULL AND tr.id_dataset = ds.id AND ds.visibility = 1
+    SELECT id, ki, ki_accuracy
+      FROM interactions_active
+      WHERE ki IS NOT NULL
     """ ] ;
   rr:subjectMap [
     rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_pKi_tra{id}" ;
@@ -258,7 +272,7 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate sio:SIO_000300 ;
-    rr:objectMap [ rr:column "Ki"; rr:datatype xsd:float ]
+    rr:objectMap [ rr:column "ki"; rr:datatype xsd:float ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate sio:SIO_000221 ;
@@ -266,7 +280,7 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate mmdbvoc:hasStDev ;
-    rr:objectMap [rr:column "Ki_acc"; rr:datatype xsd:float  ]
+    rr:objectMap [rr:column "ki_accuracy"; rr:datatype xsd:float  ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000559 ;
@@ -275,9 +289,9 @@
 
 <Transportes#TriplesMap10>
   rr:logicalTable [ rr:sqlQuery """
-    SELECT tr.id, tr.IC50, tr.IC50_acc
-    FROM transporters AS tr, transporter_datasets AS ds WHERE
-    tr.IC50 IS NOT NULL AND tr.id_dataset = ds.id AND ds.visibility = 1
+    SELECT id, ic50, ic50_accuracy
+      FROM interactions_active
+      WHERE ic50 IS NOT NULL
     """ ] ;
   rr:subjectMap [
     rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_pIC50_tra{id}" ;
@@ -285,7 +299,7 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate sio:SIO_000300 ;
-    rr:objectMap [ rr:column "IC50"; rr:datatype xsd:float ]
+    rr:objectMap [ rr:column "ic50"; rr:datatype xsd:float ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate sio:SIO_000221 ;
@@ -293,7 +307,7 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate mmdbvoc:hasStDev ;
-    rr:objectMap [rr:column "IC50_acc"; rr:datatype xsd:float  ]
+    rr:objectMap [rr:column "ic50_accuracy"; rr:datatype xsd:float  ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000559 ;
