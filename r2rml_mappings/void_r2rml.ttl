@@ -7,7 +7,7 @@
 
 <Void#TriplesMap1>
   rr:logicalTable [ rr:sqlQuery """
-    SELECT CURDATE() date;
+    SELECT CURRENT_DATE date;
     """ ] ;
   rr:subjectMap [
     rr:constant <https://rdf.molmedb.upol.cz>
