@@ -16,9 +16,9 @@
 ################################################
 <Interactions#TriplesMap1>
   rr:logicalTable [ rr:sqlQuery """
-    SELECT inte.id, inte.id_membrane, inte.id_reference, ds.id_publication, subs.identifier
-      FROM interaction AS inte, substances AS subs, datasets AS ds
-      WHERE inte.id_substance = subs.id AND ds.visibility = 1 AND inte.id_dataset = ds.id
+    SELECT inte.id, s.identifier, inte.publication_id, ds.membrane_id, mhp.publication_id AS secondary_publication
+      FROM interactions_passive AS inte, structures AS s, datasets AS ds, model_has_publications AS mhp
+      WHERE inte.structure_id = s.id AND inte.dataset_id = ds.id AND inte.dataset_id = mhp.model_id AND mhp.model_type = 'App\\Models\\Dataset'
   """] ;
   rr:subjectMap [
     rr:template "https://rdf.molmedb.upol.cz/interaction/int{id}" ;
@@ -30,7 +30,7 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0090012 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/membrane{id_membrane}"  ]
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/membrane{membrane_id}"  ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000209 ;
@@ -38,17 +38,54 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate dcterms:source ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/reference/ref{id_publication}"  ]
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/reference/ref{secondary_publication}"  ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate dcterms:references ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/reference/ref{id_reference}"  ]
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/reference/ref{publication_id}"  ]
+  ] .
+
+  #fluorescence properties are stored separately
+  #treated as special type of interaction 'fluo' instead of 'int'
+  #only 89 entries exist currently
+
+  <Interactions#TriplesMap2>
+  rr:logicalTable [ rr:sqlQuery """
+    SELECT inte.id, s.identifier, inte.publication_id, ds.membrane_id, mhp.publication_id AS secondary_publication
+      FROM fluorescent_properties AS inte, structures AS s, datasets AS ds, model_has_publications AS mhp
+      WHERE inte.structure_id = s.id AND inte.dataset_id = ds.id AND inte.dataset_id = mhp.model_id AND mhp.model_type = 'App\\Models\\Dataset'
+  """] ;
+  rr:subjectMap [
+    rr:template "https://rdf.molmedb.upol.cz/interaction/fluo{id}" ;
+    rr:class bao:BAO_0002182
+  ] ;
+    rr:predicateObjectMap [
+    rr:predicate bao:BAO_0090012 ;
+    rr:objectMap [ rr:template "https://identifiers.org/molmedb/{identifier}" ]
+  ] ;
+    rr:predicateObjectMap [
+    rr:predicate bao:BAO_0090012 ;
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/membrane{membrane_id}"  ]
+  ] ;
+    rr:predicateObjectMap [
+    rr:predicate bao:BAO_0000209 ;
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/measure_group_fluo{id}"  ]
+  ] ;
+    rr:predicateObjectMap [
+    rr:predicate dcterms:source ;
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/reference/ref{secondary_publication}"  ]
+  ] ;
+    rr:predicateObjectMap [
+    rr:predicate dcterms:references ;
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/reference/ref{publication_id}"  ]
   ] .
 
 ################################################
 ## interaction measure group
 ################################################
-<Interactions#TriplesMap2>
+#stare zahod
+#fluorecentni maji vlastni tabulku
+<Interactions#TriplesMap3>
   rr:logicalTable [ rr:sqlQuery """
     SELECT inte.id, inte.id_membrane, inte.id_method, inte.comment, subs.identifier as identifier,
       (CASE WHEN inte.LogK IS NULL THEN NULL ELSE inte.id END) LogK_id,
@@ -96,7 +133,7 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000208 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_theta_int{theta_id}" ]
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_theta_int{theta_id}" ] #missing?
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000208 ;
@@ -139,14 +176,165 @@
     rr:objectMap [ rr:column "comment" ]
   ] .
 
+#nove
+#hodilo by se pH
+#budu muset rozdelit klasicke a fluorescentni endpointy
+#mozna fluoerecentni endpointy jine URI formy jinak se mi to bude bit... nebo mozna vynechat?
+
+<Interactions#TriplesMap4>
+  rr:logicalTable [ rr:sqlQuery """
+    SELECT inte.id, s.identifier, ds.membrane_id, ds.method_id, inte.note,
+      (CASE WHEN inte.logk IS NULL THEN NULL ELSE inte.id END) LogK_id,
+      (CASE WHEN inte.logperm IS NULL THEN NULL ELSE inte.id END) LogPerm_id,
+      (CASE WHEN inte.x_min IS NULL THEN NULL ELSE inte.id END) Position_id,
+      (CASE WHEN inte.gpen IS NULL THEN NULL ELSE inte.id END) Penetration_id,
+      (CASE WHEN inte.gwat IS NULL THEN NULL ELSE inte.id END) Water_id,
+      (CASE WHEN inte.temperature IS NULL THEN NULL ELSE inte.id END) temperature_id,
+      (CASE WHEN inte.charge IS NULL THEN NULL ELSE inte.id END) charge_id,
+      (CASE WHEN inte.ph IS NULL THEN NULL ELSE inte.id END) ph_id
+      FROM interactions_passive AS inte, structures AS s, datasets AS ds
+      WHERE inte.structure_id = s.id AND inte.dataset_id = ds.id
+  """] ;
+  rr:subjectMap [
+    rr:template "https://rdf.molmedb.upol.cz/interaction/measure_group_int{id}" ;
+    rr:class bao:BAO_0000040
+  ] ;
+    rr:predicateObjectMap [
+    rr:predicate bao:BAO_0000212 ;
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/method{method_id}" ]
+  ] ;  
+    rr:predicateObjectMap [
+    rr:predicate bao:BAO_0000208 ;
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_LogK_int{LogK_id}" ]
+  ] ; 
+    rr:predicateObjectMap [
+    rr:predicate bao:BAO_0000208 ;
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_LogPerm_int{LogPerm_id}" ]
+  ] ; 
+    rr:predicateObjectMap [
+    rr:predicate bao:BAO_0000208 ;
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_position_int{Position_id}" ]
+  ] ; 
+    rr:predicateObjectMap [
+    rr:predicate bao:BAO_0000208 ;
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_penetration_int{Penetration_id}" ]
+  ] ;
+    rr:predicateObjectMap [
+    rr:predicate bao:BAO_0000208 ;
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_water_int{Water_id}" ]
+  ] ;
+    rr:predicateObjectMap [
+    rr:predicate bao:BAO_0090012 ;
+    rr:objectMap [ rr:template "https://identifiers.org/molmedb/{identifier}" ]
+  ] ;
+    rr:predicateObjectMap [
+    rr:predicate bao:BAO_0090012 ;
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/membrane{membrane_id}"  ]
+  ] ;
+    rr:predicateObjectMap [
+    rr:predicate bao:BAO_0000426 ;
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/int{id}" ]
+  ] ; 
+    rr:predicateObjectMap [
+    rr:predicate repr:hasExperimentalCondition ;
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/measure_group_temperature_int{temperature_id}" ]
+  ] ; 
+    rr:predicateObjectMap [
+    rr:predicate repr:hasExperimentalCondition ;
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/measure_group_mol_charge_int{charge_id}" ]
+  ] ;
+    rr:predicateObjectMap [
+    rr:predicate repr:hasExperimentalCondition ;
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/measure_group_mol_pH_int{ph_id}" ]
+  ] ;
+    rr:predicateObjectMap [
+    rr:predicate rdfs:comment ;
+    rr:objectMap [ rr:column "note" ]
+  ] .
+
+#fluorescencni endpointy - kurva to se mi bude bit interakce id a fluroescence id do pici
+#docasene fluorescent_int
+#dodelat s heslem na adminera
+#dodelat pH
+<Interactions#TriplesMap5>
+  rr:logicalTable [ rr:sqlQuery """
+    SELECT inte.id, s.identifier, ds.membrane_id, ds.method_id, inte.note,
+      (CASE WHEN inte.theta IS NULL THEN NULL ELSE inte.id END) theta_id,
+      (CASE WHEN inte.abs_wl IS NULL THEN NULL ELSE inte.id END) abs_wl_id,
+      (CASE WHEN inte.fluo_wl IS NULL THEN NULL ELSE inte.id END) fluo_wl_id,
+      (CASE WHEN inte.QY IS NULL THEN NULL ELSE inte.id END) QY_id,
+      (CASE WHEN inte.lt IS NULL THEN NULL ELSE inte.id END) lt_id,
+      (CASE WHEN inte.temperature IS NULL THEN NULL ELSE inte.id END) temperature_id,
+      (CASE WHEN inte.charge IS NULL THEN NULL ELSE inte.id END) charge_id,
+      (CASE WHEN inte.ph IS NULL THEN NULL ELSE inte.id END) ph_id
+      FROM fluorescent_properties  AS inte, structures AS s, datasets AS ds
+      WHERE inte.structure_id = s.id AND inte.dataset_id = ds.id
+  """] ;
+  rr:subjectMap [
+    rr:template "https://rdf.molmedb.upol.cz/interaction/measure_group_fluo{id}" ;
+    rr:class bao:BAO_0000040
+  ] ;
+    rr:predicateObjectMap [
+    rr:predicate bao:BAO_0000212 ;
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/method{method_id}" ]
+  ] ;  
+    rr:predicateObjectMap [
+    rr:predicate bao:BAO_0000208 ;
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_theta_fluo{theta_id}" ]
+  ] ;
+    rr:predicateObjectMap [
+    rr:predicate bao:BAO_0000208 ;
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_abs_wl_fluo{abs_wl_id}" ]
+  ] ;
+    rr:predicateObjectMap [
+    rr:predicate bao:BAO_0000208 ;
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_fluo_wl_fluo{fluo_wl_id}" ]
+  ] ;
+    rr:predicateObjectMap [
+    rr:predicate bao:BAO_0000208 ;
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_qy_fluo{QY_id}" ]
+  ] ;
+    rr:predicateObjectMap [
+    rr:predicate bao:BAO_0000208 ;
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_lt_fluo{lt_id}" ]
+  ] ;
+    rr:predicateObjectMap [
+    rr:predicate bao:BAO_0090012 ;
+    rr:objectMap [ rr:template "https://identifiers.org/molmedb/{identifier}" ]
+  ] ;
+    rr:predicateObjectMap [
+    rr:predicate bao:BAO_0090012 ;
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/membrane{membrane_id}"  ]
+  ] ;
+    rr:predicateObjectMap [
+    rr:predicate bao:BAO_0000426 ;
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/fluo{id}" ]
+  ] ; 
+    rr:predicateObjectMap [
+    rr:predicate repr:hasExperimentalCondition ;
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/measure_group_temperature_fluo{temperature_id}" ]
+  ] ; 
+    rr:predicateObjectMap [
+    rr:predicate repr:hasExperimentalCondition ;
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/measure_group_mol_charge_fluo{charge_id}" ]
+  ] ; 
+    rr:predicateObjectMap [
+    rr:predicate repr:hasExperimentalCondition ;
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/measure_group_mol_pH_fluo{ph_id}" ]
+  ] ; 
+    rr:predicateObjectMap [
+    rr:predicate rdfs:comment ;
+    rr:objectMap [ rr:column "note" ]
+  ] .
+
 ################################################
 ## membrane
 ################################################
-<Interactions#TriplesMap3>
+<Interactions#TriplesMap6>
   rr:logicalTable [ rr:sqlQuery """
-    SELECT id, name,
-      (CASE WHEN description = '' THEN NULL else description END) description,
-      (CASE WHEN `references` = '' THEN NULL else `references` END) ref FROM membranes
+    SELECT id, name, description,
+      CASE WHEN abbreviation != name THEN name ELSE NULL END AS abbrev
+      FROM membranes
   """ ] ;
   rr:subjectMap [
     rr:template "https://rdf.molmedb.upol.cz/interaction/membrane{id}" ;
@@ -157,53 +345,57 @@
     rr:objectMap [ rr:column "name" ]
   ] ;
     rr:predicateObjectMap [
-    rr:predicate dc:description ;
-    rr:objectMap [ rr:column "description"; rr:datatype rdf:HTML ]
+    rr:predicate rdfs:label ;
+    rr:objectMap [ rr:column "abbrev" ]
   ] ;
     rr:predicateObjectMap [
-    rr:predicate dcterms:bibliographicCitation ;
-    rr:objectMap [ rr:column "ref"; rr:datatype rdf:HTML ]
+    rr:predicate dc:description ;
+    rr:objectMap [ rr:column "description" ]
   ] .
 
-<Interactions#TriplesMap4>
-  rr:logicalTable [ rr:sqlQuery """
-    SELECT mlink.id_membrane,
-    (CASE etl.id_enum_type
-	    WHEN 91 THEN 'SubstanceBasedMembraneModel'
-	    WHEN 92 THEN 'BiologyBasedMembraneModel'
-	    ELSE NULL END) structure_type,
-    (CASE etl.id_enum_type_parent
-     	WHEN 87 THEN 'GenericMembraneModel'
-     	WHEN 88 THEN 'IntestineMembraneModel'
-    	WHEN 89 THEN 'OralMembraneModel'
-    	WHEN 90 THEN 'SkinMembraneModel'
- 	    WHEN 93 THEN 'BrainMembraneModel'
- 	    WHEN 97 THEN 'EyeMembraneModel'
- 	    WHEN 178 THEN 'CellMembraneModel'
- 	    ELSE NULL END) anatomical_type
-    FROM membrane_enum_type_links AS mlink, enum_type_links AS etl
-    WHERE mlink.id_enum_type_link = etl.id
-  """ ] ;
-  rr:subjectMap [
-    rr:template "https://rdf.molmedb.upol.cz/interaction/membrane{id_membrane}" ;
-  ] ;
-    rr:predicateObjectMap [
-    rr:predicate rdf:type ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/vocabulary#{structure_type}" ]
-  ] ;
-    rr:predicateObjectMap [
-    rr:predicate rdf:type ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/vocabulary#{anatomical_type}" ]
-  ] .
+#this looks weird in database now
+#will have to fix
+
+# <Interactions#TriplesMap5>
+#   rr:logicalTable [ rr:sqlQuery """
+#     SELECT mlink.id_membrane,
+#     (CASE etl.id_enum_type
+# 	    WHEN 91 THEN 'SubstanceBasedMembraneModel'
+# 	    WHEN 92 THEN 'BiologyBasedMembraneModel'
+# 	    ELSE NULL END) structure_type,
+#     (CASE etl.id_enum_type_parent
+#      	WHEN 87 THEN 'GenericMembraneModel'
+#      	WHEN 88 THEN 'IntestineMembraneModel'
+#     	WHEN 89 THEN 'OralMembraneModel'
+#     	WHEN 90 THEN 'SkinMembraneModel'
+#  	    WHEN 93 THEN 'BrainMembraneModel'
+#  	    WHEN 97 THEN 'EyeMembraneModel'
+#  	    WHEN 178 THEN 'CellMembraneModel'
+#  	    ELSE NULL END) anatomical_type
+#     FROM membrane_enum_type_links AS mlink, enum_type_links AS etl
+#     WHERE mlink.id_enum_type_link = etl.id
+#   """ ] ;
+#   rr:subjectMap [
+#     rr:template "https://rdf.molmedb.upol.cz/interaction/membrane{id_membrane}" ;
+#   ] ;
+#     rr:predicateObjectMap [
+#     rr:predicate rdf:type ;
+#     rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/vocabulary#{structure_type}" ]
+#   ] ;
+#     rr:predicateObjectMap [
+#     rr:predicate rdf:type ;
+#     rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/vocabulary#{anatomical_type}" ]
+#   ] .
 
 ################################################
 ## method
 ################################################
-<Interactions#TriplesMap5>
+<Interactions#TriplesMap7>
   rr:logicalTable [ rr:sqlQuery """
     SELECT id, name,
-      (CASE WHEN description = '' THEN NULL else description END) description,
-      (CASE WHEN `references` = '' THEN NULL else `references` END) ref FROM methods
+      CASE WHEN abbreviation != name THEN name ELSE NULL END AS abbrev,
+      CASE WHEN description = '' THEN NULL ELSE description END AS descriprtion
+      FROM methods
   """ ] ;
   rr:subjectMap [
     rr:template "https://rdf.molmedb.upol.cz/interaction/method{id}" ;
@@ -214,45 +406,45 @@
     rr:objectMap [ rr:column "name" ]
   ] ;
     rr:predicateObjectMap [
-    rr:predicate dc:description ;
-    rr:objectMap [ rr:column "description"; rr:datatype rdf:HTML ]
+    rr:predicate rdfs:label ;
+    rr:objectMap [ rr:column "abbrev" ]
   ] ;
     rr:predicateObjectMap [
-    rr:predicate dcterms:bibliographicCitation ;
-    rr:objectMap [ rr:column "ref"; rr:datatype rdf:HTML ]
+    rr:predicate dc:description ;
+    rr:objectMap [ rr:column "description"; rr:datatype rdf:HTML ]
   ] .
-
 
 ################################################
 ## method type
 ################################################
-<Interactions#TriplesMap6>
+<Interactions#TriplesMap8>
   rr:logicalTable [ rr:sqlQuery """
-    SELECT etl.id, mlink.id_method,
-    (CASE etl.id_enum_type_parent
-     	WHEN 22 THEN 'BAO_0002202'
-     	WHEN 23 THEN 'BAO_0002094'
-     	WHEN 24 THEN 'BAO_0002301'
-     	ELSE NULL END) parent_type,
-    (CASE etl.id_enum_type
-     	WHEN 28 THEN 'BAO_0002317'
-     	WHEN 29 THEN 'BAO_0002248'
-     	WHEN 30 THEN 'BAO_0002305'
-     	ELSE NULL END) child_type,
-    (CASE etl.id_enum_type
-     	WHEN 25 THEN 'WaterMembranePartitioningMethod'
-     	WHEN 31 THEN 'AtomisticSimulation'
-     	WHEN 32 THEN 'UnitedAtomsSimulation'
-     	WHEN 33 THEN 'CoarseGrainedSimulation'
-     	WHEN 34 THEN 'HybridResolutionSimulation'
-     	WHEN 191 THEN 'MembranePositionMethod'
-     	WHEN 192 THEN 'MembranePermeabilityMethod'
-     	ELSE NULL END) child_type_voc
-    FROM method_enum_type_links AS mlink, enum_type_links AS etl 
-    WHERE mlink.id_enum_type_link = etl.id
+    SELECT m.model_id, 
+      (CASE c.parent_id
+        WHEN 4 THEN 'BAO_0002202'
+        WHEN 5 THEN 'BAO_0002094'
+        WHEN 6 THEN 'BAO_0002301'
+        ELSE NULL END) parent_type,
+      (CASE c.id
+          WHEN 5 THEN 'BAO_0002094'
+        WHEN 8 THEN 'BAO_0002317'
+        WHEN 9 THEN 'BAO_0002248'
+        WHEN 10 THEN 'BAO_0002305'
+        ELSE NULL END) child_type,
+      (CASE c.id
+        WHEN 7 THEN 'WaterMembranePartitioningMethod'
+        WHEN 11 THEN 'AtomisticSimulation'
+        WHEN 12 THEN 'UnitedAtomsSimulation'
+        WHEN 13 THEN 'CoarseGrainedSimulation'
+        WHEN 14 THEN 'HybridResolutionSimulation'
+        WHEN 167 THEN 'MembranePositionMethod'
+        WHEN 168 THEN 'MembranePermeabilityMethod'
+        ELSE NULL END) child_type_voc
+      FROM categories AS c, model_has_categories AS m 
+      WHERE type = 2 AND m.model_type='App\\Models\\Method' AND m.category_id = c.id
   """ ] ;
   rr:subjectMap [
-    rr:template "https://rdf.molmedb.upol.cz/interaction/method{id_method}" ;
+    rr:template "https://rdf.molmedb.upol.cz/interaction/method{model_id}" ;
   ] ;
     rr:predicateObjectMap [
     rr:predicate rdf:type ;
@@ -270,10 +462,10 @@
 ################################################
 ## experimental conditions
 ################################################
-<Interactions#TriplesMap7>
+<Interactions#TriplesMap9>
   rr:logicalTable [ rr:sqlQuery """
-    SELECT inte.id, inte.temperature FROM interaction AS inte, datasets AS ds
-    WHERE inte.temperature IS NOT NULL and inte.id_dataset = ds.id AND ds.visibility = 1
+    SELECT id, temperature
+      FROM interactions_passive WHERE temperature IS NOT NULL
   """ ] ;
   rr:subjectMap [
     rr:template "https://rdf.molmedb.upol.cz/interaction/measure_group_temperature_int{id}" ;
@@ -288,14 +480,32 @@
     rr:objectMap [ rr:constant obo:UO_0000027 ]
   ] .
 
-#charges need to be standardized first - delete + symbols and whitespaces
-<Interactions#TriplesMap8>
+<Interactions#TriplesMap10>
   rr:logicalTable [ rr:sqlQuery """
-    SELECT inte.id,
-      REPLACE(REPLACE(inte.charge,'+',''),', ',',') standardized_charge
-      FROM interaction AS inte, datasets AS ds
-      WHERE inte.charge IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
+    SELECT id, temperature
+      FROM fluorescent_properties WHERE temperature IS NOT NULL
   """ ] ;
+  rr:subjectMap [
+    rr:template "https://rdf.molmedb.upol.cz/interaction/measure_group_temperature_fluo{id}" ;
+    rr:class efo:EFO_0001702
+  ] ;
+    rr:predicateObjectMap [
+    rr:predicate sio:SIO_000300 ;
+    rr:objectMap [ rr:column "temperature"; rr:datatype xsd:float ]
+  ] ;
+    rr:predicateObjectMap [
+    rr:predicate sio:SIO_000221 ;
+    rr:objectMap [ rr:constant obo:UO_0000027 ]
+  ] .
+
+#charges need to be standardized first - delete + symbols and whitespaces
+<Interactions#TriplesMap11>
+  rr:logicalTable [ rr:sqlQuery """
+    SELECT id,
+          REPLACE(REPLACE(charge,'+',''),', ',',') standardized_charge
+          FROM interactions_passive
+          WHERE charge IS NOT NULL
+      """ ] ;
   rr:subjectMap [
     rr:template "https://rdf.molmedb.upol.cz/interaction/measure_group_mol_charge_int{id}" ;
     rr:class sio:CHEMINF_000120
@@ -305,44 +515,82 @@
     rr:objectMap [ rr:column "standardized_charge" ]
   ] .
 
+<Interactions#TriplesMap12>
+  rr:logicalTable [ rr:sqlQuery """
+    SELECT id,
+        REPLACE(REPLACE(charge,'+',''),', ',',') standardized_charge
+        FROM fluorescent_properties 
+        WHERE charge IS NOT NULL
+    """ ] ;
+  rr:subjectMap [
+    rr:template "https://rdf.molmedb.upol.cz/interaction/measure_group_mol_charge_fluo{id}" ;
+    rr:class sio:CHEMINF_000120
+  ] ;
+    rr:predicateObjectMap [
+    rr:predicate sio:SIO_000300 ;
+    rr:objectMap [ rr:column "standardized_charge" ]
+  ] .
+
+<Interactions#TriplesMap13>
+  rr:logicalTable [ rr:sqlQuery "SELECT id, ph FROM interactions_passive WHERE ph IS NOT NULL" ] ;
+  rr:subjectMap [
+    rr:template "https://rdf.molmedb.upol.cz/interaction/measure_group_mol_pH_int{id}" ;
+    rr:class sio:SIO_001089
+  ] ;
+    rr:predicateObjectMap [
+    rr:predicate sio:SIO_000300 ;
+    rr:objectMap [ rr:column "ph"; rr:datatype xsd:float ]
+  ] .
+
+<Interactions#TriplesMap14>
+  rr:logicalTable [ rr:sqlQuery "SELECT id, ph FROM fluorescent_properties WHERE ph IS NOT NULL" ] ;
+  rr:subjectMap [
+    rr:template "https://rdf.molmedb.upol.cz/interaction/measure_group_mol_pH_fluo{id}" ;
+    rr:class sio:SIO_001089
+  ] ;
+    rr:predicateObjectMap [
+    rr:predicate sio:SIO_000300 ;
+    rr:objectMap [ rr:column "ph"; rr:datatype xsd:float ]
+  ] .
+
 ################################################
 ## interaction endpoints
 ################################################
-#query a stdev mmdbvoc:hasStDev cislo
-<Interactions#TriplesMap9>
+# classical passive interaction endpoints
+<Interactions#TriplesMap15>
   rr:logicalTable [ rr:sqlQuery """
-    SELECT inte.id, inte.LogK, inte.LogK_acc
-    FROM interaction AS inte, datasets AS ds WHERE inte.LogK IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
-    """ ] ;
+    SELECT id, logk, logk_accuracy 
+      FROM interactions_passive WHERE logk IS NOT NULL
+  """ ] ;
   rr:subjectMap [
     rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_LogK_int{id}" ;
     rr:class mmdbvoc:LogK
   ] ;
     rr:predicateObjectMap [
     rr:predicate sio:SIO_000300 ;
-    rr:objectMap [ rr:column "LogK"; rr:datatype xsd:float ]
+    rr:objectMap [ rr:column "logk"; rr:datatype xsd:float ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate mmdbvoc:hasStDev ;
-    rr:objectMap [rr:column "LogK_acc"; rr:datatype xsd:float  ]
+    rr:objectMap [rr:column "logk_accuracy"; rr:datatype xsd:float  ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000559 ;
     rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/measure_group_int{id}" ]
   ] .
 
-<TriplesMap10>
+<TriplesMap11>
   rr:logicalTable [ rr:sqlQuery """
-    SELECT inte.id, inte.LogPerm, inte.LogPerm_acc
-    FROM interaction AS inte, datasets AS ds WHERE inte.LogPerm IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
-    """ ] ;
+    SELECT id, logperm, logperm_accuracy 
+      FROM interactions_passive WHERE logperm IS NOT NULL
+  """ ] ;
   rr:subjectMap [
     rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_LogPerm_int{id}" ;
     rr:class mmdbvoc:LogPerm
   ] ;
     rr:predicateObjectMap [
     rr:predicate sio:SIO_000300 ;
-    rr:objectMap [ rr:column "LogPerm"; rr:datatype xsd:float ]
+    rr:objectMap [ rr:column "logperm"; rr:datatype xsd:float ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate sio:SIO_000221 ;
@@ -350,25 +598,25 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate mmdbvoc:hasStDev ;
-    rr:objectMap [rr:column "LogPerm_acc"; rr:datatype xsd:float  ]
+    rr:objectMap [rr:column "logperm_accuracy "; rr:datatype xsd:float  ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000559 ;
     rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/measure_group_int{id}" ]
   ] .
 
-<Interactions#TriplesMap11>
+<Interactions#TriplesMap16>
   rr:logicalTable [ rr:sqlQuery """
-    SELECT inte.id, inte.Position, inte.Position_acc
-    FROM interaction AS inte, datasets AS ds WHERE inte.Position IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
-    """ ] ;
+    SELECT id, x_min, x_min_accuracy 
+      FROM interactions_passive WHERE x_min IS NOT NULL
+  """ ] ;
   rr:subjectMap [
     rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_position_int{id}" ;
     rr:class mmdbvoc:PositionOfMinima
   ] ;
     rr:predicateObjectMap [
     rr:predicate sio:SIO_000300 ;
-    rr:objectMap [ rr:column "Position"; rr:datatype xsd:float ]
+    rr:objectMap [ rr:column "x_min"; rr:datatype xsd:float ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate sio:SIO_000221 ;
@@ -376,25 +624,25 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate mmdbvoc:hasStDev ;
-    rr:objectMap [rr:column "Position_acc"; rr:datatype xsd:float  ]
+    rr:objectMap [rr:column "x_min_accuracy"; rr:datatype xsd:float  ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000559 ;
     rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/measure_group_int{id}" ]
   ] .
 
-<Interactions#TriplesMap12>
+<Interactions#TriplesMap17>
   rr:logicalTable [ rr:sqlQuery """
-    SELECT inte.id, inte.Penetration, inte.Penetration_acc
-    FROM interaction AS inte, datasets AS ds WHERE inte.Penetration IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
-    """ ] ;
+    SELECT id, gpen, gpen_accuracy 
+      FROM interactions_passive WHERE gpen IS NOT NULL
+  """ ] ;
   rr:subjectMap [
     rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_penetration_int{id}" ;
     rr:class mmdbvoc:PenetrationBarrier
   ] ;
     rr:predicateObjectMap [
     rr:predicate sio:SIO_000300 ;
-    rr:objectMap [ rr:column "Penetration"; rr:datatype xsd:float ]
+    rr:objectMap [ rr:column "gpen"; rr:datatype xsd:float ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate sio:SIO_000221 ;
@@ -402,17 +650,17 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate mmdbvoc:hasStDev ;
-    rr:objectMap [rr:column "Penetration_acc"; rr:datatype xsd:float  ]
+    rr:objectMap [rr:column "gpen_accuracy"; rr:datatype xsd:float  ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000559 ;
     rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/measure_group_int{id}" ]
   ] .
 
-<Interactions#TriplesMap13>
+<Interactions#TriplesMap18>
   rr:logicalTable [ rr:sqlQuery """
-    SELECT inte.id, inte.Water, inte.Water_acc
-    FROM interaction AS inte, datasets AS ds WHERE inte.Water IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
+    SELECT id, gwat, gwat_accuracy 
+      FROM interactions_passive WHERE gwat IS NOT NULL
     """ ] ;
   rr:subjectMap [
     rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_water_int{id}" ;
@@ -420,7 +668,7 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate sio:SIO_000300 ;
-    rr:objectMap [ rr:column "Water"; rr:datatype xsd:float ]
+    rr:objectMap [ rr:column "gwat"; rr:datatype xsd:float ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate sio:SIO_000221 ;
@@ -428,20 +676,21 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate mmdbvoc:hasStDev ;
-    rr:objectMap [rr:column "Water_acc"; rr:datatype xsd:float  ]
+    rr:objectMap [rr:column "gwat_accuracy"; rr:datatype xsd:float  ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000559 ;
     rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/measure_group_int{id}" ]
   ] .
 
-<Interactions#TriplesMap14>
+#fluorescent interaction endpoints
+<Interactions#TriplesMap19>
   rr:logicalTable [ rr:sqlQuery """
-    SELECT inte.id, inte.theta, inte.theta_acc
-    FROM interaction AS inte, datasets AS ds WHERE inte.theta IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
-    """ ] ;
+    SELECT id, theta, theta_accuracy 
+      FROM fluorescent_properties WHERE theta IS NOT NULL
+  """ ] ;
   rr:subjectMap [
-    rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_theta_int{id}" ;
+    rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_theta_fluo{id}" ;
     rr:class mmdbvoc:ContactAngle
   ] ;
     rr:predicateObjectMap [
@@ -454,20 +703,20 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate mmdbvoc:hasStDev ;
-    rr:objectMap [rr:column "theta_acc"; rr:datatype xsd:float  ]
+    rr:objectMap [rr:column "theta_accuracy"; rr:datatype xsd:float  ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000559 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/measure_group_int{id}" ]
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/measure_group_fluo{id}" ]
   ] .
 
-<Interactions#TriplesMap15>
+<Interactions#TriplesMap20>
   rr:logicalTable [ rr:sqlQuery """
-    SELECT inte.id, inte.abs_wl, inte.abs_wl_acc
-    FROM interaction AS inte, datasets AS ds WHERE inte.abs_wl IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
-    """ ] ;
+    SELECT id, abs_wl, abs_wl_accuracy
+      FROM fluorescent_properties WHERE abs_wl IS NOT NULL
+  """ ] ;
   rr:subjectMap [
-    rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_abs_wl_int{id}" ;
+    rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_abs_wl_fluo{id}" ;
     rr:class mmdbvoc:AbsorptionWavelength
   ] ;
     rr:predicateObjectMap [
@@ -480,20 +729,20 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate mmdbvoc:hasStDev ;
-    rr:objectMap [rr:column "abs_wl_acc"; rr:datatype xsd:float  ]
+    rr:objectMap [rr:column "abs_wl_accuracy"; rr:datatype xsd:float  ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000559 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/measure_group_int{id}" ]
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/measure_group_fluo{id}" ]
   ] .
 
-<Interactions#TriplesMap16>
+<Interactions#TriplesMap21>
   rr:logicalTable [ rr:sqlQuery """
-    SELECT inte.id, inte.fluo_wl, inte.fluo_wl_acc
-    FROM interaction AS inte, datasets AS ds WHERE inte.fluo_wl IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
-    """ ] ;
+    SELECT id, fluo_wl, fluo_wl_accuracy
+      FROM fluorescent_properties WHERE fluo_wl IS NOT NULL
+  """ ] ;
   rr:subjectMap [
-    rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_fluo_wl_int{id}" ;
+    rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_fluo_wl_fluo{id}" ;
     rr:class mmdbvoc:FluorescenceWavelength
   ] ;
     rr:predicateObjectMap [
@@ -506,42 +755,42 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate mmdbvoc:hasStDev ;
-    rr:objectMap [rr:column "fluo_wl_acc"; rr:datatype xsd:float  ]
+    rr:objectMap [rr:column "fluo_wl_accuracy"; rr:datatype xsd:float  ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000559 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/measure_group_int{id}" ]
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/measure_group_fluo{id}" ]
   ] .
 
-<Interactions#TriplesMap17>
+<Interactions#TriplesMap22>
   rr:logicalTable [ rr:sqlQuery """
-    SELECT inte.id, inte.QY, inte.QY_acc
-    FROM interaction AS inte, datasets AS ds WHERE inte.QY IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
-    """ ] ;
+    SELECT id, qy, qy_accuracy
+      FROM fluorescent_properties WHERE qy IS NOT NULL
+  """ ] ;
   rr:subjectMap [
-    rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_qy_int{id}" ;
+    rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_qy_fluo{id}" ;
     rr:class mmdbvoc:QuantumYield
   ] ;
     rr:predicateObjectMap [
     rr:predicate sio:SIO_000300 ;
-    rr:objectMap [ rr:column "QY"; rr:datatype xsd:float ]
+    rr:objectMap [ rr:column "qy"; rr:datatype xsd:float ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate mmdbvoc:hasStDev ;
-    rr:objectMap [rr:column "QY_acc"; rr:datatype xsd:float  ]
+    rr:objectMap [rr:column "qy_accuracy"; rr:datatype xsd:float  ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000559 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/measure_group_int{id}" ]
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/measure_group_fluo{id}" ]
   ] .
 
-<Interactions#TriplesMap18>
+<Interactions#TriplesMap23>
   rr:logicalTable [ rr:sqlQuery """
-    SELECT inte.id, inte.lt, inte.lt_acc
-    FROM interaction AS inte, datasets AS ds WHERE inte.lt IS NOT NULL AND inte.id_dataset = ds.id AND ds.visibility = 1
-    """ ] ;
+    SELECT id, lt, lt_accuracy
+      FROM fluorescent_properties WHERE lt IS NOT NULL
+  """ ] ;
   rr:subjectMap [
-    rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_lt_int{id}" ;
+    rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_lt_fluo{id}" ;
     rr:class mmdbvoc:FluorescenceLifetime
   ] ;
     rr:predicateObjectMap [
@@ -554,9 +803,9 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate mmdbvoc:hasStDev ;
-    rr:objectMap [rr:column "lt_acc"; rr:datatype xsd:float  ]
+    rr:objectMap [rr:column "lt_accuracy"; rr:datatype xsd:float  ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000559 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/measure_group_int{id}" ]
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/measure_group_fluo{id}" ]
   ] .
