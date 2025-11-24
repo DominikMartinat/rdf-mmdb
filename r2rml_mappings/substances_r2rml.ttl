@@ -4,15 +4,24 @@
 @prefix bao: <http://www.bioassayontology.org/bao#> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix rr: <http://www.w3.org/ns/r2rml#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 ################################################
 ## substance central node
 ################################################
+
+#define Ph range in vocabulary
+#has maximum and minimum value
+#pH range at which form of molecule exists
+#data type is double
 <Substances#TriplesMap1>
   rr:logicalTable [ rr:sqlQuery """
     SELECT id,identifier,
-      (CASE WHEN MW IS NULL THEN NULL ELSE identifier END) MW_id,
-      (CASE WHEN LogP IS NULL THEN NULL ELSE identifier END) LogP_id FROM substances
+      (CASE WHEN molecular_weight IS NULL THEN NULL ELSE identifier END) MW_id,
+      (CASE WHEN logp IS NULL THEN NULL ELSE identifier END) LogP_id,
+      (CASE WHEN charge IS NULL THEN NULL ELSE identifier END) charge_id,
+      (CASE WHEN inchi IS NULL THEN NULL ELSE identifier END) inchi_id 
+      FROM structures
   """ ] ;
   rr:subjectMap [
     rr:template "https://identifiers.org/molmedb/{identifier}" ;
@@ -26,31 +35,77 @@
     rr:predicate sio:SIO_000008 ;
     rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/substance/{LogP_id}_LogP" ]
   ] ;
+    rr:predicateObjectMap [
+    rr:predicate sio:SIO_000008 ;
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/substance/{charge_id}_charge" ]
+  ] ;
+    rr:predicateObjectMap [
+    rr:predicate sio:SIO_000008 ;
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/substance/{inchi_id}_InChI" ]
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate sio:SIO_000008 ;
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/substance/{identifier}_SMILES" ]
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate sio:SIO_000008 ;
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/substance/{identifier}_InChIKey" ]
+  ] ;
   rr:predicateObjectMap [
     rr:predicate sio:SIO_000008 ;
     rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/substance/{identifier}_MolMeDB" ]
   ] .
 
+#link parent molecule to child form via CHEMINF_000457 -  has normalized counterpart
+<Substances#TriplesMap2>
+  rr:logicalTable [ rr:sqlQuery """
+    SELECT DISTINCT s_child.identifier AS child, s_parent.identifier AS parent
+      FROM structures as s_child, structures as s_parent WHERE s_child.parent_id = s_parent.id
+    """ ] ;
+  rr:subjectMap [
+    rr:template "https://identifiers.org/molmedb/{child}" ;
+  ] ;
+    rr:predicateObjectMap [
+    rr:predicate sio:CHEMINF_000457 ;
+    rr:objectMap [ rr:template "https://identifiers.org/molmedb/{parent}" ]
+  ] .
+
+#set structures woithout parent_id to be their own parent
+#and give them CHEBI molecule type - defines molecule as uncharged entity
+<Substances#TriplesMap3>
+  rr:logicalTable [ rr:sqlQuery "SELECT identifier FROM structures WHERE parent_id IS NULL" ] ;
+  rr:subjectMap [
+    rr:template "https://identifiers.org/molmedb/{identifier}" ;
+    rr:class obo:CHEBI_25367 ;
+  ] ;
+    rr:predicateObjectMap [
+    rr:predicate sio:CHEMINF_000457 ;
+    rr:objectMap [ rr:template "https://identifiers.org/molmedb/{identifier}" ]
+  ] .
+
 ################################################
 ## identifiers and crossreferences
 ################################################
-<Substances#TriplesMap2>
+<Substances#TriplesMap4>
+#identifiers in 'identifiers' table
+#there is not system of choosing one valid identifier over the others
+#use all of them for now - later we can choose
+#except state = 3 (invalid)
+
   rr:logicalTable [ rr:sqlQuery """
-    SELECT vi.id, subs.identifier,
-      (CASE WHEN vi.identifier = 1 THEN vi.value ELSE NULL END) molname,
-      (CASE WHEN vi.identifier = 2 THEN subs.identifier ELSE NULL END) SMILES_id,
-      (CASE WHEN vi.identifier = 3 THEN subs.identifier ELSE NULL END) inchikey_id,
-      (CASE WHEN vi.identifier = 4 THEN subs.identifier ELSE NULL END) pubchem_id,
-      (CASE WHEN vi.identifier = 5 THEN subs.identifier ELSE NULL END) drugbank_id,
-      (CASE WHEN vi.identifier = 6 THEN subs.identifier ELSE NULL END) chebi_id,
-      (CASE WHEN vi.identifier = 7 THEN subs.identifier ELSE NULL END) pdb_id,
-      (CASE WHEN vi.identifier = 8 THEN subs.identifier ELSE NULL END) chembl_id,
-      (CASE WHEN vi.identifier = 4 THEN trim(vi.value) ELSE NULL END) pubchem,
-      (CASE WHEN vi.identifier = 6 THEN replace(vi.value,'CHEBI:','') ELSE NULL END) chebi,
-      (CASE WHEN vi.identifier = 7 THEN vi.value ELSE NULL END) pdb,
-      (CASE WHEN vi.identifier = 8 THEN replace(concat('CHEMBL', upper(vi.value)), 'CHEMBLCHEMBL', 'CHEMBL') ELSE NULL END) chembl
-      FROM validator_identifiers AS vi, substances AS subs 
-      WHERE vi.state = 1 AND vi.active = 1 AND vi.id_substance = subs.id AND NOT (vi.identifier = 6 AND vi.value like 'CHEMBL%');
+    SELECT DISTINCT s.id, s.identifier, i.value, i.type, 
+      CASE WHEN i.type = 1 THEN i.value ELSE NULL END molname,
+      CASE WHEN i.type = 4 THEN s.identifier ELSE NULL END pubchem_id,
+      CASE WHEN i.type = 5 THEN s.identifier ELSE NULL END drugbank_id,
+      CASE WHEN i.type = 6 THEN s.identifier ELSE NULL END chebi_id,
+      CASE WHEN i.type = 7 THEN s.identifier ELSE NULL END pdb_id,
+      CASE WHEN i.type = 8 THEN s.identifier ELSE NULL END chembl_id,
+      CASE WHEN i.type = 4 THEN TRIM(i.value) ELSE NULL END pubchem,
+      CASE WHEN i.type = 6 THEN REPLACE(i.value,'CHEBI:','') ELSE NULL END chebi,
+      CASE WHEN i.type = 7 THEN i.value ELSE NULL END pdb,
+      CASE WHEN i.type = 8 THEN REPLACE(CONCAT('CHEMBL', UPPER(i.value)), 'CHEMBLCHEMBL', 'CHEMBL') ELSE NULL END chembl
+      FROM structures AS s, identifiers AS i 
+      WHERE i.structure_id = s.id AND i.state!=3
   """] ;
   rr:subjectMap [
     rr:template "https://identifiers.org/molmedb/{identifier}" ;
@@ -58,14 +113,6 @@
   rr:predicateObjectMap [
     rr:predicate rdfs:label ;
     rr:objectMap [ rr:column "molname";  rr:datatype xsd:string ] ;
-  ] ;
-  rr:predicateObjectMap [
-    rr:predicate sio:SIO_000008 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/substance/{SMILES_id}_SMILES" ]
-  ] ;
-  rr:predicateObjectMap [
-    rr:predicate sio:SIO_000008 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/substance/{inchikey_id}_InChIKey" ]
   ] ;
   rr:predicateObjectMap [
     rr:predicate sio:SIO_000008 ;
@@ -108,10 +155,10 @@
 ################################################
 ## mapping of obsolete substances
 ################################################
-<Substances#TriplesMap3>
+<Substances#TriplesMap5>
   rr:logicalTable [ rr:sqlQuery """
-    SELECT sl.id, sl.identifier COLLATE utf8mb3_general_ci AS obsolete_id, subs.identifier AS actual_id
-      FROM substance_links AS sl, substances AS subs WHERE sl.id_substance = subs.id
+    SELECT DISTINCT s.identifier AS actual_id, sl.identifier COLLATE utf8mb3_general_ci AS obsolete_id
+      FROM structure_links AS sl, structures AS s WHERE s.id=sl.structure_id
     """ ] ;
   rr:subjectMap [
     rr:template "https://identifiers.org/molmedb/{obsolete_id}" ;
@@ -129,11 +176,10 @@
 ################################################
 ## molecular descriptors
 ################################################
-<Substances#TriplesMap4>
+<Substances#TriplesMap6>
   rr:logicalTable [ rr:sqlQuery """
-    SELECT vi.id, subs.identifier, vi.value
-      FROM validator_identifiers AS vi, substances AS subs 
-      WHERE vi.state = 1 AND vi.active = 1 AND vi.id_substance = subs.id AND vi.identifier = 2
+    SELECT id, identifier, canonical_smiles
+      FROM structures WHERE canonical_smiles IS NOT NULL
   """ ] ;
   rr:subjectMap [
     rr:template "https://rdf.molmedb.upol.cz/substance/{identifier}_SMILES" ;
@@ -141,14 +187,13 @@
   ] ;
   rr:predicateObjectMap [
     rr:predicate sio:SIO_000300 ;
-    rr:objectMap [ rr:column "value" ]
+    rr:objectMap [ rr:column "canonical_smiles" ]
   ] .
 
-<Substances#TriplesMap5>
+<Substances#TriplesMap7>
   rr:logicalTable [ rr:sqlQuery """
-    SELECT vi.id, subs.identifier, vi.value
-      FROM validator_identifiers AS vi, substances AS subs 
-      WHERE vi.state = 1 AND vi.active = 1 AND vi.id_substance = subs.id AND vi.identifier = 3
+    SELECT id, identifier, inchikey 
+      FROM structures WHERE inchikey IS NOT NULL
   """ ] ;
   rr:subjectMap [
     rr:template "https://rdf.molmedb.upol.cz/substance/{identifier}_InChIKey" ;
@@ -156,12 +201,13 @@
   ] ;
   rr:predicateObjectMap [
     rr:predicate sio:SIO_000300 ;
-    rr:objectMap [ rr:column "value" ]
+    rr:objectMap [ rr:column "inchikey" ]
   ] .
 
-<Substances#TriplesMap6>
+<Substances#TriplesMap8>
   rr:logicalTable [ rr:sqlQuery """
-    SELECT id, identifier, MW FROM substances WHERE MW IS NOT NULL
+    SELECT id, identifier, molecular_weight
+      FROM structures WHERE molecular_weight IS NOT NULL
   """ ] ;
   rr:subjectMap [
     rr:template "https://rdf.molmedb.upol.cz/substance/{identifier}_Molecular_Weight" ;
@@ -169,34 +215,77 @@
   ] ;
   rr:predicateObjectMap [
     rr:predicate sio:SIO_000300 ;
-    rr:objectMap [ rr:column "MW"; rr:datatype xsd:float ]
+    rr:objectMap [ rr:column "molecular_weight"; rr:datatype xsd:float ]
   ] ;
   rr:predicateObjectMap [
     rr:predicate sio:SIO_000221 ;
     rr:objectMap [ rr:constant obo:UO_0000221 ]
   ] .
 
-<Substances#TriplesMap7>
+<Substances#TriplesMap9>
   rr:logicalTable [ rr:sqlQuery """
-    SELECT id, identifier, LogP FROM substances WHERE LogP IS NOT NULL
-  """ ] ;
+    SELECT id, identifier, logp 
+      FROM structures WHERE LogP IS NOT NULL
+    """ ] ;
   rr:subjectMap [
     rr:template "https://rdf.molmedb.upol.cz/substance/{identifier}_LogP" ;
     rr:class sio:CHEMINF_000251 ;
   ];
   rr:predicateObjectMap [
     rr:predicate sio:SIO_000300 ;
-    rr:objectMap [ rr:column "LogP"; rr:datatype xsd:float ]
+    rr:objectMap [ rr:column "logp"; rr:datatype xsd:float ]
   ] .
 
-################################################
-## database identifiers
-################################################
-<Substances#TriplesMap8>
+<Substances#TriplesMap10>
+  rr:logicalTable [ rr:sqlQuery "SELECT id, identifier FROM structures" ] ;
+  rr:subjectMap [
+    rr:template "https://rdf.molmedb.upol.cz/substance/{identifier}_MolMeDB" ;
+    rr:class sio:CHEMINF_000571
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate sio:SIO_000300 ;
+    rr:objectMap [ rr:column "identifier" ]
+  ] .
+
+  <Substances#TriplesMap11>
+  rr:logicalTable [ rr:sqlQuery """"
+    SELECT id, identifier, charge 
+      FROM structures WHERE charge IS NOT NULL
+  """ ] ;
+  rr:subjectMap [
+    rr:template "https://rdf.molmedb.upol.cz/substance/{identifier}_charge" ;
+    rr:class sio:CHEMINF_000120 ;
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate sio:SIO_000300 ;
+    rr:objectMap [ rr:column "charge"; rr:datatype xsd:integer ]
+  ] .
+
+  <Substances#TriplesMap12>
   rr:logicalTable [ rr:sqlQuery """
-    SELECT vi.id, subs.identifier, trim(vi.value) AS value
-      FROM validator_identifiers AS vi, substances AS subs 
-      WHERE vi.state = 1 AND vi.active = 1 AND vi.id_substance = subs.id AND vi.identifier = 4
+    SELECT id, identifier, inchi
+      FROM structures WHERE inchi IS NOT NULL
+  """ ] ;
+  rr:subjectMap [
+    rr:template "https://rdf.molmedb.upol.cz/substance/{identifier}_InChI" ;
+    rr:class sio:CHEMINF_000113 ;
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate sio:SIO_000300 ;
+    rr:objectMap [ rr:column "inchi" ]
+  ] .
+
+
+################################################
+## database crossidentifiers
+################################################
+<Substances#TriplesMap13>
+#use all except invalid (state = 3)
+#to be updated when we have a better system for choosing valid identifiers
+  rr:logicalTable [ rr:sqlQuery """
+    SELECT DISTINCT s.identifier, TRIM(i.value) AS value
+      FROM identifiers AS i, structures AS s 
+      WHERE i.state = 1 AND i.structure_id = s.id AND i.type = 4 AND i.state != 3
   """ ] ;
   rr:subjectMap [
     rr:template "https://rdf.molmedb.upol.cz/substance/{identifier}_PubChemCID" ;
@@ -207,11 +296,11 @@
     rr:objectMap [ rr:column "value"; rr:datatype xsd:string ]
   ] .
 
-<Substances#TriplesMap9>
+<Substances#TriplesMap14>
   rr:logicalTable [ rr:sqlQuery """
-    SELECT vi.id, subs.identifier, vi.value
-      FROM validator_identifiers AS vi, substances AS subs 
-      WHERE vi.state = 1 AND vi.active = 1 AND vi.id_substance = subs.id AND vi.identifier = 5
+    SELECT DISTINCT s.identifier, i.value AS value
+      FROM identifiers AS i, structures AS s 
+      WHERE i.state = 1 AND i.structure_id = s.id AND i.type = 5 AND i.state != 3
   """ ] ;
   rr:subjectMap [
     rr:template "https://rdf.molmedb.upol.cz/substance/{identifier}_DrugBank" ;
@@ -222,11 +311,12 @@
     rr:objectMap [ rr:column "value" ]
   ] .
 
-<Substances#TriplesMap10>
+#later
+<Substances#TriplesMap15>
   rr:logicalTable [ rr:sqlQuery """
-    SELECT vi.id, subs.identifier, replace(vi.value,'CHEBI:','') AS value
-      FROM validator_identifiers AS vi, substances AS subs 
-      WHERE vi.state = 1 AND vi.active = 1 AND vi.id_substance = subs.id AND vi.identifier = 6 AND vi.value not like 'CHEMBL%'
+    SELECT DISTINCT s.identifier, replace(i.value,'CHEBI:','') AS value
+      FROM identifiers AS i, structures AS s 
+      WHERE i.state = 1 AND i.structure_id = s.id AND i.type = 6 AND i.state != 3 AND i.value not like 'CHEMBL%'
   """ ] ;
   rr:subjectMap [
     rr:template "https://rdf.molmedb.upol.cz/substance/{identifier}_ChEBI" ;
@@ -234,14 +324,14 @@
   ] ;
   rr:predicateObjectMap [
     rr:predicate sio:SIO_000300 ;
-    rr:objectMap [ rr:column "value"; rr:datatype xsd:string ]
+    rr:objectMap [ rr:template "CHEBI:{value}"; rr:datatype xsd:string ]
   ] .
 
-<Substances#TriplesMap11>
+<Substances#TriplesMap16>
   rr:logicalTable [ rr:sqlQuery """
-    SELECT vi.id, subs.identifier, vi.value
-      FROM validator_identifiers AS vi, substances AS subs 
-      WHERE vi.state = 1 AND vi.active = 1 AND vi.id_substance = subs.id AND vi.identifier = 7
+    SELECT DISTINCT s.identifier, i.value AS value
+      FROM identifiers AS i, structures AS s 
+      WHERE i.state = 1 AND i.structure_id = s.id AND i.type = 7 AND i.state != 3
   """ ] ;
   rr:subjectMap [
     rr:template "https://rdf.molmedb.upol.cz/substance/{identifier}_PDB" ;
@@ -252,11 +342,11 @@
     rr:objectMap [ rr:column "value" ]
   ] .
 
-<Substances#TriplesMap12>
+<Substances#TriplesMap17>
   rr:logicalTable [ rr:sqlQuery """
-    SELECT vi.id, subs.identifier, replace(concat('CHEMBL', upper(vi.value)), 'CHEMBLCHEMBL', 'CHEMBL') AS value
-      FROM validator_identifiers AS vi, substances AS subs 
-      WHERE vi.state = 1 AND vi.active = 1 AND vi.id_substance = subs.id AND vi.identifier = 8
+    SELECT DISTINCT s.identifier, REPLACE(CONCAT('CHEMBL', UPPER(i.value)), 'CHEMBLCHEMBL', 'CHEMBL') AS value
+      FROM identifiers AS i, structures AS s 
+      WHERE i.state = 1 AND i.structure_id = s.id AND i.type = 8 AND i.state != 3
   """ ] ;
   rr:subjectMap [
     rr:template "https://rdf.molmedb.upol.cz/substance/{identifier}_ChEMBL" ;
@@ -265,15 +355,4 @@
   rr:predicateObjectMap [
     rr:predicate sio:SIO_000300 ;
     rr:objectMap [ rr:column "value"; rr:datatype xsd:string ]
-  ] .
-
-<Substances#TriplesMap13>
-  rr:logicalTable [ rr:sqlQuery "SELECT id, identifier FROM substances" ] ;
-  rr:subjectMap [
-    rr:template "https://rdf.molmedb.upol.cz/substance/{identifier}_MolMeDB" ;
-    rr:class sio:CHEMINF_000571
-  ] ;
-  rr:predicateObjectMap [
-    rr:predicate sio:SIO_000300 ;
-    rr:objectMap [ rr:column "identifier" ]
   ] .
