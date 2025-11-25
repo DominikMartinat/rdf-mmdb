@@ -2,26 +2,32 @@
 
 @prefix mmdbref: <https://rdf.molmedb.upol.cz/reference/> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix sio: <http://semanticscience.org/resource/> .
 
+
+#necham je referovat na clanky v databazi krom molmedb
 mmdbref:ref22 rdf:type sio:SIO_000089 ;
-    dcterms:bibliographicCitation "MolMeDB" ;
+    rdfs:label "MolMeDB" ;
     rdfs:seeAlso <https://molmedb.upol.cz/> .
 
 mmdbref:ref1030 rdf:type sio:SIO_000089 ;
-    dcterms:bibliographicCitation "PubChem" ;
+    rdfs:label "PubChem" ;
     rdfs:seeAlso <https://pubchem.ncbi.nlm.nih.gov/> .
 
 mmdbref:ref1031 rdf:type sio:SIO_000089 ;
-    dcterms:bibliographicCitation "ChEMBL" ;
+    rdfs:label "ChEMBL" ;
     rdfs:seeAlso <https://www.ebi.ac.uk/chembl/> .
 
 mmdbref:ref1875 rdf:type sio:SIO_000089 ;
-    dcterms:bibliographicCitation "IUPHAR" ;
+    rdfs:label "IUPHAR" ;
     rdfs:seeAlso <https://www.guidetopharmacology.org/> .
 
 mmdbref:ref1876 rdf:type sio:SIO_000089 ;
-    dcterms:bibliographicCitation "Metrabase" ;
+    rdfs:label "Metrabase" ;
     rdfs:seeAlso <http://www-metrabase.ch.cam.ac.uk/> .
+
+mmdbref:ref4308 rdf:type sio:SIO_000089 ;
+    rdfs:label "BindingDB" ;
+    rdfs:seeAlso <https://bindingdb.org/> .
+

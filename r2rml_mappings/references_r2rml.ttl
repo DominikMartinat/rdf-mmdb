@@ -8,8 +8,9 @@
 
 <References#TriplesMap1>
   rr:logicalTable [ rr:sqlQuery """
-    SELECT id, doi, citation, pmid FROM publications WHERE citation NOT IN ('in-house calculations','PUBCHEM', 'ChEMBL', 'IUPHAR', 'Metrabase')
-    """ ] ;
+    SELECT id, citation, doi FROM publications
+      WHERE id NOT IN (22, 1030, 1031, 1875, 1876, 4308)
+  """ ] ;
   rr:subjectMap [
     rr:template "https://rdf.molmedb.upol.cz/reference/ref{id}" ;
     rr:class dcterms:BibliographicResource
@@ -21,103 +22,186 @@
     rr:predicateObjectMap [
     rr:predicate bibo:doi ;
     rr:objectMap [ rr:column "doi"]
+  ] .
+
+<References#TriplesMap2>
+  rr:logicalTable [ rr:sqlQuery """
+    SELECT id, identifier FROM publications
+      WHERE identifier_source = 'MED'
+      AND id NOT IN (22, 1030, 1031, 1875, 1876, 4308) 
+  """ ] ;
+  rr:subjectMap [
+    rr:template "https://rdf.molmedb.upol.cz/reference/ref{id}"
   ] ;
     rr:predicateObjectMap [
     rr:predicate bibo:pmid ;
-    rr:objectMap [ rr:column "pmid" ]
+    rr:objectMap [ rr:column "identifier" ]
   ] .
 
-#which interactions - database included
-<References#TriplesMap2>
-  rr:logicalTable [ rr:sqlQuery """
-    SELECT inte.id, inte.id_reference
-    FROM interaction AS inte, datasets AS ds
-    WHERE ds.visibility = 1 AND inte.id_dataset = ds.id
-  """] ;
-  rr:subjectMap [
-    rr:template "https://rdf.molmedb.upol.cz/reference/ref{id_reference}"
-  ] ;
-    rr:predicateObjectMap [
-    rr:predicate dcterms:isReferencedBy ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/int{id}" ]
-  ] .
-
-#which transproter measurements  - database included                  
+#which substances referenced - primary - direct
 <References#TriplesMap3>
   rr:logicalTable [ rr:sqlQuery """
-    SELECT tr.id, tr.id_reference
-    FROM transporters AS tr, transporter_datasets AS ds
-    WHERE ds.visibility = 1 AND tr.id_dataset = ds.id
+    SELECT DISTINCT i.publication_id, s.identifier
+      FROM interactions_active AS i, structures AS s
+      WHERE i.structure_id = s. id AND publication_id IS NOT NULL
+    UNION
+      SELECT DISTINCT i.publication_id, s.identifier
+      FROM interactions_passive AS i, structures AS s
+      WHERE i.structure_id = s. id AND publication_id IS NOT NULL
+    UNION
+      SELECT DISTINCT i.publication_id, s.identifier
+      FROM fluorescent_properties  AS i, structures AS s
+      WHERE i.structure_id = s. id AND publication_id IS NOT NULL
   """] ;
   rr:subjectMap [
-    rr:template "https://rdf.molmedb.upol.cz/reference/ref{id_reference}"
-  ] ;
-    rr:predicateObjectMap [
-    rr:predicate dcterms:isReferencedBy ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/transporter/tra{id}"]
-  ] .
-
-#which substances - database included
-<References#TriplesMap4>
-  rr:logicalTable [ rr:sqlQuery """
-    SELECT DISTINCT subs.identifier, ds.id_publication AS id_publication
-    FROM interaction AS inte, substances AS subs, datasets AS ds
-    WHERE inte.id_substance = subs.id AND ds.visibility = 1 AND inte.id_dataset = ds.id
-    UNION
-    SELECT DISTINCT subs.identifier, ds.id_reference AS id_publication
-    FROM transporters AS tr, substances AS subs, transporter_datasets AS ds
-    WHERE tr.id_substance = subs.id AND ds.visibility = 1 AND tr.id_dataset = ds.id
-    UNION
-    SELECT DISTINCT subs.identifier, inte.id_reference AS id_publication
-    FROM interaction AS inte, substances AS subs, datasets AS ds
-    WHERE inte.id_substance = subs.id AND ds.visibility = 1 AND inte.id_dataset = ds.id
-    UNION
-    SELECT DISTINCT subs.identifier, tr.id_reference AS id_publication
-    FROM transporters AS tr, substances AS subs, transporter_datasets AS ds
-    WHERE tr.id_substance = subs.id AND ds.visibility = 1 AND tr.id_dataset = ds.id
-  """] ;
-  rr:subjectMap [
-    rr:template "https://rdf.molmedb.upol.cz/reference/ref{id_publication}"
+    rr:template "https://rdf.molmedb.upol.cz/reference/ref{publication_id}"
   ] ;
     rr:predicateObjectMap [
     rr:predicate dcterms:subject ;
     rr:objectMap [ rr:template "https://identifiers.org/molmedb/{identifier}" ]
   ] .
 
-#which membranes - database included
-<References#TriplesMap5>
+#which substances referenced - primary standardized coutnrepart
+<References#TriplesMap4>
   rr:logicalTable [ rr:sqlQuery """
-    SELECT DISTINCT inte.id_membrane, ds.id_publication AS id_publication
-    FROM interaction AS inte, datasets AS ds
-    WHERE ds.visibility = 1 AND inte.id_dataset = ds.id
+    SELECT DISTINCT i.publication_id, s_parent.identifier
+      FROM interactions_active AS i, structures AS s, structures AS s_parent
+      WHERE i.structure_id = s. id AND s.parent_id = s_parent.id AND i.publication_id IS NOT NULL
     UNION
-    SELECT DISTINCT inte.id_membrane, inte.id_reference AS id_publication
-    FROM interaction AS inte, datasets AS ds
-    WHERE ds.visibility = 1 AND inte.id_dataset = ds.id
+      SELECT DISTINCT i.publication_id, s_parent.identifier
+      FROM interactions_passive AS i, structures AS s, structures AS s_parent
+      WHERE i.structure_id = s. id AND s.parent_id = s_parent.id AND i.publication_id IS NOT NULL
+    UNION
+      SELECT DISTINCT i.publication_id, s_parent.identifier
+      FROM fluorescent_properties  AS i, structures AS s, structures AS s_parent
+      WHERE i.structure_id = s. id AND s.parent_id = s_parent.id AND i.publication_id IS NOT NULL
   """] ;
   rr:subjectMap [
-    rr:template "https://rdf.molmedb.upol.cz/reference/ref{id_publication}"
+    rr:template "https://rdf.molmedb.upol.cz/reference/ref{publication_id}"
   ] ;
     rr:predicateObjectMap [
     rr:predicate dcterms:subject ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/membrane{id_membrane}" ]
+    rr:objectMap [ rr:template "https://identifiers.org/molmedb/{identifier}" ]
+  ] .
+
+#which substances referenced - secondary - direct
+<References#TriplesMap5>
+  rr:logicalTable [ rr:sqlQuery """
+    SELECT DISTINCT s.identifier, m.publication_id
+      FROM interactions_active AS i, structures AS s, model_has_publications AS m
+      WHERE i.structure_id = s. id AND m.model_id = i.dataset_id AND m.model_type = 'App\\Models\\Dataset'
+    UNION
+      SELECT DISTINCT s.identifier, m.publication_id
+      FROM interactions_passive AS i, structures AS s, model_has_publications AS m
+      WHERE i.structure_id = s. id AND m.model_id = i.dataset_id AND m.model_type = 'App\\Models\\Dataset'
+    UNION
+      SELECT DISTINCT s.identifier, m.publication_id
+      FROM fluorescent_properties AS i, structures AS s, model_has_publications AS m
+      WHERE i.structure_id = s. id AND m.model_id = i.dataset_id AND m.model_type = 'App\\Models\\Dataset'
+  """] ;
+  rr:subjectMap [
+    rr:template "https://rdf.molmedb.upol.cz/reference/ref{publication_id}"
+  ] ;
+    rr:predicateObjectMap [
+    rr:predicate dcterms:subject ;
+    rr:objectMap [ rr:template "https://identifiers.org/molmedb/{identifier}" ]
+  ] .
+
+#which substances referenced - secondary - standardized counterpart
+<References#TriplesMap6>
+  rr:logicalTable [ rr:sqlQuery """
+    SELECT DISTINCT s_parent.identifier, m.publication_id
+      FROM interactions_active AS i, structures AS s,
+           model_has_publications AS m, structures AS s_parent
+      WHERE i.structure_id = s. id AND m.model_id = i.dataset_id
+      AND s.parent_id = s_parent.id AND m.model_type = 'App\\Models\\Dataset'
+    UNION
+      SELECT DISTINCT s_parent.identifier, m.publication_id
+      FROM interactions_passive AS i, structures AS s,
+           model_has_publications AS m, structures AS s_parent
+      WHERE i.structure_id = s. id AND m.model_id = i.dataset_id
+      AND s.parent_id = s_parent.id AND m.model_type = 'App\\Models\\Dataset'
+    UNION
+      SELECT DISTINCT s_parent.identifier, m.publication_id
+      FROM fluorescent_properties AS i, structures AS s,
+           model_has_publications AS m, structures AS s_parent
+      WHERE i.structure_id = s. id AND m.model_id = i.dataset_id
+      AND s.parent_id = s_parent.id AND m.model_type = 'App\\Models\\Dataset'
+  """] ;
+  rr:subjectMap [
+    rr:template "https://rdf.molmedb.upol.cz/reference/ref{publication_id}"
+  ] ;
+    rr:predicateObjectMap [
+    rr:predicate dcterms:subject ;
+    rr:objectMap [ rr:template "https://identifiers.org/molmedb/{identifier}" ]
+  ] .
+
+
+
+#which membranes - database included
+<References#TriplesMap7>
+  rr:logicalTable [ rr:sqlQuery """
+    SELECT DISTINCT i.publication_id, ds.membrane_id
+      FROM interactions_passive AS i, datasets AS ds
+      WHERE i.dataset_id = ds.id
+    UNION
+      SELECT DISTINCT i.publication_id, ds.membrane_id
+      FROM fluorescent_properties AS i, datasets AS ds
+      WHERE i.dataset_id = ds.id
+    UNION
+      SELECT DISTINCT ds.membrane_id, m.publication_id 
+      FROM datasets AS ds, model_has_publications AS m
+      WHERE m.model_id = ds.id AND m.model_type = 'App\\Models\\Dataset'
+  """] ;
+  rr:subjectMap [
+    rr:template "https://rdf.molmedb.upol.cz/reference/ref{publication_id}"
+  ] ;
+    rr:predicateObjectMap [
+    rr:predicate dcterms:subject ;
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/membrane{membrane_id}" ]
+  ] .
+
+##which methods - database included
+<References#TriplesMap8>
+  rr:logicalTable [ rr:sqlQuery """
+    SELECT DISTINCT i.publication_id, ds.method_id
+      FROM interactions_passive AS i, datasets AS ds 
+      WHERE i.dataset_id = ds.id
+    UNION
+      SELECT DISTINCT i.publication_id, ds.method_id
+      FROM interactions_active AS i, datasets AS ds 
+      WHERE i.dataset_id = ds.id
+    UNION
+      SELECT DISTINCT i.publication_id, ds.method_id
+      FROM fluorescent_properties AS i, datasets AS ds 
+      WHERE i.dataset_id = ds.id
+    UNION
+      SELECT DISTINCT ds.method_id, m.publication_id 
+      FROM datasets AS ds, model_has_publications AS m
+      WHERE m.model_id = ds.id AND m.model_type = 'App\\Models\\Dataset'
+  """] ;
+  rr:subjectMap [
+    rr:template "https://rdf.molmedb.upol.cz/reference/ref{publication_id}"
+  ] ;
+    rr:predicateObjectMap [
+    rr:predicate dcterms:subject ;
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/membrane{method_id}" ]
   ] .
 
 #which transporters - database included
-<References#TriplesMap6>
+<References#TriplesMap9>
   rr:logicalTable [ rr:sqlQuery """
-    SELECT DISTINCT tr.id_target, ds.id_reference AS id_reference
-    FROM transporters AS tr, transporter_targets AS tt, transporter_datasets AS ds
-    WHERE ds.visibility = 1 AND tr.id_dataset = ds.id
+    SELECT DISTINCT publication_id, protein_id
+      FROM interactions_active 
     UNION
-    SELECT DISTINCT tr.id_target, tr.id_reference AS id_reference
-    FROM transporters AS tr, transporter_targets AS tt, transporter_datasets AS ds
-    WHERE ds.visibility = 1 AND tr.id_dataset = ds.id
+      SELECT DISTINCT m.publication_id, i.protein_id 
+      FROM interactions_active AS i, model_has_publications AS m
+      WHERE i.dataset_id = m.model_id AND m.model_type = 'App\\Models\\Dataset'
   """] ;
   rr:subjectMap [
-    rr:template "https://rdf.molmedb.upol.cz/reference/ref{id_reference}"
+    rr:template "https://rdf.molmedb.upol.cz/reference/ref{publication_id}"
   ] ;
     rr:predicateObjectMap [
     rr:predicate dcterms:subject ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/transporter/target{id_target}" ]
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/transporter/target{protein_id}" ]
   ] .
