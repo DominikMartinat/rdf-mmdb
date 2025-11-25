@@ -18,7 +18,8 @@
   rr:logicalTable [ rr:sqlQuery """
     SELECT inte.id, s.identifier, inte.publication_id, ds.membrane_id, mhp.publication_id AS secondary_publication
       FROM interactions_passive AS inte, structures AS s, datasets AS ds, model_has_publications AS mhp
-      WHERE inte.structure_id = s.id AND inte.dataset_id = ds.id AND inte.dataset_id = mhp.model_id AND mhp.model_type = 'App\\Models\\Dataset'
+      WHERE inte.structure_id = s.id AND inte.dataset_id = ds.id AND inte.dataset_id = mhp.model_id
+      AND mhp.model_type = 'App\\Models\\Dataset'
   """] ;
   rr:subjectMap [
     rr:template "https://rdf.molmedb.upol.cz/interaction/int{id}" ;
@@ -83,98 +84,6 @@
 ################################################
 ## interaction measure group
 ################################################
-#stare zahod
-#fluorecentni maji vlastni tabulku
-<Interactions#TriplesMap3>
-  rr:logicalTable [ rr:sqlQuery """
-    SELECT inte.id, inte.id_membrane, inte.id_method, inte.comment, subs.identifier as identifier,
-      (CASE WHEN inte.LogK IS NULL THEN NULL ELSE inte.id END) LogK_id,
-      (CASE WHEN inte.LogPerm IS NULL THEN NULL ELSE inte.id END) LogPerm_id,
-      (CASE WHEN inte.Position IS NULL THEN NULL ELSE inte.id END) Position_id,
-      (CASE WHEN inte.Penetration IS NULL THEN NULL ELSE inte.id END) Penetration_id,
-      (CASE WHEN inte.Water IS NULL THEN NULL ELSE inte.id END) Water_id,
-      (CASE WHEN inte.theta IS NULL THEN NULL ELSE inte.id END) theta_id,
-      (CASE WHEN inte.abs_wl IS NULL THEN NULL ELSE inte.id END) abs_wl_id,
-      (CASE WHEN inte.fluo_wl IS NULL THEN NULL ELSE inte.id END) fluo_wl_id,
-      (CASE WHEN inte.QY IS NULL THEN NULL ELSE inte.id END) QY_id,
-      (CASE WHEN inte.lt IS NULL THEN NULL ELSE inte.id END) lt_id,
-      (CASE WHEN inte.temperature IS NULL THEN NULL ELSE inte.id END) temperature_id,
-      (CASE WHEN inte.charge IS NULL THEN NULL ELSE inte.id END) charge_id 
-      FROM interaction AS inte, substances AS subs, datasets AS ds
-      WHERE inte.id_substance = subs.id AND inte.id_dataset = ds.id AND ds.visibility = 1
-  """] ;
-  rr:subjectMap [
-    rr:template "https://rdf.molmedb.upol.cz/interaction/measure_group_int{id}" ;
-    rr:class bao:BAO_0000040
-  ] ;
-    rr:predicateObjectMap [
-    rr:predicate bao:BAO_0000212 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/method{id_method}" ]
-  ] ;  
-    rr:predicateObjectMap [
-    rr:predicate bao:BAO_0000208 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_LogK_int{LogK_id}" ]
-  ] ; 
-    rr:predicateObjectMap [
-    rr:predicate bao:BAO_0000208 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_LogPerm_int{LogPerm_id}" ]
-  ] ; 
-    rr:predicateObjectMap [
-    rr:predicate bao:BAO_0000208 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_position_int{Position_id}" ]
-  ] ; 
-    rr:predicateObjectMap [
-    rr:predicate bao:BAO_0000208 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_penetration_int{Penetration_id}" ]
-  ] ;
-    rr:predicateObjectMap [
-    rr:predicate bao:BAO_0000208 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_water_int{Water_id}" ]
-  ] ;
-    rr:predicateObjectMap [
-    rr:predicate bao:BAO_0000208 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_theta_int{theta_id}" ] #missing?
-  ] ;
-    rr:predicateObjectMap [
-    rr:predicate bao:BAO_0000208 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_abs_wl_int{abs_wl_id}" ]
-  ] ;
-    rr:predicateObjectMap [
-    rr:predicate bao:BAO_0000208 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_fluo_wl_int{fluo_wl_id}" ]
-  ] ;
-    rr:predicateObjectMap [
-    rr:predicate bao:BAO_0000208 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_qy_int{QY_id}" ]
-  ] ;
-    rr:predicateObjectMap [
-    rr:predicate bao:BAO_0000208 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/endpoint_lt_int{lt_id}" ]
-  ] ;
-    rr:predicateObjectMap [
-    rr:predicate bao:BAO_0090012 ;
-    rr:objectMap [ rr:template "https://identifiers.org/molmedb/{identifier}" ]
-  ] ;
-    rr:predicateObjectMap [
-    rr:predicate bao:BAO_0090012 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/membrane{id_membrane}"  ]
-  ] ;
-    rr:predicateObjectMap [
-    rr:predicate bao:BAO_0000426 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/int{id}" ]
-  ] ; 
-    rr:predicateObjectMap [
-    rr:predicate repr:hasExperimentalCondition ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/measure_group_temperature_int{temperature_id}" ]
-  ] ; 
-    rr:predicateObjectMap [
-    rr:predicate repr:hasExperimentalCondition ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/measure_group_mol_charge_int{charge_id}" ]
-  ] ; 
-    rr:predicateObjectMap [
-    rr:predicate rdfs:comment ;
-    rr:objectMap [ rr:column "comment" ]
-  ] .
 
 #nove
 #hodilo by se pH
@@ -353,39 +262,35 @@
     rr:objectMap [ rr:column "description" ]
   ] .
 
-#this looks weird in database now
-#will have to fix
-
-# <Interactions#TriplesMap5>
-#   rr:logicalTable [ rr:sqlQuery """
-#     SELECT mlink.id_membrane,
-#     (CASE etl.id_enum_type
-# 	    WHEN 91 THEN 'SubstanceBasedMembraneModel'
-# 	    WHEN 92 THEN 'BiologyBasedMembraneModel'
-# 	    ELSE NULL END) structure_type,
-#     (CASE etl.id_enum_type_parent
-#      	WHEN 87 THEN 'GenericMembraneModel'
-#      	WHEN 88 THEN 'IntestineMembraneModel'
-#     	WHEN 89 THEN 'OralMembraneModel'
-#     	WHEN 90 THEN 'SkinMembraneModel'
-#  	    WHEN 93 THEN 'BrainMembraneModel'
-#  	    WHEN 97 THEN 'EyeMembraneModel'
-#  	    WHEN 178 THEN 'CellMembraneModel'
-#  	    ELSE NULL END) anatomical_type
-#     FROM membrane_enum_type_links AS mlink, enum_type_links AS etl
-#     WHERE mlink.id_enum_type_link = etl.id
-#   """ ] ;
-#   rr:subjectMap [
-#     rr:template "https://rdf.molmedb.upol.cz/interaction/membrane{id_membrane}" ;
-#   ] ;
-#     rr:predicateObjectMap [
-#     rr:predicate rdf:type ;
-#     rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/vocabulary#{structure_type}" ]
-#   ] ;
-#     rr:predicateObjectMap [
-#     rr:predicate rdf:type ;
-#     rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/vocabulary#{anatomical_type}" ]
-#   ] .
+<Interactions#TriplesMap5>
+  rr:logicalTable [ rr:sqlQuery """
+    SELECT c.id, c.parent_id, c.title, m.model_id,
+      CASE WHEN c.id IN (62,67,69,65,153,72) THEN 'SubstanceBasedMembraneModel'
+        WHEN c.id IN (154,155,66,68,70,63,64) THEN 'BiologyBasedMembraneModel'
+	      ELSE NULL END structure_type,
+      CASE c.parent_id
+        WHEN 58 THEN 'GenericMembraneModel'
+        WHEN 59 THEN 'IntestineMembraneModel'
+        WHEN 60 THEN 'OralMembraneModel'
+        WHEN 61 THEN 'SkinMembraneModel'
+        WHEN 71 THEN 'BrainMembraneModel'
+        WHEN 73 THEN 'EyeMembraneModel'
+        WHEN 152 THEN 'CellMembraneModel'
+        ELSE NULL END anatomical_type
+      FROM categories AS c, model_has_categories AS m
+      WHERE c.type = 1 AND m.category_id = c.id
+  """ ] ;
+  rr:subjectMap [
+    rr:template "https://rdf.molmedb.upol.cz/interaction/membrane{id_membrane}" ;
+  ] ;
+    rr:predicateObjectMap [
+    rr:predicate rdf:type ;
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/vocabulary#{structure_type}" ]
+  ] ;
+    rr:predicateObjectMap [
+    rr:predicate rdf:type ;
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/vocabulary#{anatomical_type}" ]
+  ] .
 
 ################################################
 ## method
@@ -441,7 +346,7 @@
         WHEN 168 THEN 'MembranePermeabilityMethod'
         ELSE NULL END) child_type_voc
       FROM categories AS c, model_has_categories AS m 
-      WHERE type = 2 AND m.model_type='App\\Models\\Method' AND m.category_id = c.id
+      WHERE c.type = 2 AND m.category_id = c.id
   """ ] ;
   rr:subjectMap [
     rr:template "https://rdf.molmedb.upol.cz/interaction/method{model_id}" ;
