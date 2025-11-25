@@ -49,18 +49,6 @@
 # add separate pammings for inhibitor/substrate - maybe as some type or category
 <Transportes#TriplesMap2>
   rr:logicalTable [ rr:sqlQuery """
-    SELECT tr.id, tr.id_target, tr.note, subs.identifier,
-      (CASE WHEN tr.type = 1 OR tr.type = 2 THEN tr.id ELSE NULL END) substrate_id,
-      (CASE WHEN tr.type = 3 OR tr.type = 4 THEN tr.id ELSE NULL END) inhibitor_id,
-      (CASE WHEN tr.Km IS NULL THEN NULL ELSE tr.id END) Km_id,
-      (CASE WHEN tr.EC50 IS NULL THEN NULL ELSE tr.id END) EC50_id,
-      (CASE WHEN tr.Ki IS NULL THEN NULL ELSE tr.id END) Ki_id,
-      (CASE WHEN tr.IC50 IS NULL THEN NULL ELSE tr.id END) IC50_id 
-      FROM transporters AS tr, substances AS subs, transporter_datasets AS ds
-      WHERE tr.id_substance = subs.id AND tr.id_dataset = ds.id AND ds.visibility = 1
-  """ ] ;
-<Transportes#TriplesMap2>
-  rr:logicalTable [ rr:sqlQuery """
     SELECT i.id, s.identifier, i.protein_id, i.note,
       CASE WHEN i.km IS NULL THEN NULL ELSE i.id END Km_id,
       CASE WHEN i.ec50 IS NULL THEN NULL ELSE i.id END EC50_id,
@@ -121,8 +109,9 @@
 # rework bit later
 <Transportes#TriplesMap3>
   rr:logicalTable [ rr:sqlQuery """
-      SELECT id, uniprot_id COLLATE utf8mb3_general_ci AS uniprot_id, name COLLATE utf8mb3_general_ci AS name
-      FROM transporter_targets
+      SELECT DISTINCT p.id, p.uniprot_id, pi.value
+        FROM proteins AS p, protein_identifiers AS pi
+        WHERE p.id = pi.protein_id AND pi.type = 1 AND pi.state = 2
   """
   ] ;
   rr:subjectMap [
@@ -131,7 +120,7 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate  rdfs:label ;
-    rr:objectMap [ rr:column "name"; rr:datatype xsd:string ]
+    rr:objectMap [ rr:column "value"; rr:datatype xsd:string ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate  skos:exactMatch ;
@@ -139,15 +128,11 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate  sio:SIO_000008 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/transporter/target{id}_UniProt"]
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/transporter/target{id}_UniProt" ]
   ] .
 
 <Transportes#TriplesMap4>
-  rr:logicalTable [ rr:sqlQuery """
-     SELECT id, uniprot_id COLLATE utf8mb3_general_ci AS uniprot_id
-      FROM transporter_targets
-  """
-  ] ;
+  rr:logicalTable [ rr:sqlQuery "SELECT id, uniprot_id FROM proteins" ] ;
   rr:subjectMap [
     rr:template "https://rdf.molmedb.upol.cz/transporter/target{id}_UniProt" ;
     rr:class edam:data_2291
