@@ -20,6 +20,8 @@
       (CASE WHEN molecular_weight IS NULL THEN NULL ELSE identifier END) MW_id,
       (CASE WHEN logp IS NULL THEN NULL ELSE identifier END) LogP_id,
       (CASE WHEN charge IS NULL THEN NULL ELSE identifier END) charge_id,
+      (CASE WHEN ph_start IS NULL THEN NULL ELSE identifier END) ph_min_id,
+      (CASE WHEN ph_end IS NULL THEN NULL ELSE identifier END) ph_max_id,
       (CASE WHEN inchi IS NULL THEN NULL ELSE identifier END) inchi_id 
       FROM structures
   """ ] ;
@@ -38,6 +40,14 @@
     rr:predicateObjectMap [
     rr:predicate sio:SIO_000008 ;
     rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/substance/{charge_id}_charge" ]
+  ] ;
+    rr:predicateObjectMap [
+    rr:predicate sio:SIO_000008 ;
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/substance/{ph_min_id}_pHmin" ]
+  ] ;
+    rr:predicateObjectMap [
+    rr:predicate sio:SIO_000008 ;
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/substance/{ph_max_id}_pHmax" ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate sio:SIO_000008 ;
@@ -157,7 +167,7 @@
 ################################################
 <Substances#TriplesMap5>
   rr:logicalTable [ rr:sqlQuery """
-    SELECT DISTINCT s.identifier AS actual_id, sl.identifier COLLATE utf8mb3_general_ci AS obsolete_id
+    SELECT DISTINCT s.identifier AS actual_id, sl.identifier AS obsolete_id
       FROM structure_links AS sl, structures AS s WHERE s.id=sl.structure_id
     """ ] ;
   rr:subjectMap [
@@ -254,14 +264,42 @@
   """ ] ;
   rr:subjectMap [
     rr:template "https://rdf.molmedb.upol.cz/substance/{identifier}_charge" ;
-    rr:class sio:CHEMINF_000120 ;
+    rr:class sio:CHEMINF_000268 ;
   ] ;
   rr:predicateObjectMap [
     rr:predicate sio:SIO_000300 ;
     rr:objectMap [ rr:column "charge"; rr:datatype xsd:integer ]
   ] .
 
-  <Substances#TriplesMap12>
+<Substances#TriplesMap12>
+  rr:logicalTable [ rr:sqlQuery """"
+    SELECT id, identifier, ph_start
+      FROM structures WHERE ph_start IS NOT NULL
+  """ ] ;
+  rr:subjectMap [
+    rr:template "https://rdf.molmedb.upol.cz/substance/{ph_max_id}_pHmin" ;
+    rr:class mmdbvoc:ProtonationMinPH ;
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate sio:SIO_000300 ;
+    rr:objectMap [ rr:column "ph_start"; rr:datatype xsd:float ]
+  ] .
+
+<Substances#TriplesMap13>
+  rr:logicalTable [ rr:sqlQuery """"
+    SELECT id, identifier, ph_end
+      FROM structures WHERE ph_end IS NOT NULL
+  """ ] ;
+  rr:subjectMap [
+    rr:template "https://rdf.molmedb.upol.cz/substance/{ph_max_id}_pHmax" ;
+    rr:class mmdbvoc:ProtonationMaxPH ;
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate sio:SIO_000300 ;
+    rr:objectMap [ rr:column "ph_end"; rr:datatype xsd:float ]
+  ] .
+
+  <Substances#TriplesMap14>
   rr:logicalTable [ rr:sqlQuery """
     SELECT id, identifier, inchi
       FROM structures WHERE inchi IS NOT NULL
@@ -279,7 +317,7 @@
 ################################################
 ## database crossidentifiers
 ################################################
-<Substances#TriplesMap13>
+<Substances#TriplesMap15>
 #use all except invalid (state = 3)
 #to be updated when we have a better system for choosing valid identifiers
   rr:logicalTable [ rr:sqlQuery """
@@ -296,7 +334,7 @@
     rr:objectMap [ rr:column "value"; rr:datatype xsd:string ]
   ] .
 
-<Substances#TriplesMap14>
+<Substances#TriplesMap16>
   rr:logicalTable [ rr:sqlQuery """
     SELECT DISTINCT s.identifier, i.value AS value
       FROM identifiers AS i, structures AS s 
@@ -312,7 +350,7 @@
   ] .
 
 #later
-<Substances#TriplesMap15>
+<Substances#TriplesMap17>
   rr:logicalTable [ rr:sqlQuery """
     SELECT DISTINCT s.identifier, replace(i.value,'CHEBI:','') AS value
       FROM identifiers AS i, structures AS s 
@@ -327,7 +365,7 @@
     rr:objectMap [ rr:template "CHEBI:{value}"; rr:datatype xsd:string ]
   ] .
 
-<Substances#TriplesMap16>
+<Substances#TriplesMap18>
   rr:logicalTable [ rr:sqlQuery """
     SELECT DISTINCT s.identifier, i.value AS value
       FROM identifiers AS i, structures AS s 
@@ -342,7 +380,7 @@
     rr:objectMap [ rr:column "value" ]
   ] .
 
-<Substances#TriplesMap17>
+<Substances#TriplesMap19>
   rr:logicalTable [ rr:sqlQuery """
     SELECT DISTINCT s.identifier, REPLACE(CONCAT('CHEMBL', UPPER(i.value)), 'CHEMBLCHEMBL', 'CHEMBL') AS value
       FROM identifiers AS i, structures AS s 
