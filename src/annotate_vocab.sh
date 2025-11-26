@@ -1,11 +1,11 @@
 #!/bin/bash
 
 # add annotation using obo robot
-DATE= date +"%Y-%m-%d"
+DATE=$(date +"%Y-%m-%d")
 
 robot annotate --input ../vocabulary.owl \
-  --ontology-iri https://rdf.molmedb.upol.cz/vocabulary \
-  --version-iri http://example.com/animals/${DATE}/animals.owl \
+  --ontology-iri https://rdf.molmedb.upol.cz/vocabulary.owl \
+  --version-iri https://rdf.molmedb.upol.cz/vocabulary/${DATE}/vocabulary.owl \
   --annotation dc11:title "MolMeDB RDF vocabulary" \
   --annotation dc11:description "Vocabulary for needs of MolMeDB RDF." \
   --link-annotation dc:license https://creativecommons.org/publicdomain/zero/1.0/ \
