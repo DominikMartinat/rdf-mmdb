@@ -84,12 +84,6 @@
 ################################################
 ## interaction measure group
 ################################################
-
-#nove
-#hodilo by se pH
-#budu muset rozdelit klasicke a fluorescentni endpointy
-#mozna fluoerecentni endpointy jine URI formy jinak se mi to bude bit... nebo mozna vynechat?
-
 <Interactions#TriplesMap4>
   rr:logicalTable [ rr:sqlQuery """
     SELECT inte.id, s.identifier, ds.membrane_id, ds.method_id, inte.note,
@@ -161,10 +155,6 @@
     rr:objectMap [ rr:column "note" ]
   ] .
 
-#fluorescencni endpointy - kurva to se mi bude bit interakce id a fluroescence id do pici
-#docasene fluorescent_int
-#dodelat s heslem na adminera
-#dodelat pH
 <Interactions#TriplesMap5>
   rr:logicalTable [ rr:sqlQuery """
     SELECT inte.id, s.identifier, ds.membrane_id, ds.method_id, inte.note,

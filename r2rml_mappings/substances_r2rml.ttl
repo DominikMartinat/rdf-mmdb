@@ -9,11 +9,6 @@
 ################################################
 ## substance central node
 ################################################
-
-#define Ph range in vocabulary
-#has maximum and minimum value
-#pH range at which form of molecule exists
-#data type is double
 <Substances#TriplesMap1>
   rr:logicalTable [ rr:sqlQuery """
     SELECT id,identifier,
@@ -80,7 +75,7 @@
     rr:objectMap [ rr:template "https://identifiers.org/molmedb/{parent}" ]
   ] .
 
-#set structures woithout parent_id to be their own parent
+#set structures without parent_id to be their own parent
 #and give them CHEBI molecule type - defines molecule as uncharged entity
 <Substances#TriplesMap3>
   rr:logicalTable [ rr:sqlQuery "SELECT identifier FROM structures WHERE parent_id IS NULL" ] ;
