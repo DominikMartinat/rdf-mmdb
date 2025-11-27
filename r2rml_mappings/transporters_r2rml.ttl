@@ -46,7 +46,6 @@
 ################################################
 ## transporter interaction measure group
 ################################################
-# add separate pammings for inhibitor/substrate - maybe as some type or category
 <Transportes#TriplesMap2>
   rr:logicalTable [ rr:sqlQuery """
     SELECT i.id, s.identifier, i.protein_id, i.note,
@@ -61,15 +60,6 @@
     rr:template "https://rdf.molmedb.upol.cz/transporter/measure_group_tra{id}" ;
     rr:class bao:BAO_0000040 ;
   ] ;
-  # will have to do something else for substrate/inhibitor
-  #   rr:predicateObjectMap [
-  #   rr:predicate  bao:BAO_0000208 ;
-  #   rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_substrate_tra{substrate_id}" ]
-  # ] ;
-  #   rr:predicateObjectMap [
-  #   rr:predicate  bao:BAO_0000208 ;
-  #   rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_inhibitor_tra{inhibitor_id}" ]
-  # ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000208 ;
     rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_pKm_tra{Km_id}" ]
@@ -106,7 +96,6 @@
 ################################################
 ## transporter proteins
 ################################################
-# rework bit later
 <Transportes#TriplesMap3>
   rr:logicalTable [ rr:sqlQuery """
       SELECT DISTINCT p.id, p.uniprot_id, pi.value
@@ -145,51 +134,65 @@
 ################################################
 ## transporter endpoints
 ################################################
-#rework inhibitor/substrate later
+# interaction category names are wrong in the database right now
+# mapping will be made as intended assuming assignement will be fixed
 
-# <Transportes#TriplesMap5>
-#   rr:logicalTable [ rr:sqlQuery """
-#     SELECT tr.id,
-#       (CASE tr.type
-#       WHEN 1 THEN 'PositiveResult'
-#       WHEN 2 THEN 'NegativeResult'
-#       END) res FROM transporters AS tr, transporter_datasets AS ds
-#       WHERE (tr.type = 1 OR tr.type = 2) AND tr.id_dataset = ds.id AND ds.visibility = 1
-#   """] ;
-#   rr:subjectMap [
-#     rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_substrate_tra{id}" ;
-#     rr:class mmdbvoc:SubstrateBindingAssay ;
-#   ] ;
-#     rr:predicateObjectMap [
-#     rr:predicate sio:SIO_000300 ;
-#     rr:objectMap [ rr:template "https://w3id.org/reproduceme#{res}" ]
-#   ] ;
-#     rr:predicateObjectMap [
-#     rr:predicate bao:BAO_0000559 ;
-#     rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/transporter/measure_group_tra{id}" ]
-#   ] .
+#later categories reworked to be more persistent
+<Transportes#TriplesMap5>
+  rr:logicalTable [ rr:sqlQuery """
+    SELECT id,
+      CASE
+        WHEN category_id = 512 THEN 'PositiveResult' 
+        WHEN category_id = 513 THEN 'NegativeResult' 
+        ELSE NULL END AS res,
+      CASE WHEN ec50 IS NOT NULL THEN id ELSE NULL END AS ec50_id,
+      CASE WHEN km IS NOT NULL THEN id ELSE NULL END AS km_id
+      FROM interactions_active WHERE category_id IN (512,513)
+  """] ;
+  rr:subjectMap [
+    rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_substrate_tra{id}" ;
+    rr:class mmdbvoc:SubstrateBindingAssay ;
+  ] ;
+    rr:predicateObjectMap [
+    rr:predicate sio:SIO_000300 ;
+    rr:objectMap [ rr:template "https://w3id.org/reproduceme#{res}" ]
+  ] ;
+    rr:predicateObjectMap [
+    rr:predicate bao:BAO_0095000 ;
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_pEC50_tra{ec50_id}" ]
+  ] ;
+    rr:predicateObjectMap [
+    rr:predicate bao:BAO_0095000 ;
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_pKm_tra{km_id}" ]
+  ] .
 
-# <Transportes#TriplesMap6>
-#   rr:logicalTable [ rr:sqlQuery """
-#     SELECT tr.id,
-#       (CASE tr.type
-#       WHEN 3 THEN 'PositiveResult'
-#       WHEN 4 THEN 'NegativeResult'
-#       END) res FROM transporters AS tr, transporter_datasets AS ds
-#       WHERE (tr.type = 3 OR tr.type = 4) AND tr.id_dataset = ds.id AND ds.visibility = 1
-#   """] ;
-#   rr:subjectMap [
-#     rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_inhibitor_tra{id}" ;
-#     rr:class mmdbvoc:InhibitionAssay
-#   ] ;
-#     rr:predicateObjectMap [
-#     rr:predicate sio:SIO_000300 ;
-#     rr:objectMap [ rr:template "https://w3id.org/reproduceme#{res}" ]
-#   ] ;
-#     rr:predicateObjectMap [
-#     rr:predicate bao:BAO_0000559 ;
-#     rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/transporter/measure_group_tra{id}" ]
-#   ] .
+<Transportes#TriplesMap6>
+  rr:logicalTable [ rr:sqlQuery """
+    SELECT id,
+      CASE
+        WHEN category_id = 514 THEN 'PositiveResult' 
+        WHEN category_id = 515 THEN 'NegativeResult' 
+        ELSE NULL END AS res,
+      CASE WHEN ic50 IS NOT NULL THEN id ELSE NULL END AS ic50_id,
+      CASE WHEN ki IS NOT NULL THEN id ELSE NULL END AS ki_id
+      FROM interactions_active WHERE category_id IN (514,515)
+  """] ;
+  rr:subjectMap [
+    rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_inhibitor_tra{id}" ;
+    rr:class mmdbvoc:InhibitionAssay
+  ] ;
+    rr:predicateObjectMap [
+    rr:predicate sio:SIO_000300 ;
+    rr:objectMap [ rr:template "https://w3id.org/reproduceme#{res}" ]
+  ] ;
+    rr:predicateObjectMap [
+    rr:predicate bao:BAO_0095000 ;
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_pIC50_tra{ec50_id}" ]
+  ] ;
+    rr:predicateObjectMap [
+    rr:predicate bao:BAO_0095000 ;
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_pKi_tra{km_id}" ]
+  ] .
 
 <Transportes#TriplesMap7>
   rr:logicalTable [ rr:sqlQuery """
