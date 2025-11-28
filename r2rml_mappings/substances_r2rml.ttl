@@ -348,7 +348,7 @@
 #later
 <Substances#TriplesMap17>
   rr:logicalTable [ rr:sqlQuery """
-    SELECT DISTINCT s.identifier, replace(i.value,'CHEBI:','') AS value
+    SELECT DISTINCT s.identifier, CONCAT('CHEBI:',REPLACE(i.value,'CHEBI:','')) AS value
       FROM identifiers AS i, structures AS s 
       WHERE i.state = 1 AND i.structure_id = s.id AND i.type = 6 AND i.state != 3 AND i.value not like 'CHEMBL%'
   """ ] ;
@@ -358,7 +358,7 @@
   ] ;
   rr:predicateObjectMap [
     rr:predicate sio:SIO_000300 ;
-    rr:objectMap [ rr:template "CHEBI:{value}"; rr:datatype xsd:string ]
+    rr:objectMap [ rr:column "value"; rr:datatype xsd:string ]
   ] .
 
 <Substances#TriplesMap18>
