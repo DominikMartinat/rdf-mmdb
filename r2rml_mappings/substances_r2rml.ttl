@@ -5,6 +5,7 @@
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix rr: <http://www.w3.org/ns/r2rml#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix mmdbvoc: <https://rdf.molmedb.upol.cz/vocabulary#> .
 
 ################################################
 ## substance central node

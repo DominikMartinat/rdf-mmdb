@@ -84,7 +84,7 @@
 ################################################
 ## interaction measure group
 ################################################
-<Interactions#TriplesMap4>
+<Interactions#TriplesMap3>
   rr:logicalTable [ rr:sqlQuery """
     SELECT inte.id, s.identifier, ds.membrane_id, ds.method_id, inte.note,
       (CASE WHEN inte.logk IS NULL THEN NULL ELSE inte.id END) LogK_id,
@@ -155,7 +155,7 @@
     rr:objectMap [ rr:column "note" ]
   ] .
 
-<Interactions#TriplesMap5>
+<Interactions#TriplesMap4>
   rr:logicalTable [ rr:sqlQuery """
     SELECT inte.id, s.identifier, ds.membrane_id, ds.method_id, inte.note,
       (CASE WHEN inte.theta IS NULL THEN NULL ELSE inte.id END) theta_id,
@@ -229,7 +229,7 @@
 ################################################
 ## membrane
 ################################################
-<Interactions#TriplesMap6>
+<Interactions#TriplesMap5>
   rr:logicalTable [ rr:sqlQuery """
     SELECT id, name, description,
       CASE WHEN abbreviation != name THEN name ELSE NULL END AS abbrev
@@ -252,7 +252,7 @@
     rr:objectMap [ rr:column "description" ]
   ] .
 
-<Interactions#TriplesMap5>
+<Interactions#TriplesMap6>
   rr:logicalTable [ rr:sqlQuery """
     SELECT c.id, c.parent_id, c.title, m.model_id,
       CASE WHEN c.id IN (62,67,69,65,153,72) THEN 'SubstanceBasedMembraneModel'
