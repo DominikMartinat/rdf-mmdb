@@ -271,7 +271,7 @@
       WHERE c.type = 1 AND m.category_id = c.id
   """ ] ;
   rr:subjectMap [
-    rr:template "https://rdf.molmedb.upol.cz/interaction/membrane{id_membrane}" ;
+    rr:template "https://rdf.molmedb.upol.cz/interaction/membrane{model_id}" ;
   ] ;
     rr:predicateObjectMap [
     rr:predicate rdf:type ;
@@ -289,7 +289,7 @@
   rr:logicalTable [ rr:sqlQuery """
     SELECT id, name,
       CASE WHEN abbreviation != name THEN name ELSE NULL END AS abbrev,
-      CASE WHEN description = '' THEN NULL ELSE description END AS descriprtion
+      CASE WHEN description = '' THEN NULL ELSE description END AS description
       FROM methods
   """ ] ;
   rr:subjectMap [
