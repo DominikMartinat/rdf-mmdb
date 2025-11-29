@@ -187,11 +187,11 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0095000 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_pIC50_tra{ec50_id}" ]
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_pIC50_tra{ic50_id}" ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0095000 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_pKi_tra{km_id}" ]
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/transporter/endpoint_pKi_tra{ki_id}" ]
   ] .
 
 <Transportes#TriplesMap7>

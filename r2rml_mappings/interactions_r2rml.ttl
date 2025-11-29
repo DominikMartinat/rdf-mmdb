@@ -493,7 +493,7 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate mmdbvoc:hasStDev ;
-    rr:objectMap [rr:column "logperm_accuracy "; rr:datatype xsd:float  ]
+    rr:objectMap [rr:column "logperm_accuracy"; rr:datatype xsd:float  ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000559 ;

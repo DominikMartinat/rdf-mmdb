@@ -253,8 +253,8 @@
     rr:objectMap [ rr:column "identifier" ]
   ] .
 
-  <Substances#TriplesMap11>
-  rr:logicalTable [ rr:sqlQuery """"
+<Substances#TriplesMap11>
+  rr:logicalTable [ rr:sqlQuery """
     SELECT id, identifier, charge 
       FROM structures WHERE charge IS NOT NULL
   """ ] ;
@@ -268,7 +268,7 @@
   ] .
 
 <Substances#TriplesMap12>
-  rr:logicalTable [ rr:sqlQuery """"
+  rr:logicalTable [ rr:sqlQuery """
     SELECT id, identifier, ph_start
       FROM structures WHERE ph_start IS NOT NULL
   """ ] ;
@@ -282,7 +282,7 @@
   ] .
 
 <Substances#TriplesMap13>
-  rr:logicalTable [ rr:sqlQuery """"
+  rr:logicalTable [ rr:sqlQuery """
     SELECT id, identifier, ph_end
       FROM structures WHERE ph_end IS NOT NULL
   """ ] ;
