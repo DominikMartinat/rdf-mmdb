@@ -149,7 +149,7 @@
       FROM fluorescent_properties AS i, datasets AS ds
       WHERE i.dataset_id = ds.id
     UNION
-      SELECT DISTINCT ds.membrane_id, m.publication_id 
+      SELECT DISTINCT m.publication_id, ds.membrane_id 
       FROM datasets AS ds, model_has_publications AS m
       WHERE m.model_id = ds.id AND m.model_type = 'App\\Models\\Dataset'
   """] ;
@@ -176,7 +176,7 @@
       FROM fluorescent_properties AS i, datasets AS ds 
       WHERE i.dataset_id = ds.id
     UNION
-      SELECT DISTINCT ds.method_id, m.publication_id 
+      SELECT DISTINCT m.publication_id, ds.method_id
       FROM datasets AS ds, model_has_publications AS m
       WHERE m.model_id = ds.id AND m.model_type = 'App\\Models\\Dataset'
   """] ;
@@ -185,7 +185,7 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate dcterms:subject ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/membrane{method_id}" ]
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/method{method_id}" ]
   ] .
 
 #which transporters - database included

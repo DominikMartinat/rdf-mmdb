@@ -13,6 +13,8 @@
 <Substances#TriplesMap1>
   rr:logicalTable [ rr:sqlQuery """
     SELECT id,identifier,
+      (CASE WHEN inchikey IS NULL THEN NULL ELSE identifier END) inchikey_id,
+      (CASE WHEN canonical_smiles IS NULL THEN NULL ELSE identifier END) smiles_id,
       (CASE WHEN molecular_weight IS NULL THEN NULL ELSE identifier END) MW_id,
       (CASE WHEN logp IS NULL THEN NULL ELSE identifier END) LogP_id,
       (CASE WHEN charge IS NULL THEN NULL ELSE identifier END) charge_id,
@@ -51,11 +53,11 @@
   ] ;
   rr:predicateObjectMap [
     rr:predicate sio:SIO_000008 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/substance/{identifier}_SMILES" ]
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/substance/{smiles_id}_SMILES" ]
   ] ;
   rr:predicateObjectMap [
     rr:predicate sio:SIO_000008 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/substance/{identifier}_InChIKey" ]
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/substance/{inchikey_id}_InChIKey" ]
   ] ;
   rr:predicateObjectMap [
     rr:predicate sio:SIO_000008 ;
@@ -107,11 +109,12 @@
       CASE WHEN i.type = 7 THEN s.identifier ELSE NULL END pdb_id,
       CASE WHEN i.type = 8 THEN s.identifier ELSE NULL END chembl_id,
       CASE WHEN i.type = 4 THEN TRIM(i.value) ELSE NULL END pubchem,
+      CASE WHEN i.type = 5 THEN i.value ELSE NULL END drugbank,
       CASE WHEN i.type = 6 THEN REPLACE(i.value,'CHEBI:','') ELSE NULL END chebi,
       CASE WHEN i.type = 7 THEN i.value ELSE NULL END pdb,
       CASE WHEN i.type = 8 THEN REPLACE(CONCAT('CHEMBL', UPPER(i.value)), 'CHEMBLCHEMBL', 'CHEMBL') ELSE NULL END chembl
       FROM structures AS s, identifiers AS i 
-      WHERE i.structure_id = s.id AND i.state!=3
+      WHERE i.structure_id = s.id AND i.state!=3 AND NOT (i.value like 'CHEMBL%' AND i.type=6) 
   """] ;
   rr:subjectMap [
     rr:template "https://identifiers.org/molmedb/{identifier}" ;
@@ -122,38 +125,38 @@
   ] ;
   rr:predicateObjectMap [
     rr:predicate sio:SIO_000008 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/substance/{pubchem_id}_PubChemCID" ]
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/substance/{pubchem_id}_PubChemCID{pubchem}" ]
   ] ;
   rr:predicateObjectMap [
     rr:predicate sio:SIO_000008 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/substance/{drugbank_id}_DrugBank" ]
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/substance/{drugbank_id}_{drugbank}" ]
   ] ;
   rr:predicateObjectMap [
     rr:predicate sio:SIO_000008 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/substance/{chebi_id}_ChEBI" ]
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/substance/{chebi_id}_CHEBI{chebi}" ]
   ] ;
   rr:predicateObjectMap [
     rr:predicate sio:SIO_000008 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/substance/{pdb_id}_PDB" ]
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/substance/{pdb_id}_PDB{pdb}" ]
   ] ;
   rr:predicateObjectMap [
     rr:predicate sio:SIO_000008 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/substance/{chembl_id}_ChEMBL" ]
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/substance/{chembl_id}_{chembl}" ]
   ] ;
   rr:predicateObjectMap [
-    rr:predicate skos:exactMatch ;
+    rr:predicate skos:closeMatch ;
     rr:objectMap [ rr:template "http://purl.obolibrary.org/obo/CHEBI_{chebi}" ]
   ] ;
   rr:predicateObjectMap [
-    rr:predicate skos:exactMatch ;
+    rr:predicate skos:closeMatch ;
     rr:objectMap [ rr:template "http://rdf.ncbi.nlm.nih.gov/pubchem/compound/CID{pubchem}" ]
   ] ;
   rr:predicateObjectMap [
-    rr:predicate skos:exactMatch ;
+    rr:predicate skos:closeMatch ;
     rr:objectMap [ rr:template "http://rdf.wwpdb.org/cc/{pdb}/chem_comp/{pdb}" ]
   ] ;
   rr:predicateObjectMap [
-    rr:predicate skos:exactMatch ;
+    rr:predicate skos:closeMatch ;
     rr:objectMap [ rr:template "http://rdf.ebi.ac.uk/resource/chembl/molecule/{chembl}" ]
   ] .
 
@@ -322,7 +325,7 @@
       WHERE i.structure_id = s.id AND i.type = 4 AND i.state != 3
   """ ] ;
   rr:subjectMap [
-    rr:template "https://rdf.molmedb.upol.cz/substance/{identifier}_PubChemCID" ;
+    rr:template "https://rdf.molmedb.upol.cz/substance/{identifier}_PubChemCID{value}" ;
     rr:class sio:CHEMINF_000140 ;
   ] ;
   rr:predicateObjectMap [
@@ -337,7 +340,7 @@
       WHERE i.structure_id = s.id AND i.type = 5 AND i.state != 3
   """ ] ;
   rr:subjectMap [
-    rr:template "https://rdf.molmedb.upol.cz/substance/{identifier}_DrugBank" ;
+    rr:template "https://rdf.molmedb.upol.cz/substance/{identifier}_{value}" ;
     rr:class sio:CHEMINF_000406
   ] ;
   rr:predicateObjectMap [
@@ -348,12 +351,14 @@
 #later
 <Substances#TriplesMap17>
   rr:logicalTable [ rr:sqlQuery """
-    SELECT DISTINCT s.identifier, CONCAT('CHEBI:',REPLACE(i.value,'CHEBI:','')) AS value
+    SELECT DISTINCT s.identifier,
+        CONCAT('CHEBI:',REPLACE(i.value,'CHEBI:','')) AS value,
+        REPLACE(i.value,'CHEBI:','') IRI_value 
       FROM identifiers AS i, structures AS s 
       WHERE i.structure_id = s.id AND i.type = 6 AND i.state != 3 AND i.value not like 'CHEMBL%'
   """ ] ;
   rr:subjectMap [
-    rr:template "https://rdf.molmedb.upol.cz/substance/{identifier}_ChEBI" ;
+    rr:template "https://rdf.molmedb.upol.cz/substance/{identifier}_CHEBI{IRI_value}" ;
     rr:class sio:CHEMINF_000407
   ] ;
   rr:predicateObjectMap [
@@ -368,7 +373,7 @@
       WHERE i.structure_id = s.id AND i.type = 7 AND i.state != 3
   """ ] ;
   rr:subjectMap [
-    rr:template "https://rdf.molmedb.upol.cz/substance/{identifier}_PDB" ;
+    rr:template "https://rdf.molmedb.upol.cz/substance/{identifier}_PDB{value}" ;
     rr:class sio:CHEMINF_000572
   ] ;
   rr:predicateObjectMap [
@@ -383,7 +388,7 @@
       WHERE i.structure_id = s.id AND i.type = 8 AND i.state != 3
   """ ] ;
   rr:subjectMap [
-    rr:template "https://rdf.molmedb.upol.cz/substance/{identifier}_ChEMBL" ;
+    rr:template "https://rdf.molmedb.upol.cz/substance/{identifier}_{value}" ;
     rr:class sio:CHEMINF_000412
   ] ;
   rr:predicateObjectMap [

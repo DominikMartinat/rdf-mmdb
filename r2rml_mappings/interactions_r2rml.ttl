@@ -148,7 +148,7 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate repr:hasExperimentalCondition ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/measure_group_mol_pH_int{ph_id}" ]
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/measure_group_pH_int{ph_id}" ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate rdfs:comment ;
@@ -219,7 +219,7 @@
   ] ; 
     rr:predicateObjectMap [
     rr:predicate repr:hasExperimentalCondition ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/measure_group_mol_pH_fluo{ph_id}" ]
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/measure_group_pH_fluo{ph_id}" ]
   ] ; 
     rr:predicateObjectMap [
     rr:predicate rdfs:comment ;
@@ -231,8 +231,9 @@
 ################################################
 <Interactions#TriplesMap5>
   rr:logicalTable [ rr:sqlQuery """
-    SELECT id, name, description,
-      CASE WHEN abbreviation != name THEN name ELSE NULL END AS abbrev
+    SELECT id, name,
+      NULLIF(abbreviation, name) AS abbrev,
+      NULLIF(description, '') AS description
       FROM membranes
   """ ] ;
   rr:subjectMap [
@@ -246,11 +247,12 @@
     rr:predicateObjectMap [
     rr:predicate rdfs:label ;
     rr:objectMap [ rr:column "abbrev" ]
-  ] ;
-    rr:predicateObjectMap [
-    rr:predicate dc:description ;
-    rr:objectMap [ rr:column "description" ]
   ] .
+  # removed temporarily due to unfinished description system
+  #   rr:predicateObjectMap [
+  #   rr:predicate dc:description ;
+  #   rr:objectMap [ rr:column "description" ]
+  # ] .
 
 <Interactions#TriplesMap6>
   rr:logicalTable [ rr:sqlQuery """
@@ -288,8 +290,8 @@
 <Interactions#TriplesMap7>
   rr:logicalTable [ rr:sqlQuery """
     SELECT id, name,
-      CASE WHEN abbreviation != name THEN name ELSE NULL END AS abbrev,
-      CASE WHEN description = '' THEN NULL ELSE description END AS description
+      NULLIF(abbreviation, name) AS abbrev,
+      NULLIF(description, '') AS description
       FROM methods
   """ ] ;
   rr:subjectMap [
@@ -303,11 +305,12 @@
     rr:predicateObjectMap [
     rr:predicate rdfs:label ;
     rr:objectMap [ rr:column "abbrev" ]
-  ] ;
-    rr:predicateObjectMap [
-    rr:predicate dc:description ;
-    rr:objectMap [ rr:column "description"; rr:datatype rdf:HTML ]
   ] .
+  # removed temporarily due to unfinished description system
+  #   rr:predicateObjectMap [
+  #   rr:predicate dc:description ;
+  #   rr:objectMap [ rr:column "description"; rr:datatype rdf:HTML ]
+  # ] .
 
 ################################################
 ## method type
@@ -429,7 +432,7 @@
 <Interactions#TriplesMap13>
   rr:logicalTable [ rr:sqlQuery "SELECT id, ph FROM interactions_passive WHERE ph IS NOT NULL" ] ;
   rr:subjectMap [
-    rr:template "https://rdf.molmedb.upol.cz/interaction/measure_group_mol_pH_int{id}" ;
+    rr:template "https://rdf.molmedb.upol.cz/interaction/measure_group_pH_int{id}" ;
     rr:class sio:SIO_001089
   ] ;
     rr:predicateObjectMap [
@@ -440,7 +443,7 @@
 <Interactions#TriplesMap14>
   rr:logicalTable [ rr:sqlQuery "SELECT id, ph FROM fluorescent_properties WHERE ph IS NOT NULL" ] ;
   rr:subjectMap [
-    rr:template "https://rdf.molmedb.upol.cz/interaction/measure_group_mol_pH_fluo{id}" ;
+    rr:template "https://rdf.molmedb.upol.cz/interaction/measure_group_pH_fluo{id}" ;
     rr:class sio:SIO_001089
   ] ;
     rr:predicateObjectMap [
@@ -474,7 +477,7 @@
     rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/measure_group_int{id}" ]
   ] .
 
-<TriplesMap11>
+<Interactions#TriplesMap16>
   rr:logicalTable [ rr:sqlQuery """
     SELECT id, logperm, logperm_accuracy 
       FROM interactions_passive WHERE logperm IS NOT NULL
@@ -500,7 +503,7 @@
     rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/measure_group_int{id}" ]
   ] .
 
-<Interactions#TriplesMap16>
+<Interactions#TriplesMap17>
   rr:logicalTable [ rr:sqlQuery """
     SELECT id, x_min, x_min_accuracy 
       FROM interactions_passive WHERE x_min IS NOT NULL
@@ -526,7 +529,7 @@
     rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/measure_group_int{id}" ]
   ] .
 
-<Interactions#TriplesMap17>
+<Interactions#TriplesMap18>
   rr:logicalTable [ rr:sqlQuery """
     SELECT id, gpen, gpen_accuracy 
       FROM interactions_passive WHERE gpen IS NOT NULL
@@ -552,7 +555,7 @@
     rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/measure_group_int{id}" ]
   ] .
 
-<Interactions#TriplesMap18>
+<Interactions#TriplesMap19>
   rr:logicalTable [ rr:sqlQuery """
     SELECT id, gwat, gwat_accuracy 
       FROM interactions_passive WHERE gwat IS NOT NULL
@@ -579,7 +582,7 @@
   ] .
 
 #fluorescent interaction endpoints
-<Interactions#TriplesMap19>
+<Interactions#TriplesMap20>
   rr:logicalTable [ rr:sqlQuery """
     SELECT id, theta, theta_accuracy 
       FROM fluorescent_properties WHERE theta IS NOT NULL
@@ -605,7 +608,7 @@
     rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/measure_group_fluo{id}" ]
   ] .
 
-<Interactions#TriplesMap20>
+<Interactions#TriplesMap21>
   rr:logicalTable [ rr:sqlQuery """
     SELECT id, abs_wl, abs_wl_accuracy
       FROM fluorescent_properties WHERE abs_wl IS NOT NULL
@@ -631,7 +634,7 @@
     rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/measure_group_fluo{id}" ]
   ] .
 
-<Interactions#TriplesMap21>
+<Interactions#TriplesMap22>
   rr:logicalTable [ rr:sqlQuery """
     SELECT id, fluo_wl, fluo_wl_accuracy
       FROM fluorescent_properties WHERE fluo_wl IS NOT NULL
@@ -657,7 +660,7 @@
     rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/measure_group_fluo{id}" ]
   ] .
 
-<Interactions#TriplesMap22>
+<Interactions#TriplesMap23>
   rr:logicalTable [ rr:sqlQuery """
     SELECT id, qy, qy_accuracy
       FROM fluorescent_properties WHERE qy IS NOT NULL
@@ -679,7 +682,7 @@
     rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/measure_group_fluo{id}" ]
   ] .
 
-<Interactions#TriplesMap23>
+<Interactions#TriplesMap24>
   rr:logicalTable [ rr:sqlQuery """
     SELECT id, lt, lt_accuracy
       FROM fluorescent_properties WHERE lt IS NOT NULL
