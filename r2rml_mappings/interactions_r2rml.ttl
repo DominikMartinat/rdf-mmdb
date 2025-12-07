@@ -86,7 +86,8 @@
 ################################################
 <Interactions#TriplesMap3>
   rr:logicalTable [ rr:sqlQuery """
-    SELECT inte.id, s.identifier, ds.membrane_id, ds.method_id, inte.note,
+    SELECT inte.id, s.identifier, ds.membrane_id, ds.method_id,
+      NULLIF(inte.note,'') AS note,
       (CASE WHEN inte.logk IS NULL THEN NULL ELSE inte.id END) LogK_id,
       (CASE WHEN inte.logperm IS NULL THEN NULL ELSE inte.id END) LogPerm_id,
       (CASE WHEN inte.x_min IS NULL THEN NULL ELSE inte.id END) Position_id,
@@ -157,15 +158,16 @@
 
 <Interactions#TriplesMap4>
   rr:logicalTable [ rr:sqlQuery """
-    SELECT inte.id, s.identifier, ds.membrane_id, ds.method_id, inte.note,
-      (CASE WHEN inte.theta IS NULL THEN NULL ELSE inte.id END) theta_id,
-      (CASE WHEN inte.abs_wl IS NULL THEN NULL ELSE inte.id END) abs_wl_id,
-      (CASE WHEN inte.fluo_wl IS NULL THEN NULL ELSE inte.id END) fluo_wl_id,
-      (CASE WHEN inte.QY IS NULL THEN NULL ELSE inte.id END) QY_id,
-      (CASE WHEN inte.lt IS NULL THEN NULL ELSE inte.id END) lt_id,
-      (CASE WHEN inte.temperature IS NULL THEN NULL ELSE inte.id END) temperature_id,
-      (CASE WHEN inte.charge IS NULL THEN NULL ELSE inte.id END) charge_id,
-      (CASE WHEN inte.ph IS NULL THEN NULL ELSE inte.id END) ph_id
+    SELECT inte.id, s.identifier, ds.membrane_id, ds.method_id,
+        NULLIF(inte.note,'') AS note,
+        (CASE WHEN inte.theta IS NULL THEN NULL ELSE inte.id END) theta_id,
+        (CASE WHEN inte.abs_wl IS NULL THEN NULL ELSE inte.id END) abs_wl_id,
+        (CASE WHEN inte.fluo_wl IS NULL THEN NULL ELSE inte.id END) fluo_wl_id,
+        (CASE WHEN inte.QY IS NULL THEN NULL ELSE inte.id END) QY_id,
+        (CASE WHEN inte.lt IS NULL THEN NULL ELSE inte.id END) lt_id,
+        (CASE WHEN inte.temperature IS NULL THEN NULL ELSE inte.id END) temperature_id,
+        (CASE WHEN inte.charge IS NULL THEN NULL ELSE inte.id END) charge_id,
+        (CASE WHEN inte.ph IS NULL THEN NULL ELSE inte.id END) ph_id
       FROM fluorescent_properties  AS inte, structures AS s, datasets AS ds
       WHERE inte.structure_id = s.id AND inte.dataset_id = ds.id
   """] ;

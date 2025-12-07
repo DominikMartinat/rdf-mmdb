@@ -48,7 +48,8 @@
 ################################################
 <Transportes#TriplesMap2>
   rr:logicalTable [ rr:sqlQuery """
-    SELECT i.id, s.identifier, i.protein_id, i.note,
+    SELECT i.id, s.identifier, i.protein_id,
+      NULLIF(i.note,'') AS note,
       CASE WHEN i.km IS NULL THEN NULL ELSE i.id END Km_id,
       CASE WHEN i.ec50 IS NULL THEN NULL ELSE i.id END EC50_id,
       CASE WHEN i.ki IS NULL THEN NULL ELSE i.id END Ki_id,
