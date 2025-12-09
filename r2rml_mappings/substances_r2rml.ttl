@@ -133,11 +133,11 @@
   ] ;
   rr:predicateObjectMap [
     rr:predicate sio:SIO_000008 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/substance/{chebi_id}_CHEBI:{chebi}" ]
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/substance/{chebi_id}_CHEBI{chebi}" ]
   ] ;
   rr:predicateObjectMap [
     rr:predicate sio:SIO_000008 ;
-    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/substance/{pdb_id}_PDB:{pdb}" ]
+    rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/substance/{pdb_id}_PDB{pdb}" ]
   ] ;
   rr:predicateObjectMap [
     rr:predicate sio:SIO_000008 ;
@@ -358,7 +358,7 @@
       WHERE i.structure_id = s.id AND i.type = 6 AND i.state != 3 AND i.value not like 'CHEMBL%'
   """ ] ;
   rr:subjectMap [
-    rr:template "https://rdf.molmedb.upol.cz/substance/{identifier}_CHEBI:{IRI_value}" ;
+    rr:template "https://rdf.molmedb.upol.cz/substance/{identifier}_CHEBI{IRI_value}" ;
     rr:class sio:CHEMINF_000407
   ] ;
   rr:predicateObjectMap [
@@ -373,7 +373,7 @@
       WHERE i.structure_id = s.id AND i.type = 7 AND i.state != 3
   """ ] ;
   rr:subjectMap [
-    rr:template "https://rdf.molmedb.upol.cz/substance/{identifier}_PDB:{value}" ;
+    rr:template "https://rdf.molmedb.upol.cz/substance/{identifier}_PDB{value}" ;
     rr:class sio:CHEMINF_000572
   ] ;
   rr:predicateObjectMap [
