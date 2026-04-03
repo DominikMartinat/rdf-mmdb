@@ -7,7 +7,7 @@
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix sio: <http://semanticscience.org/resource/> .
 @prefix edam: <http://edamontology.org/> .
-@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
 
 ################################################
 ## transporter interaction cenral node
@@ -35,11 +35,11 @@
     rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/transporter/measure_group_tra{id}" ]
   ] ;
     rr:predicateObjectMap [
-    rr:predicate dcterms:source ;
+    rr:predicate prov:wasQuotedFrom ;
     rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/reference/ref{secondary_publication}"  ]
   ] ;
     rr:predicateObjectMap [
-    rr:predicate dcterms:references ;
+    rr:predicate prov:hadPrimarySource ;
     rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/reference/ref{publication_id}" ]
   ] .
 

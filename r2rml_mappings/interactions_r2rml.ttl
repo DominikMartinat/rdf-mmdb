@@ -5,11 +5,11 @@
 @prefix obo: <http://purl.obolibrary.org/obo/> .
 @prefix bao: <http://www.bioassayontology.org/bao#> .
 @prefix repr: <https://w3id.org/reproduceme#> .
-@prefix dc: <http://purl.org/dc/elements/1.1/> .
-@prefix dcterms: <http://purl.org/dc/terms/> .
+#@prefix dc: <http://purl.org/dc/elements/1.1/> .
 @prefix rr: <http://www.w3.org/ns/r2rml#> .
 @prefix mmdbvoc: <https://rdf.molmedb.upol.cz/vocabulary#> .
 @prefix efo: <http://www.ebi.ac.uk/efo/> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
 
 ################################################
 ## interaction central node
@@ -38,11 +38,11 @@
     rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/measure_group_int{id}"  ]
   ] ;
     rr:predicateObjectMap [
-    rr:predicate dcterms:source ;
+    rr:predicate prov:wasQuotedFrom ;
     rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/reference/ref{secondary_publication}"  ]
   ] ;
     rr:predicateObjectMap [
-    rr:predicate dcterms:references ;
+    rr:predicate prov:hadPrimarySource ;
     rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/reference/ref{publication_id}"  ]
   ] .
 
@@ -73,11 +73,11 @@
     rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/interaction/measure_group_fluo{id}"  ]
   ] ;
     rr:predicateObjectMap [
-    rr:predicate dcterms:source ;
+    rr:predicate prov:wasQuotedFrom ;
     rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/reference/ref{secondary_publication}"  ]
   ] ;
     rr:predicateObjectMap [
-    rr:predicate dcterms:references ;
+    rr:predicate prov:hadPrimarySource ;
     rr:objectMap [ rr:template "https://rdf.molmedb.upol.cz/reference/ref{publication_id}"  ]
   ] .
 
@@ -603,7 +603,7 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate mmdbvoc:hasStDev ;
-    rr:objectMap [rr:column "theta_accuracy"; rr:datatype xsd:float  ]
+    rr:objectMap [rr:column "theta_accuracy"; rr:datatype xsd:float ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate bao:BAO_0000559 ;
